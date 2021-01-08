@@ -23,6 +23,11 @@ module.exports = class People{
                 break;
         }
     }
+
+    // Jack is cool
+    jack(channel){
+        channel.send("jack is the best. He is so so so seggis")
+    }
     
     // Hannah smeels
     hannah(channel){
