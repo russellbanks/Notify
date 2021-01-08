@@ -5,8 +5,12 @@ const client = new Discord.Client(); // creates a discord client
 const token = process.env.TOKEN // gets your token from the file
 
 client.once("ready", () => { // prints "Ready!" to the console once the bot is online
-	console.log("Ready!");
+    console.log("Ready!");
+    client.user.setActivity("with yo momma");
 });
+
+
+
 
 client.on("message", message => { // runs whenever a message is sent
     if (message.content === "?hello") { // checks if the message says "?random"
@@ -22,7 +26,7 @@ client.on("message", message => { // runs whenever a message is sent
         if(num == 0){
             message.channel.send("russell stinks")
         }else if(num == 1){
-            mmessage.channel.send("russell is bad")
+            message.channel.send("russell is bad")
         }else if(num == 2){
             message.channel.send("russell is not as cool as jack")
         }else if(num == 3){
