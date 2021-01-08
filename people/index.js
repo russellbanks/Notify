@@ -18,6 +18,9 @@ module.exports = class People{
             case 4:
                 channel.send("russell is stupid")
                 break;
+            default:
+                channel.send("russell is a spaget coder")
+                break;
         }
     }
     
