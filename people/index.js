@@ -26,7 +26,7 @@ module.exports = class People{
 
     // Jack is cool
     jack(channel){
-        channel.send("jack is the best. He is so so so seggis")
+        channel.send("jack is the best. He is so so so seggsy")
     }
     
     // Hannah smeels
