@@ -45,6 +45,9 @@ client.on("message", message => { // runs whenever a message is sent
         case "?hollie":
             core.ballmer(message.channel)
             break;
+        case "?jack":
+            people.jack(message.channel)
+            break;
     }
 });
 
