@@ -1,6 +1,6 @@
 module.exports = class People{
     
-    // Sends a pic of BALLMER 
+    // Is nasty to russell
     russell(channel){
         switch(Math.floor(Math.random() * 10)){
             case 0:
@@ -18,8 +18,31 @@ module.exports = class People{
             case 4:
                 channel.send("russell is stupid")
                 break;
+            case 5:
+                channel.send("russell once said ```fill eachother's holes?```")
             default:
                 channel.send("russell is a spaget coder")
+                break;
+        }
+    }
+
+    // Hollie's quotes
+    hollie(channel){
+        switch(Math.floor(Math.random() * 10)){
+            case 0:
+                channel.send("'russell has destroyed me'")
+                break;
+            case 1:
+                channel.send("'Shit up'")
+                break;
+            case 2:
+                channel.send("'Scones woke'")
+                break;
+            case 3:
+                channel.send("'I thought r kink was punishment'")
+                break;
+            default:
+                channel.send("'I thought r kink was punishment'")
                 break;
         }
     }

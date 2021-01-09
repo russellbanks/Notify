@@ -43,7 +43,7 @@ client.on("message", message => { // runs whenever a message is sent
             core.ballmer(message.channel)
             break;
         case "?hollie":
-            core.ballmer(message.channel)
+            people.hollie(message.channel)
             break;
         case "?jack":
             people.jack(message.channel)
