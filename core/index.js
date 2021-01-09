@@ -14,4 +14,10 @@ module.exports = class Core{
     developers(channel){
         channel.send("https://www.youtube.com/watch?v=KMU0tzLwhbE")
     }
+
+    // Deletes 1000 messages
+    delete(message){
+        message.delete(1000)
+        message.channel.send(message.content.slice(5, message.content.length))
+    }
 }

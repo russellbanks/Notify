@@ -44,7 +44,7 @@ module.exports = class People{
                 channel.send("```Russell is stinky```")
                 break;
             case 4:
-                channel.send("```I love @Byte it is the best discord bot ever```")
+                channel.send("```I love Byte it is the best discord bot ever```")
                 break;
             default:
                 channel.send("```I thought r kink was punishment```")
