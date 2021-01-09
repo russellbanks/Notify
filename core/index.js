@@ -19,5 +19,6 @@ module.exports = class Core{
     delete(message){
         message.delete(1000)
         message.channel.send(message.content.slice(5, message.content.length))
+        message.channel.send("Deleted 1000 messages")
     }
 }
