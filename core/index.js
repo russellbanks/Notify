@@ -17,8 +17,14 @@ module.exports = class Core{
 
     // Deletes 1000 messages
     delete(message){
-        message.delete(1000)
-        message.channel.send(message.content.slice(5, message.content.length))
-        message.channel.send("Deleted 1000 messages")
+        async () => {
+            let fetched;
+            do {
+              fetched = await channel.messages.fetch({limit: 100})
+              message.channel.bulkDelete(fetched);
+            }
+            while(fetched.size >= 2);
+          }
+          message.channel.send("Deleted 100 messages")
     }
 }
