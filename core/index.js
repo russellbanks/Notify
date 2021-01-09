@@ -28,7 +28,7 @@ module.exports = class Core{
                 clear()
                 message.channel.send("Deleted " + limits + " message(s)")
             }else{
-                message.channel.send("Invalid use, make sure you have: ```delete```role before deleting messages.")
+                message.channel.send("Invalid use, make sure you have the `delete` role before deleting messages.")
             }
         }else{
             message.channel.send("Invalid command, please use: ```?del n``` Where n is the ammount of messages to delete.")
