@@ -48,9 +48,9 @@ client.on("message", message => { // runs whenever a message is sent
         case "?jack":
             people.jack(message.channel)
             break;
-        case "?del":
-            core.delete(message)
-            break;
+    }
+    if(message.content.startsWith("?del")){
+        core.delete(message, message.content.split(" "))
     }
 });
 

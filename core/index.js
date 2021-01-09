@@ -16,15 +16,18 @@ module.exports = class Core{
     }
 
     // Deletes 1000 messages
-    delete(message){
-        async () => {
-            let fetched;
-            do {
-              fetched = await channel.messages.fetch({limit: 100})
-              message.channel.bulkDelete(fetched);
+    delete(message, params){
+        var limits = params[1]
+        if(limits >= 0){
+            async function clear() {
+                message.delete()
+                const fetched = await message.channel.messages.fetch({limit: limits})
+                message.channel.bulkDelete(fetched)
             }
-            while(fetched.size >= 2);
-          }
-          message.channel.send("Deleted 100 messages")
+            clear()
+            message.channel.send("Deleted " + limits + " message(s)")
+        }else{
+            message.channel.send("Invalid command, please use: ```?del n``` Where n is the ammount of messages to delete.")
+        }
     }
 }
