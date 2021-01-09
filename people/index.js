@@ -19,7 +19,8 @@ module.exports = class People{
                 channel.send("russell is stupid")
                 break;
             case 5:
-                channel.send("russell once said ```fill eachother's holes?```")
+                channel.send("russell is a raging sexist")
+                break;
             default:
                 channel.send("russell is a spaget coder")
                 break;
@@ -28,21 +29,25 @@ module.exports = class People{
 
     // Hollie's quotes
     hollie(channel){
+        channel.send("Hollie once said:")
         switch(Math.floor(Math.random() * 10)){
             case 0:
-                channel.send("'russell has destroyed me'")
+                channel.send("```russell has destroyed me```")
                 break;
             case 1:
-                channel.send("'Shit up'")
+                channel.send("```Shit up```")
                 break;
             case 2:
-                channel.send("'Scones woke'")
+                channel.send("```Scones woke```")
                 break;
             case 3:
-                channel.send("'I thought r kink was punishment'")
+                channel.send("```Russell is stinky```")
+                break;
+            case 4:
+                channel.send("```I love @Byte it is the best discord bot ever```")
                 break;
             default:
-                channel.send("'I thought r kink was punishment'")
+                channel.send("```I thought r kink was punishment```")
                 break;
         }
     }
