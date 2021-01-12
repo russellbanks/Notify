@@ -21,6 +21,15 @@ module.exports = class People{
             case 5:
                 channel.send("russell is a raging sexist")
                 break;
+            case 6:
+                channel.send("russell loves java")
+                break;
+            case 7:
+                channel.send("russell is actually pretty cool")
+                break;
+            case 8:
+                channel.send("no russell joke for you")
+                break;
             default:
                 channel.send("russell is a spaget coder")
                 break;
@@ -54,7 +63,7 @@ module.exports = class People{
 
     // Jack is cool
     jack(channel){
-        channel.send("jack is the best. He is so so so seggsy")
+        channel.send("jack is the best. He is so so so seggsy. https://jackisa.ninja")
     }
     
     // Hannah smeels
@@ -65,5 +74,10 @@ module.exports = class People{
     // Protends to kick someone
     kick(channel, user){
         channel.send("Kicking " + user + " ...")
+    }
+
+    // Davo innit
+    bigd(channel){
+        channel.send("Do you need a new pair of trousers?")
     }
 }

@@ -48,6 +48,12 @@ client.on("message", message => { // runs whenever a message is sent
         case "?jack":
             people.jack(message.channel)
             break;
+        case "?simon":
+            people.simon(message.channel)
+            break;
+        case "?bigd":
+            people.bigd(message.channel)
+            break;
     }
     if(message.content.startsWith("?del")){
         core.delete(message, message.content.split(" "))

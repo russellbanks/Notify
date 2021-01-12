@@ -34,4 +34,9 @@ module.exports = class Core{
             message.channel.send("Invalid command, please use: ```?del n``` Where n is the ammount of messages to delete.")
         }
     }
+
+    // Scary simon
+    simon(channel){
+        channel.send("Get ballmer'd", {files: ["https://lh3.googleusercontent.com/bfo1X3_VwELaUuNBFGd6aRy6OP91e4AWWi40uZ3NoD7jhIkImnAZZ--htzJ-2ynKtuzEYR4n4Y3pHNSmTsHPdp1pvSXbbDC-s9yWes7Dv3J2MfAEVN8G9knRvt7XirFeMjSPabHpY_mwzlzu0x-4DosDnmSTxZaCFm4mHI4ndb25WwlyYouD8lGbUs96XTN3Q1MKH7uziHk6l2X2bDdx751aEqi-ZnPfIbo93KSmpHvvoZCULakZ69uWn8iiNMXQKrJcT8NgESqt5uai7Q-SnUjh2rzw58dANidAq_dZXfxWoOfnJUCF-zYNrBkmdql3dveutNtk4XnVQB3IVKcYMwpBZ2FgaD1GwHSkpIBr5AS0AKnbLeJbsX0gTY0oPLxrXG1vFCzWYjDFFQYTosbqHBw4o5a5l1KVRHyDul4jK5b6MlhmVmJwYOj6wGCmFUsKhoj98Oqs8uWDGZMmH1DYa5IoddNsdddoxg1EO9JdgJVrkt8_53AnOXzQFbtJn3drpyOAk4kb-0nuOEZbk2tee0u_1PcsRs88LICQQ5ieTTzBRYZBe9Yvem5rwcOlgNf7ekyUU7HJ4n1KOTt766KQsnKOHmScoXc-zYLuu8vcHRVsQ5ae3CnNNvLPJf-4LYvOQPoXJPGhrIvetDul0m8jqkcgM1NPHH-IKYmgepaHJ1b5E_v1xjiG_u8U8bQk=w720-h416-no?authuser=0"]})
+    }
 }
