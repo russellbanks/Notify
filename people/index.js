@@ -78,6 +78,6 @@ module.exports = class People{
 
     // Davo innit
     bigd(channel){
-        channel.send("Do you need a new pair of trousers?")
+        channel.send("You're gonna need a new pair of trousers 😳")
     }
 }
