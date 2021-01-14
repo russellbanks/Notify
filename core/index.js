@@ -7,7 +7,26 @@ module.exports = class Core{
 
     // Sends a pic of BALLMER 
     ballmer(channel){
-        channel.send("Get ballmer'd", {files: ["https://miro.medium.com/max/4408/1*KvhM-ArA5RkpYLi7L_Qtdw.jpeg"]})
+        switch(Math.floor(Math.random() * 10)){
+            case 0:
+                channel.send("Get ballmer'd", {files: ["https://cdn.geekwire.com/wp-content/uploads/2019/10/0151-Summit-20191008-DD-630x420.jpg"]})
+                break;
+            case 1:
+                channel.send("Get ballmer'd `Jack's pee pee is this long`", {files: ["https://assets.pando.com/uploads/2013/08/steve_ballmer_at_ces_2010.jpg"]})
+                break;
+            case 2:
+                channel.send("Get ballmer'd", {files: ["https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fstatic1.businessinsider.com%2Fimage%2F596905fea47cb547008b4732-2400%2Fgettyimages-154981580.jpg&f=1&nofb=1"]})
+                break;
+            case 3:
+                channel.send("Get ballmer'd", {files: ["https://cached.imagescaler.hbpl.co.uk/resize/scaleWidth/743/cached.offlinehbpl.hbpl.co.uk/news/OMC/Ballmer-20130823031812891.jpg"]})
+                break;
+            case 4:
+                channel.send("Get ballmer'd", {files: ["https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPOzqjZz58M2nE87EV2WE6B68BlaTQi1O2dQ&usqp=CAU"]})
+                break;
+            default:
+                channel.send("Get ballmer'd", {files: ["https://www.incimages.com/uploaded_files/image/1920x1080/Steve-Ballmer-commencement-address_37754.jpg"]})
+                break;
+        }
     }
     
     // Sends a video of BALLMER saying developer * ∞
@@ -15,9 +34,9 @@ module.exports = class Core{
         channel.send("https://www.youtube.com/watch?v=KMU0tzLwhbE")
     }
 
-    // Deletes 1000 messages
+    // Deletes the messages
     delete(message, params){
-        var limits = params[1]
+        var limits = params[1] + 1 
         if(limits >= 0){
             if (message.member.roles.cache.find(r => r.name === "delete")) {
                 async function clear() {

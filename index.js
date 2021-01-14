@@ -1,17 +1,20 @@
 const Discord = require("discord.js"); // imports the discord library
 require('dotenv').config();
 
-const Core =  require('./core');
-var core = new Core();
-
-const People =  require('./people');
-var people = new People();
-
-const Plug =  require('./plug');
-var plug = new Plug();
-
 const client = new Discord.Client(); // creates a discord client
 const token = process.env.TOKEN // gets your token from the file
+
+const Core = require('./core');
+var core = new Core();
+
+const People = require('./people');
+var people = new People();
+
+const Plug = require('./plug');
+var plug = new Plug();
+
+const Games = require('./games');
+var games = new Games(client);
 
 client.once("ready", () => { // prints "Ready!" to the console once the bot is online
     console.log("Ready!");
@@ -57,6 +60,8 @@ client.on("message", message => { // runs whenever a message is sent
     }
     if(message.content.startsWith("?del")){
         core.delete(message, message.content.split(" "))
+    }else if(message.content.startsWith("?hangman")){
+        games.startHangman(message, message.content.split(" "))
     }
 });
 
