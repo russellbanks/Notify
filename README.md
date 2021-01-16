@@ -1,5 +1,5 @@
-# byte
-Discord bot made in node.js. It's pretty cool
+# Byte
+Just another discord bot made in node.js. It's pretty cool though.
 
 ## License
 ```
