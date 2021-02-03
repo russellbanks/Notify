@@ -6,11 +6,11 @@ const client = new Discord.Client(); // creates a discord client
 const token = process.env.TOKEN // gets your token from the file
 
 const player = new Player(client, {
-    leaveOnEnd: false,
+    leaveOnEnd: true,
     leaveOnStop: false,
-    leaveOnEmpty: true,
+    leaveOnEmpty: false,
     timeout: 0,
-    volume: 150,
+    volume: 100,
     quality: 'high',
 });
 
@@ -79,6 +79,33 @@ client.on("message", message => { // runs whenever a message is sent
                 break;
             case "?bigd":
                 people.bigd(message.channel)
+                break;
+            case "?skip":
+                music.skip(message, player)
+                break;
+            case "?clear":
+                music.clear(message, player)
+                break;
+            case "?shuffle":
+                music.shuffle(message, player)
+                break;
+            case "?q":
+                music.queue(message, player)
+                break;
+            case "?queue":
+                music.queue(message, player)
+                break;
+            case "?loop":
+                music.loop(message, player)
+                break;
+            case "?pause":
+                music.pause(message, player)
+                break;
+            case "?resume":
+                music.resume(message, player)
+                break;
+            case "?progress":
+                music.progress(message, player)
                 break;
         }
     }
