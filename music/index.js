@@ -2,6 +2,9 @@ module.exports = class Music{
 
     async request(message, params, player){
         // If there's already a song playing
+        
+        params.splice(0, 1);
+          
 
         let isPlaying = player.isPlaying(message.guild.id);
         // If there's already a song playing
