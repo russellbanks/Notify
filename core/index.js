@@ -58,4 +58,43 @@ module.exports = class Core{
     simon(channel){
         channel.send("Simon", {files: ["https://jackisa.ninja/Screenshot_20190729-023116.jpg"]})
     }
+
+    // help me 
+    help(channel, discord) {
+        const exampleEmbed = new discord.MessageEmbed()
+            .setColor('#0067f4')
+            .setTitle('Help (music)')
+            .setURL('https://github.com/jackdevey/byte/')
+            .setThumbnail('https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png')
+            .addFields(
+                { name: '?play [term]', value: 'Play a song in your vc, or add it to a queue', inline: true},
+                { name: '?q, ?queue', value: 'List the songs in the queue', inline: true },
+                { name: '?pause', value: 'Pause the song', inline: true },
+                { name: '?resume', value: 'Resume the song', inline: true },
+                { name: '?skip', value: 'Skip the song', inline: true },
+                { name: '?loop', value: 'Loop the current song', inline: true },
+                { name: '?shuffle', value: 'Shuffle the queue', inline: true },
+                { name: '?clear', value: 'Stop playing the song & clear the queue', inline: true },
+                { name: '?progress', value: 'Display a progress bar', inline: true }
+            );
+
+        channel.send(exampleEmbed);
+
+        const exampleEmbed2 = new discord.MessageEmbed()
+            .setColor('#0067f4')
+            .setTitle('Help (general)')
+            .setURL('https://github.com/jackdevey/byte/')
+            .setThumbnail('https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png')
+            .addFields(
+                { name: '?ballmer', value: 'STEVE BALLMER', inline: true},
+                { name: '?russell, ?hannah, ?hollie', value: "'insults' them", inline: true },
+                { name: '?jack', value: 'Talks about the seggsyman', inline: true },
+                { name: '?simon', value: 'Im not just a pretty face', inline: true },
+                { name: '?bigd', value: 'BIG D', inline: true },
+                { name: '?hello', value: 'Just says hello', inline: true },
+                { name: '?del [value]', value: 'Tries to delete the messages, but it probably wont', inline: true },
+            );
+
+        channel.send(exampleEmbed2);
+    }
 }

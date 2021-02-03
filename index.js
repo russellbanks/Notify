@@ -107,6 +107,9 @@ client.on("message", message => { // runs whenever a message is sent
             case "?progress":
                 music.progress(message, player)
                 break;
+            case "?help":
+                core.help(message.channel, Discord)
+                break;
         }
     }
 });
