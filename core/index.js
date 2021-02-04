@@ -1,3 +1,6 @@
+require('@tensorflow/tfjs');
+const toxicity = require('@tensorflow-models/toxicity');
+
 module.exports = class Core{
 
     // Speaks the truth
@@ -96,5 +99,43 @@ module.exports = class Core{
             );
 
         channel.send(exampleEmbed2);
+    }
+
+    toxic(message, params, discord) {
+        params.splice(0, 1);
+        const threshold = 0.9;
+        
+        if (params != null) {
+            message.reply("Analysing '" + params.join(" ") + "' ...")
+            // Load the model. Users optionally pass in a threshold and an array of
+        // labels to include.
+        toxicity.load(threshold).then(model => {
+            const sentences = [params.join(" ")];
+    
+            model.classify(sentences).then(predictions => {
+                // `predictions` is an array of objects, one for each prediction head,
+                // that contains the raw probabilities for each input along with the
+                // final prediction in `match` (either `true` or `false`).
+                // If neither prediction exceeds the threshold, `match` is `null`.
+    
+                const exampleEmbed2 = new discord.MessageEmbed()
+                .setColor('#0067f4')
+                .setTitle('Analysed "'+params.join(" ")+'"')
+                .addFields(
+                    { name: 'Identity Attack', value: predictions[0].results[0].match, inline: true},
+                    { name: 'Insult', value: predictions[1].results[0].match, inline: true },
+                    { name: 'Obscene', value: predictions[2].results[0].match, inline: true },
+                    { name: 'Severe Toxicity', value: predictions[3].results[0].match, inline: true },
+                    { name: 'Sexual Explicit', value: predictions[4].results[0].match, inline: true },
+                    { name: 'Threat', value: predictions[5].results[0].match, inline: true },
+                    { name: 'Toxcicty', value: predictions[6].results[0].match, inline: true },
+                );
+    
+                message.reply(exampleEmbed2)
+                })
+            })
+        }
+
+        
     }
 }

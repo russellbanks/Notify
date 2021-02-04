@@ -44,6 +44,8 @@ client.on("message", message => { // runs whenever a message is sent
         games.startHangman(message, message.content.split(" "))
     }else if(message.content.startsWith("?play")){
         music.request(message, message.content.split(" "), player)
+    }else if(message.content.startsWith("?analyse")){
+        core.toxic(message, message.content.split(" "), Discord)
     }else{
         switch(message.content){
             case "?hello":
