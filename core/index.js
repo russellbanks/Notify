@@ -71,6 +71,7 @@ module.exports = class Core{
             .setThumbnail('https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png')
             .addFields(
                 { name: '?play [term]', value: 'Play a song in your vc, or add it to a queue', inline: true},
+                { name: '?playlist [url]', value: "Play a whole playlist cus you're too lazy to do it one by one", inline: true },
                 { name: '?q, ?queue', value: 'List the songs in the queue', inline: true },
                 { name: '?pause', value: 'Pause the song', inline: true },
                 { name: '?resume', value: 'Resume the song', inline: true },
@@ -106,7 +107,7 @@ module.exports = class Core{
         const threshold = 0.9;
         
         if (params != null) {
-            message.reply("Analysing '" + params.join(" ") + "' ...")
+            message.reply("Analysing '" + params.join(" ") + "' ...")  
             // Load the model. Users optionally pass in a threshold and an array of
         // labels to include.
         toxicity.load(threshold).then(model => {

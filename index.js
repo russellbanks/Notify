@@ -42,6 +42,8 @@ client.on("message", message => { // runs whenever a message is sent
         core.delete(message, message.content.split(" "))
     }else if(message.content.startsWith("?hangman")){
         games.startHangman(message, message.content.split(" "))
+    }else if(message.content.startsWith("?playlist")){
+        music.playlist(message, message.content.split(" "), player)
     }else if(message.content.startsWith("?play")){
         music.request(message, message.content.split(" "), player)
     }else if(message.content.startsWith("?analyse")){
