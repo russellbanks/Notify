@@ -2,20 +2,25 @@ module.exports = class Music{
 
     async request(message, params, player){
         // If there's already a song playing
-        
-        params.splice(0, 1);
-          
 
+        // Remove the command
+        params = params.replace("?play ", "")
+        console.log(params)
+        if(params.startsWith("https://music.youtube")){
+            console.log("yes")
+            params = params.replace("music.", "")
+        } 
+        
         let isPlaying = player.isPlaying(message.guild.id);
         // If there's already a song playing
         if(isPlaying){
             // Add the song to the queue
-            let song = await player.addToQueue(message.guild.id, params.join(' '));
+            let song = await player.addToQueue(message.guild.id, params);
             song = song.song;
             message.channel.send(`Song ${song.name} was added to the queue!`);
         } else {
             // Else, play the song
-            let song = await player.play(message.member.voice.channel, params.join(' '));
+            let song = await player.play(message.member.voice.channel, params);
             song = song.song;
             message.channel.send(`Started playing ${song.name}!`);
         }
@@ -40,7 +45,7 @@ module.exports = class Music{
         let queue = await player.getQueue(message.guild.id);
         message.channel.send('Queue:\n'+(queue.songs.map((song, i) => {
             return `${i === 0 ? 'Now Playing' : `#${i+1}`} - ${song.name} | ${song.author}`
-        }).join('\n')));
+        }).join('\n')), { split: true });
     }
 
     loop(message, player) {
@@ -66,10 +71,18 @@ module.exports = class Music{
     }
 
     async playlist(message, params, player) {
-        params.splice(0, 1);
+
+        // Remove the command
+        params = params.replace("?playlist ", "")
+        console.log(params)
+        if(params.startsWith("https://music.youtube")){
+            console.log("yes")
+            params = params.replace("music.", "")
+        } 
+
         let isPlaying = player.isPlaying(message.guild.id);
         // If MaxSongs is -1, will be infinite.
-        let playlist = await player.playlist(message.guild.id, params.join(' '), message.member.voice.channel, 10, message.author.tag);
+        let playlist = await player.playlist(message.guild.id, params, message.member.voice.channel, -1, message.author.tag);
 
         // Determine the Song (only if the music was not playing previously)
         let song = playlist.song;

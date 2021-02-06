@@ -43,9 +43,9 @@ client.on("message", message => { // runs whenever a message is sent
     }else if(message.content.startsWith("?hangman")){
         games.startHangman(message, message.content.split(" "))
     }else if(message.content.startsWith("?playlist")){
-        music.playlist(message, message.content.split(" "), player)
+        music.playlist(message, message.content, player)
     }else if(message.content.startsWith("?play")){
-        music.request(message, message.content.split(" "), player)
+        music.request(message, message.content, player)
     }else if(message.content.startsWith("?analyse")){
         core.toxic(message, message.content.split(" "), Discord)
     }else{
