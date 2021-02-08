@@ -1,10 +1,13 @@
+require('dotenv').config();
+
+
 module.exports = class Music{
 
-    async request(message, params, player, discord, dev){
+    async request(message, params, player, discord, dev, prefix){
         // If there's already a song playing
 
         // Remove the command
-        params = params.replace("?play ", "")
+        params = params.replace(prefix+"play ", "")
         console.log(params)
         if(params.startsWith("https://music.youtube")){
             console.log("yes")
@@ -78,10 +81,10 @@ module.exports = class Music{
         message.channel.send(progressBar);
     }
 
-    async playlist(message, params, player, discord, dev) {
+    async playlist(message, params, player, discord, dev, pefix) {
 
         // Remove the command
-        params = params.replace("?playlist ", "")
+        params = params.replace(prefix+"playlist ", "")
         console.log(params)
         if(params.startsWith("https://music.youtube")){
             console.log("yes")
@@ -109,6 +112,8 @@ module.exports = class Music{
     }
 
     showEmbed(song, user, discord, channel, dev) {
+        const name = process.env.NAME
+        const pfpUrl = process.env.PFP
         if(dev != "TRUE"){
             var server = "HRK-EU"
         }else{
@@ -122,11 +127,13 @@ module.exports = class Music{
             .setDescription(song.author)
             .setThumbnail(song.thumbnail)
             .addField('Duration', song.duration, true)
-            .setFooter('Playing on Byte, ' + server, 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+            .setFooter('Playing on '+name+', ' + server, pfpUrl);
         channel.send(embed);
     }
 
     showEmbedPL(playlist, user, discord, channel, dev) {
+        const name = process.env.NAME
+        const pfpUrl = process.env.PFP
         if(dev != "TRUE"){
             var server = "HRK-EU"
         }else{
@@ -139,7 +146,7 @@ module.exports = class Music{
             .setAuthor(user.tag, user.displayAvatarURL())
             .setDescription(playlist.author)
             .addField('Video Count', playlist.videoCount, true)
-            .setFooter('Playing on Byte, ' + server, 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+            .setFooter('Playing on '+name+', ' + server, pfpUrl);
         channel.send(embed);
     }
 }

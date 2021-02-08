@@ -5,6 +5,8 @@ const { Player }  = require("discord-music-player");
 const client = new Discord.Client(); // creates a discord client
 const token = process.env.TOKEN // gets your token from the file
 const dev = process.env.DEV
+const prefix = process.env.PREFIX
+const name = process.env.NAME
 
 const player = new Player(client, {
     leaveOnEnd: true,
@@ -34,85 +36,90 @@ const MusicPlayerError = require("discord-music-player/src/MusicPlayerError");
 var games = new Games(client);
 
 client.once("ready", () => { // prints "Ready!" to the console once the bot is online
-    console.log("Ready!");
-    client.user.setActivity("with yo momma");
+    console.log("Ready!" + name);
+    if(name == "Byte2") {
+        client.user.setActivity("with yo poppa");
+    }else {
+        client.user.setActivity("with yo momma");
+    }
+    
 });
 
 client.on("message", message => { // runs whenever a message is sent
-    if(message.content.startsWith("?del")){
+    if(message.content.startsWith(prefix+"del")){
         core.delete(message, message.content.split(" "))
-    }else if(message.content.startsWith("?hangman")){
+    }else if(message.content.startsWith(prefix+"hangman")){
         games.startHangman(message, message.content.split(" "))
-    }else if(message.content.startsWith("?playlist")){
+    }else if(message.content.startsWith(prefix+"playlist")){
         music.playlist(message, message.content, player, Discord, dev)
-    }else if(message.content.startsWith("?play")){
+    }else if(message.content.startsWith(prefix+"play")){
         music.request(message, message.content, player, Discord, dev)
-    }else if(message.content.startsWith("?analyse")){
+    }else if(message.content.startsWith(prefix+"analyse")){
         core.toxic(message, message.content.split(" "), Discord)
     }else{
         switch(message.content){
-            case "?hello":
+            case prefix+"hello":
                 core.hello(message.channel)
                 break; 
-            case "?ballmer":
+            case prefix+"ballmer":
                 core.ballmer(message.channel)
                 break;
-            case "?developers":
+            case prefix+"developers":
                 core.developers(message.channel)
                 break;
-            case "?russell":
+            case prefix+"russell":
                 people.russell(message.channel)
                 break;
-            case "?hannah":
+            case prefix+"hannah":
                 people.hannah(message.channel)
                 break;
-            case "?bandev":
+            case prefix+"bandev":
                 plug.bandev(message.channel)
                 break;
-            case "?kickrus":
+            case prefix+"kickrus":
                 people.kick(message.channel, "russell")
                 core.ballmer(message.channel)
                 break;
-            case "?hollie":
+            case prefix+"hollie":
                 people.hollie(message.channel)
                 break;
-            case "?jack":
+            case prefix+"jack":
                 people.jack(message.channel)
                 break;
-            case "?simon":
+            case prefix+"simon":
                 core.simon(message.channel)
                 break;
-            case "?bigd":
+            case prefix+"bigd":
                 people.bigd(message.channel)
                 break;
-            case "?skip":
+            case prefix+"skip":
                 music.skip(message, player)
                 break;
-            case "?clear":
+            case prefix+"clear":
                 music.clear(message, player)
                 break;
-            case "?shuffle":
+            case prefix+"shuffle":
                 music.shuffle(message, player)
                 break;
-            case "?q":
+            case prefix+"q":
                 music.queue(message, player)
                 break;
-            case "?queue":
+            case prefix+"queue":
                 music.queue(message, player)
                 break;
-            case "?loop":
+            case prefix+"loop":
                 music.loop(message, player)
                 break;
-            case "?pause":
+            case prefix+"pause":
                 music.pause(message, player)
                 break;
-            case "?resume":
+            case prefix+"resume":
                 music.resume(message, player)
                 break;
-            case "?progress":
+            case prefix+"progress":
                 music.progress(message, player)
                 break;
-            case "?help":
+            case prefix+"help":
                 core.help(message.channel, Discord)
                 break;
         }
