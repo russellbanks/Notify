@@ -1,6 +1,6 @@
 module.exports = class Music{
 
-    async request(message, params, player){
+    async request(message, params, player, discord){
         // If there's already a song playing
 
         // Remove the command
@@ -17,12 +17,14 @@ module.exports = class Music{
             // Add the song to the queue
             let song = await player.addToQueue(message.guild.id, params);
             song = song.song;
-            message.channel.send(`Song ${song.name} was added to the queue!`);
+            message.channel.send(`Song ${song.name} was added to the queue`);
+            this.showEmbed(song, message.author, discord, message.channel)
         } else {
             // Else, play the song
             let song = await player.play(message.member.voice.channel, params);
             song = song.song;
-            message.channel.send(`Started playing ${song.name}!`);
+            message.channel.send(`Started playing ${song.name}`);
+            this.showEmbed(song, message.author, discord, message.channel)
         }
     }
 
@@ -55,9 +57,11 @@ module.exports = class Music{
         else message.channel.send('I will not longer repeat the current playing song.');
     }
 
-    leave(message) {
-        message.guild.me.voice.channel.leave();
-    }
+    // THIS CODE WAS WRITTERN BY THE GREAT RUSSELL BANKS
+    // leave(message) {
+    //     message.guild.me.voice.channel.leave();
+    // }
+    // IT IS NOT IN USE ANYMORE, HE DID IT WRONG
 
     async pause(message, player) {
         let song = await player.pause(message.guild.id);
@@ -74,7 +78,7 @@ module.exports = class Music{
         message.channel.send(progressBar);
     }
 
-    async playlist(message, params, player) {
+    async playlist(message, params, player, discord) {
 
         // Remove the command
         params = params.replace("?playlist ", "")
@@ -94,29 +98,38 @@ module.exports = class Music{
         playlist = playlist.playlist;
 
         // Send information about adding the Playlist to the Queue
-        message.channel.send(`Added a Playlist to the queue with **${playlist.videoCount} songs**, that was **made by ${playlist.channel}**.`)
+        message.channel.send(`Added ${playlist.name} to the queue`)
+        this.showEmbedPL(playlist, message.author, discord, message.channel)
 
         // If there was no songs previously playing, send a message about playing one.
         if (!isPlaying) {
-
-            message.channel.send(`Started playing ${song.name}!`);
-
-            // Send a message, when Queue would be empty.
-            song.queue.on('end', () => {
-                message.channel.send('The queue is empty, please add new songs!');
-            }).on('songChanged', (oldSong, newSong, skipped, repeatMode, repeatQueue) => {
-                if (repeatMode) {
-                    message.channel.send(`Playing ${newSong.name} again...`);
-                } else if(repeatQueue) {
-                    message.channel.send(`Playing **${newSong.name}...**\nAdded **${oldSong.name}** to the end of the queue (repeatQueue).`);
-                } else {
-                    message.channel.send(`Now playing ${newSong.name}...`);
-                }
-            }).on('songError', (errMessage, song) => {
-                if(errMessage === 'VideoUnavailable')
-                    message.channel.send(`Could not play **${song.name}** - The song was Unavailable, skipping...`);
-                else message.channel.send(`Could not play ${song.name} - ${errMessage}.`);
-            });
+            message.channel.send(`Started playing ${song.name}`);
+            this.showEmbed(song, message.author, discord, message.channel)
         }
+    }
+
+    showEmbed(song, user, discord, channel) {
+        const embed = new discord.MessageEmbed()
+            .setColor('#0067f4')
+            .setTitle(song.name)
+            .setURL(song.url)
+            .setAuthor(user.tag, user.displayAvatarURL())
+            .setDescription(song.author)
+            .setThumbnail(song.thumbnail)
+            .addField('Duration', song.duration, true)
+            .setFooter('Playing on Byte, HRK-EU', 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+        channel.send(embed);
+    }
+
+    showEmbedPL(playlist, user, discord, channel) {
+        const embed = new discord.MessageEmbed()
+            .setColor('#0067f4')
+            .setTitle(playlist.name)
+            .setURL(playlist.url)
+            .setAuthor(user.tag, user.displayAvatarURL())
+            .setDescription(playlist.author)
+            .addField('Video Count', playlist.videoCount, true)
+            .setFooter('Playing on Byte, HRK-EU', 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+        channel.send(embed);
     }
 }

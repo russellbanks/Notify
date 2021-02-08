@@ -7,8 +7,8 @@ const token = process.env.TOKEN // gets your token from the file
 
 const player = new Player(client, {
     leaveOnEnd: true,
-    leaveOnStop: false,
-    leaveOnEmpty: false,
+    leaveOnStop: true,
+    leaveOnEmpty: true,
     timeout: 0,
     volume: 100,
     quality: 'high',
@@ -43,9 +43,9 @@ client.on("message", message => { // runs whenever a message is sent
     }else if(message.content.startsWith("?hangman")){
         games.startHangman(message, message.content.split(" "))
     }else if(message.content.startsWith("?playlist")){
-        music.playlist(message, message.content, player)
+        music.playlist(message, message.content, player, Discord)
     }else if(message.content.startsWith("?play")){
-        music.request(message, message.content, player)
+        music.request(message, message.content, player, Discord)
     }else if(message.content.startsWith("?analyse")){
         core.toxic(message, message.content.split(" "), Discord)
     }else{
@@ -113,9 +113,6 @@ client.on("message", message => { // runs whenever a message is sent
                 break;
             case "?help":
                 core.help(message.channel, Discord)
-                break;
-            case "?leave":
-                music.leave(message)
                 break;
         }
     }
