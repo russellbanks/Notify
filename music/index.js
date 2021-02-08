@@ -55,6 +55,10 @@ module.exports = class Music{
         else message.channel.send('I will not longer repeat the current playing song.');
     }
 
+    leave(message, player) {
+        message.guild.me.voice.channel.leave();
+    }
+
     async pause(message, player) {
         let song = await player.pause(message.guild.id);
         message.channel.send(`${song.name} was paused!`);
