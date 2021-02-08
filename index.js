@@ -114,6 +114,9 @@ client.on("message", message => { // runs whenever a message is sent
             case "?help":
                 core.help(message.channel, Discord)
                 break;
+            case "?leave":
+                music.leave(message)
+                break;
         }
     }
 });

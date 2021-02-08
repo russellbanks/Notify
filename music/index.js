@@ -55,7 +55,7 @@ module.exports = class Music{
         else message.channel.send('I will not longer repeat the current playing song.');
     }
 
-    leave(message, player) {
+    leave(message) {
         message.guild.me.voice.channel.leave();
     }
 
