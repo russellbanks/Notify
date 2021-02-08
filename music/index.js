@@ -1,6 +1,6 @@
 module.exports = class Music{
 
-    async request(message, params, player, discord){
+    async request(message, params, player, discord, dev){
         // If there's already a song playing
 
         // Remove the command
@@ -18,13 +18,13 @@ module.exports = class Music{
             let song = await player.addToQueue(message.guild.id, params);
             song = song.song;
             message.channel.send(`Song ${song.name} was added to the queue`);
-            this.showEmbed(song, message.author, discord, message.channel)
+            this.showEmbed(song, message.author, discord, message.channel, dev)
         } else {
             // Else, play the song
             let song = await player.play(message.member.voice.channel, params);
             song = song.song;
             message.channel.send(`Started playing ${song.name}`);
-            this.showEmbed(song, message.author, discord, message.channel)
+            this.showEmbed(song, message.author, discord, message.channel, dev)
         }
     }
 
@@ -78,7 +78,7 @@ module.exports = class Music{
         message.channel.send(progressBar);
     }
 
-    async playlist(message, params, player, discord) {
+    async playlist(message, params, player, discord, dev) {
 
         // Remove the command
         params = params.replace("?playlist ", "")
@@ -99,16 +99,21 @@ module.exports = class Music{
 
         // Send information about adding the Playlist to the Queue
         message.channel.send(`Added ${playlist.name} to the queue`)
-        this.showEmbedPL(playlist, message.author, discord, message.channel)
+        this.showEmbedPL(playlist, message.author, discord, message.channel, dev)
 
         // If there was no songs previously playing, send a message about playing one.
         if (!isPlaying) {
             message.channel.send(`Started playing ${song.name}`);
-            this.showEmbed(song, message.author, discord, message.channel)
+            this.showEmbed(song, message.author, discord, message.channel, dev)
         }
     }
 
-    showEmbed(song, user, discord, channel) {
+    showEmbed(song, user, discord, channel, dev) {
+        if(dev != "TRUE"){
+            var server = "HRK-EU"
+        }else{
+            var server = "JACK-PC"
+        }
         const embed = new discord.MessageEmbed()
             .setColor('#0067f4')
             .setTitle(song.name)
@@ -117,11 +122,16 @@ module.exports = class Music{
             .setDescription(song.author)
             .setThumbnail(song.thumbnail)
             .addField('Duration', song.duration, true)
-            .setFooter('Playing on Byte, HRK-EU', 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+            .setFooter('Playing on Byte, ' + server, 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
         channel.send(embed);
     }
 
-    showEmbedPL(playlist, user, discord, channel) {
+    showEmbedPL(playlist, user, discord, channel, dev) {
+        if(dev != "TRUE"){
+            var server = "HRK-EU"
+        }else{
+            var server = "JACK-PC"
+        }
         const embed = new discord.MessageEmbed()
             .setColor('#0067f4')
             .setTitle(playlist.name)
@@ -129,7 +139,7 @@ module.exports = class Music{
             .setAuthor(user.tag, user.displayAvatarURL())
             .setDescription(playlist.author)
             .addField('Video Count', playlist.videoCount, true)
-            .setFooter('Playing on Byte, HRK-EU', 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
+            .setFooter('Playing on Byte, ' + server, 'https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png');
         channel.send(embed);
     }
 }
