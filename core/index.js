@@ -1,4 +1,5 @@
 require('@tensorflow/tfjs');
+require('dotenv').config();
 const toxicity = require('@tensorflow-models/toxicity');
 
 module.exports = class Core{
@@ -64,39 +65,43 @@ module.exports = class Core{
 
     // help me 
     help(channel, discord) {
+        const pre = process.env.PREFIX
+        const imgUrl = process.env.PFP
+        const color = process.env.COLOR
         const exampleEmbed = new discord.MessageEmbed()
-            .setColor('#0067f4')
+            .setColor(color)
             .setTitle('Help (music)')
             .setURL('https://github.com/jackdevey/byte/')
-            .setThumbnail('https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png')
+            .setThumbnail(imgUrl)
             .addFields(
-                { name: '?play [term]', value: 'Play a song in your vc, or add it to a queue', inline: true},
-                { name: '?playlist [url]', value: "Play a whole playlist cus you're too lazy to do it one by one", inline: true },
-                { name: '?q, ?queue', value: 'List the songs in the queue', inline: true },
-                { name: '?pause', value: 'Pause the song', inline: true },
-                { name: '?resume', value: 'Resume the song', inline: true },
-                { name: '?skip', value: 'Skip the song', inline: true },
-                { name: '?loop', value: 'Loop the current song', inline: true },
-                { name: '?shuffle', value: 'Shuffle the queue', inline: true },
-                { name: '?clear', value: 'Stop playing the song & clear the queue', inline: true },
-                { name: '?progress', value: 'Display a progress bar', inline: true }
+                { name: pre+'play [term]', value: 'Play a song in your vc, or add it to a queue', inline: true},
+                { name: pre+'playlist [url]', value: "Play a whole playlist cus you're too lazy to do it one by one", inline: true },
+                { name: pre+'q, '+pre+'queue', value: 'List the songs in the queue', inline: true },
+                { name: pre+'pause', value: 'Pause the song', inline: true },
+                { name: pre+'resume', value: 'Resume the song', inline: true },
+                { name: pre+'skip', value: 'Skip the song', inline: true },
+                { name: pre+'loop', value: 'Loop the current song', inline: true },
+                { name: pre+'shuffle', value: 'Shuffle the queue', inline: true },
+                { name: pre+'clear', value: 'Stop playing the song & clear the queue', inline: true },
+                { name: pre+'progress', value: 'Display a progress bar', inline: true }
             );
 
         channel.send(exampleEmbed);
 
+
         const exampleEmbed2 = new discord.MessageEmbed()
-            .setColor('#0067f4')
+            .setColor(color)
             .setTitle('Help (general)')
             .setURL('https://github.com/jackdevey/byte/')
-            .setThumbnail('https://cdn.discordapp.com/app-icons/791303709639442444/9c560fdb926ef2af0d0920ef412e618c.png')
+            .setThumbnail(imgUrl)
             .addFields(
-                { name: '?ballmer', value: 'STEVE BALLMER', inline: true},
-                { name: '?russell, ?hannah, ?hollie', value: "'insults' them", inline: true },
-                { name: '?jack', value: 'Talks about the seggsyman', inline: true },
-                { name: '?simon', value: 'Im not just a pretty face', inline: true },
-                { name: '?bigd', value: 'BIG D', inline: true },
-                { name: '?hello', value: 'Just says hello', inline: true },
-                { name: '?del [value]', value: 'Tries to delete the messages, but it probably wont', inline: true },
+                { name: pre+'ballmer', value: 'STEVE BALLMER', inline: true},
+                { name: pre+'russell, '+pre+'hannah, '+pre+'hollie', value: "'insults' them", inline: true },
+                { name: pre+'jack', value: 'Talks about the seggsyman', inline: true },
+                { name: pre+'simon', value: 'Im not just a pretty face', inline: true },
+                { name: pre+'bigd', value: 'BIG D', inline: true },
+                { name: pre+'hello', value: 'Just says hello', inline: true },
+                { name: pre+'del [value]', value: 'Tries to delete the messages, but it probably wont', inline: true },
             );
 
         channel.send(exampleEmbed2);

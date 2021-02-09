@@ -119,8 +119,9 @@ module.exports = class Music{
         }else{
             var server = "JACK-PC"
         }
+        const color = process.env.COLOR
         const embed = new discord.MessageEmbed()
-            .setColor('#0067f4')
+            .setColor(color)
             .setTitle(song.name)
             .setURL(song.url)
             .setAuthor(user.tag, user.displayAvatarURL())
@@ -131,7 +132,9 @@ module.exports = class Music{
         channel.send(embed);
     }
 
+    
     showEmbedPL(playlist, user, discord, channel, dev) {
+        const color = process.env.COLOR
         const name = process.env.NAME
         const pfpUrl = process.env.PFP
         if(dev != "TRUE"){
@@ -140,7 +143,7 @@ module.exports = class Music{
             var server = "JACK-PC"
         }
         const embed = new discord.MessageEmbed()
-            .setColor('#0067f4')
+            .setColor(color)
             .setTitle(playlist.name)
             .setURL(playlist.url)
             .setAuthor(user.tag, user.displayAvatarURL())

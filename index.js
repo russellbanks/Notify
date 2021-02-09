@@ -32,13 +32,12 @@ const Music = require('./music');
 var music = new Music();
 
 const Games = require('./games');
-const MusicPlayerError = require("discord-music-player/src/MusicPlayerError");
 var games = new Games(client);
 
 client.once("ready", () => { // prints "Ready!" to the console once the bot is online
     console.log("Ready!" + name);
     if(name == "Byte2") {
-        client.user.setActivity("with yo poppa");
+        client.user.setActivity("with yo momma too");
     }else {
         client.user.setActivity("with yo momma");
     }
