@@ -3,7 +3,7 @@ require('dotenv').config();
 
 module.exports = class Music{
 
-    async request(message, params, player, discord, dev, prefix){
+    async request(message, params, player, discord, server, prefix){
         // If there's already a song playing
 
         // Remove the command
@@ -21,13 +21,13 @@ module.exports = class Music{
             let song = await player.addToQueue(message.guild.id, params);
             song = song.song;
             message.channel.send(`Song ${song.name} was added to the queue`);
-            this.showEmbed(song, message.author, discord, message.channel, dev)
+            this.showEmbed(song, message.author, discord, message.channel, server)
         } else {
             // Else, play the song
             let song = await player.play(message.member.voice.channel, params);
             song = song.song;
             message.channel.send(`Started playing ${song.name}`);
-            this.showEmbed(song, message.author, discord, message.channel, dev)
+            this.showEmbed(song, message.author, discord, message.channel, server)
         }
     }
 
@@ -81,7 +81,7 @@ module.exports = class Music{
         message.channel.send(progressBar);
     }
 
-    async playlist(message, params, player, discord, dev, pefix) {
+    async playlist(message, params, player, discord, server, pefix) {
 
         // Remove the command
         params = params.replace(prefix+"playlist ", "")
@@ -102,23 +102,18 @@ module.exports = class Music{
 
         // Send information about adding the Playlist to the Queue
         message.channel.send(`Added ${playlist.name} to the queue`)
-        this.showEmbedPL(playlist, message.author, discord, message.channel, dev)
+        this.showEmbedPL(playlist, message.author, discord, message.channel, server)
 
         // If there was no songs previously playing, send a message about playing one.
         if (!isPlaying) {
             message.channel.send(`Started playing ${song.name}`);
-            this.showEmbed(song, message.author, discord, message.channel, dev)
+            this.showEmbed(song, message.author, discord, message.channel, server)
         }
     }
 
-    showEmbed(song, user, discord, channel, dev) {
+    showEmbed(song, user, discord, channel, server) {
         const name = process.env.NAME
         const pfpUrl = process.env.PFP
-        if(dev != "TRUE"){
-            var server = "HRK-EU"
-        }else{
-            var server = "JACK-PC"
-        }
         const color = process.env.COLOR
         const embed = new discord.MessageEmbed()
             .setColor(color)
@@ -133,15 +128,10 @@ module.exports = class Music{
     }
 
     
-    showEmbedPL(playlist, user, discord, channel, dev) {
+    showEmbedPL(playlist, user, discord, channel, server) {
         const color = process.env.COLOR
         const name = process.env.NAME
         const pfpUrl = process.env.PFP
-        if(dev != "TRUE"){
-            var server = "HRK-EU"
-        }else{
-            var server = "JACK-PC"
-        }
         const embed = new discord.MessageEmbed()
             .setColor(color)
             .setTitle(playlist.name)

@@ -4,7 +4,7 @@ const { Player }  = require("discord-music-player");
 
 const client = new Discord.Client(); // creates a discord client
 const token = process.env.TOKEN // gets your token from the file
-const dev = process.env.DEV
+const server = process.env.SERVER
 const prefix = process.env.PREFIX
 const name = process.env.NAME
 
@@ -50,9 +50,9 @@ client.on("message", message => { // runs whenever a message is sent
     }else if(message.content.startsWith(prefix+"hangman")){
         games.startHangman(message, message.content.split(" "))
     }else if(message.content.startsWith(prefix+"playlist")){
-        music.playlist(message, message.content, player, Discord, dev)
+        music.playlist(message, message.content, player, Discord, server)
     }else if(message.content.startsWith(prefix+"play")){
-        music.request(message, message.content, player, Discord, dev)
+        music.request(message, message.content, player, Discord, server)
     }else if(message.content.startsWith(prefix+"analyse")){
         core.toxic(message, message.content.split(" "), Discord)
     }else{
