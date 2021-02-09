@@ -6,7 +6,7 @@ module.exports = class Core{
 
     // Speaks the truth
     hello(channel){
-        channel.send("Hello")
+        channel.send("Hello, this is " + process.env.NAME + " running on " + process.env.SERVER)
     }
 
     // Sends a pic of BALLMER 
