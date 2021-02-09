@@ -81,7 +81,7 @@ module.exports = class Music{
         message.channel.send(progressBar);
     }
 
-    async playlist(message, params, player, discord, server, pefix) {
+    async playlist(message, params, player, discord, server, prefix) {
 
         // Remove the command
         params = params.replace(prefix+"playlist ", "")
