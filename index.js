@@ -7,6 +7,8 @@ const token = process.env.TOKEN // gets your token from the file
 const server = process.env.SERVER
 const prefix = process.env.PREFIX
 const name = process.env.NAME
+const game = process.env.GAME
+
 
 const player = new Player(client, {
     leaveOnEnd: true,
@@ -36,12 +38,7 @@ var games = new Games(client);
 
 client.once("ready", () => { // prints "Ready!" to the console once the bot is online
     console.log("Ready!" + name);
-    if(name == "Byte2") {
-        client.user.setActivity("with yo momma too");
-    }else {
-        client.user.setActivity("with yo momma");
-    }
-    
+    client.user.setActivity(game);
 });
 
 client.on("message", message => { // runs whenever a message is sent
@@ -50,9 +47,9 @@ client.on("message", message => { // runs whenever a message is sent
     }else if(message.content.startsWith(prefix+"hangman")){
         games.startHangman(message, message.content.split(" "))
     }else if(message.content.startsWith(prefix+"playlist")){
-        music.playlist(message, message.content, player, Discord, server)
+        music.playlist(message, message.content, player, Discord, server, prefix)
     }else if(message.content.startsWith(prefix+"play")){
-        music.request(message, message.content, player, Discord, server)
+        music.request(message, message.content, player, Discord, server, prefix)
     }else if(message.content.startsWith(prefix+"analyse")){
         core.toxic(message, message.content.split(" "), Discord)
     }else{
