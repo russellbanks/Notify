@@ -1,6 +1,21 @@
 # Byte
 Just another discord bot made in node.js. It's pretty cool though.
 
+## Setup
+Once you have downloaded the source code for Byte, you must run 
+```
+npm install
+```
+to install all of the latest dependencies required for Byte to run. After that, create a file called `.env` in the root directory of the source code. The file needs look like this:
+```
+TOKEN=[YOUR_BOT_TOKEN]
+SERVER=[NAME_OF_SERVER]
+PREFIX=[BOT_PREFIX]
+NAME=[BOT_NAME]
+PFP=[PROFILE_PICTURE_URL]
+COLOR=[BOT_ACCENT_COLOUR]
+```
+these can also be defined in the system's session variables. This customisation technology is used for creating two bots, **Byte** & **Byte2** running from the same source code, but with different avatars and colours. 
 ## License
 ```
 Byte
