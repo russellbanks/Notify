@@ -1,15 +1,33 @@
-const Discord = require("discord.js"); // imports the discord library
+//Discord.js library
+const Discord = require("discord.js");
+
+//Dotenv library
 require('dotenv').config();
+
+//Discord music player library
 const { Player }  = require("discord-music-player");
 
-const client = new Discord.Client(); // creates a discord client
-const token = process.env.TOKEN // gets your token from the file
-const server = process.env.SERVER
-const prefix = process.env.PREFIX
-const name = process.env.NAME
-const game = process.env.GAME
+//Core commands library
+const Core = require('./core');
+var core = new Core();
 
+//Music commands library
+const Music = require('./music');
+var music = new Music();
 
+//Get setting variables
+const token = process.env.TOKEN;
+const server = process.env.SERVER;
+const prefix = process.env.PREFIX;
+const name = process.env.NAME;
+const pfp = process.env.PFP;
+const color = process.env.COLOR;
+const game = process.env.GAME;
+
+//New discord client instance
+const client = new Discord.Client();
+
+//Define music player settings
 const player = new Player(client, {
     leaveOnEnd: true,
     leaveOnStop: true,
@@ -19,108 +37,96 @@ const player = new Player(client, {
     quality: 'high',
 });
 
+//Set player as music player
 client.player = player;
 
-const Core = require('./core');
-var core = new Core();
-
-const People = require('./people');
-var people = new People();
-
-const Plug = require('./plug');
-var plug = new Plug();
-
-const Music = require('./music');
-var music = new Music();
-
-const Games = require('./games');
-var games = new Games(client);
-
-client.once("ready", () => { // prints "Ready!" to the console once the bot is online
-    console.log("Ready!" + name);
+//When client logs successfully in
+client.once("ready", () => {
+    //Set the game to what is provided in env variables
     client.user.setActivity(game);
+
+    //Show debug information in the console for turn on
+    console.log("Build Successful");
+    console.log("=========================");
+    console.log("Configured variables:");
+    console.log("=========================");
+    console.log("server: " + server);
+    console.log("prefix: " + prefix);
+    console.log("name: " + name);
+    console.log("pfp: " + pfp);
+    console.log("color: " + color);
+    console.log("playing: " + game);
+    console.log("=========================");
+    console.log("Waiting for commands:");
+    console.log("=========================");
 });
 
-client.on("message", message => { // runs whenever a message is sent
-    if(message.content.startsWith(prefix+"del")){
-        core.delete(message, message.content.split(" "))
-    }else if(message.content.startsWith(prefix+"hangman")){
-        games.startHangman(message, message.content.split(" "))
-    }else if(message.content.startsWith(prefix+"playlist")){
-        music.playlist(message, message.content, player, Discord, server, prefix)
-    }else if(message.content.startsWith(prefix+"play")){
-        music.request(message, message.content, player, Discord, server, prefix)
-    }else if(message.content.startsWith(prefix+"analyse")){
-        core.toxic(message, message.content.split(" "), Discord)
-    }else{
-        switch(message.content){
-            case prefix+"hello":
-                core.hello(message.channel)
-                break; 
-            case prefix+"ballmer":
-                core.ballmer(message.channel)
-                break;
-            case prefix+"developers":
-                core.developers(message.channel)
-                break;
-            case prefix+"russell":
-                people.russell(message.channel)
-                break;
-            case prefix+"hannah":
-                people.hannah(message.channel)
-                break;
-            case prefix+"bandev":
-                plug.bandev(message.channel)
-                break;
-            case prefix+"kickrus":
-                people.kick(message.channel, "russell")
-                core.ballmer(message.channel)
-                break;
-            case prefix+"hollie":
-                people.hollie(message.channel)
-                break;
-            case prefix+"jack":
-                people.jack(message.channel)
-                break;
-            case prefix+"simon":
-                core.simon(message.channel)
-                break;
-            case prefix+"bigd":
-                people.bigd(message.channel)
-                break;
-            case prefix+"skip":
-                music.skip(message, player)
-                break;
-            case prefix+"clear":
-                music.clear(message, player)
-                break;
-            case prefix+"shuffle":
-                music.shuffle(message, player)
-                break;
-            case prefix+"q":
-                music.queue(message, player)
-                break;
-            case prefix+"queue":
-                music.queue(message, player)
-                break;
-            case prefix+"loop":
-                music.loop(message, player)
-                break;
-            case prefix+"pause":
-                music.pause(message, player)
-                break;
-            case prefix+"resume":
-                music.resume(message, player)
-                break;
-            case prefix+"progress":
-                music.progress(message, player)
-                break;
-            case prefix+"help":
-                core.help(message.channel, Discord)
-                break;
+client.on("message", message => {
+    //If message is not meant for us, ignore it
+    if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    //Work out the command that was sent
+    const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const command = args.shift().toLowerCase();
+
+    //Debug things
+    console.log("command recieved: " + command + " " + args);
+
+    switch(command) {
+        case "play":
+            //Play song: play [name/url]
+            music.play(message, args, player, Discord, server, prefix);
+            break;
+        case "playlist":
+            //Play playlist: playlist [name/url]
+            music.playlist(message, args, player, Discord, server, prefix);
+            break;
+        case "skip":
+            //Skips the current song: skip
+            music.skip(message, player);
+            break;
+        case "clear":
+            //Clears the queue and leaves: clear
+            music.clear(message, player);
+            break;
+        case "shuffle":
+            //Shuffles the queue: shuffle
+            music.shuffle(message, player);
+            break;
+        case "q":
+            //Shows the queue to the user: q
+            music.queue(message, player);
+            break;
+        case "queue":
+            //Shows the queue to the user: queue
+            music.queue(message, player);
+            break;
+        case "loop":
+            //Loops the current song: loop
+            music.loop(message, player);
+            break;
+        case "pause":
+            //Pauses the current song: pause
+            music.pause(message, player);
+            break;
+        case "resume":
+            //Resumes the current song: resume
+            music.resume(message, player);
+            break;
+        case "progress":
+            //Shows a progress bar for the current song: progress
+            music.progress(message, player);
+            break;
+        case "help":
+            //Shows a help embed for new users: help
+            core.help(message, Discord);
+            break;
+        default:
+            //Shows an error message
+            core.unknown(message, Discord, command);
+            break;
         }
-    }
-});
+    });
 
-
+//Log the bot in with the token provided
 client.login(token); 
