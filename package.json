@@ -12,6 +12,7 @@
     "discord-music-player": "^6.4.1",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
-    "opusscript": "0.0.7"
+    "opusscript": "0.0.7",
+    "request": "^2.81.0"
   }
 }

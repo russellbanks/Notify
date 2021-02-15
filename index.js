@@ -11,6 +11,10 @@ const { Player }  = require("discord-music-player");
 const Core = require('./core');
 var core = new Core();
 
+//Space commands library
+const Space = require('./space');
+var space = new Space();
+
 //Music commands library
 const Music = require('./music');
 var music = new Music();
@@ -116,6 +120,10 @@ client.on("message", message => {
         case "progress":
             //Shows a progress bar for the current song: progress
             music.progress(message, player);
+            break;
+        case "rover":
+            //Shows a mars rover picture: rover
+            space.rover(message, Discord, args);
             break;
         case "help":
             //Shows a help embed for new users: help
