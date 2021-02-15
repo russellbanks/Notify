@@ -38,7 +38,7 @@ module.exports = class Space{
                         { name: 'Sol Date', value: photo.sol, inline: true },
                         { name: 'Camera Name', value: photo.camera.name, inline: true }
                     )
-                    .setFooter('Data provided by **NASA**', 'https://logo.clearbit.com/nasa.gov');
+                    .setFooter('Data provided by NASA', 'https://logo.clearbit.com/nasa.gov');
                 //Send the command to the channel where the message was recieved
                 message.channel.send(embed);
             }catch{
