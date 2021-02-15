@@ -5,10 +5,6 @@ require('dotenv').config();
 const request = require('request');
 
 //Get setting variables
-const server = process.env.SERVER;
-const prefix = process.env.PREFIX;
-const name = process.env.NAME;
-const pfp = process.env.PFP;
 const color = process.env.COLOR;
 const nasakey = process.env.NASAKEY;
 
