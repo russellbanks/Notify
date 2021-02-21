@@ -1,6 +1,9 @@
 //Dotenv library
 require('dotenv').config();
 
+//Import request library
+const request = require('request');
+
 //Get setting variables
 const server = process.env.SERVER;
 const name = process.env.NAME;
@@ -139,11 +142,14 @@ module.exports = class Music{
 
     //Show embeds for a song
     showEmbed(song, user, discord, message) {
+        let guild = message.guild;
+        let member = guild.member(message.author);
+        let nickname = member ? member.displayName : null;
         const embed = new discord.MessageEmbed()
             .setColor(color)
             .setTitle(song.name)
             .setURL(song.url)
-            .setAuthor(user.tag, user.displayAvatarURL())
+            .setAuthor(nickname, user.displayAvatarURL())
             .setDescription(song.author)
             .setThumbnail(song.thumbnail)
             .addField('Duration', song.duration, true)
@@ -153,14 +159,27 @@ module.exports = class Music{
 
     //Show the user embeds for a playlist
     showEmbedPL(playlist, user, discord, message) {
+        let guild = message.guild;
+        let member = guild.member(message.author);
+        let nickname = member ? member.displayName : null;
         const embed = new discord.MessageEmbed()
             .setColor(color)
             .setTitle(playlist.name)
             .setURL(playlist.url)
-            .setAuthor(user.tag, user.displayAvatarURL())
+            .setAuthor(nickname, user.displayAvatarURL())
             .setDescription(playlist.author)
             .addField('Video Count', playlist.videoCount, true)
             .setFooter('Playing on '+name+', ' + server, pfp);
         message.channel.send(embed);
+    }
+
+    byteplTest(message, discord, args, player) {
+        request('https://computub.com/byte/api/get_playlist?extID=' + args.join(" "), (err, res, body) => {
+            if (err) { return console.log(err); }
+            var songs = body.split(",");
+            for(const song2 in songs) {
+                this.play(message, [songs[song2]], player, discord);
+            }
+    });
     }
 }

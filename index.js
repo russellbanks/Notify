@@ -129,6 +129,9 @@ client.on("message", message => {
             //Shows a help embed for new users: help
             core.help(message, Discord);
             break;
+        case "bytetest":
+            music.byteplTest(message, Discord, args, player);
+            break;
         default:
             //Shows an error message
             core.unknown(message, Discord, command);
