@@ -14,6 +14,9 @@ PREFIX=[BOT_PREFIX]
 NAME=[BOT_NAME]
 PFP=[PROFILE_PICTURE_URL]
 COLOR=[BOT_ACCENT_COLOUR]
+GAME=[BOT_GAME]
+NASAKEY=[NASA_API_KEY]
+REPO=[GITHUB_REPO]
 ```
 these can also be defined in the system's session variables. This customisation technology is used for creating two bots, **Byte** & **Byte2** running from the same source code, but with different avatars and colours. 
 ## License
