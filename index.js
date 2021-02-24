@@ -135,6 +135,7 @@ client.on("message", message => {
         case "debug":
             //Shows all the debug info for the sever
             core.debug(message, Discord, client);
+            break;
         default:
             //Shows an error message
             core.unknown(message, Discord, command);

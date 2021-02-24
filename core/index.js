@@ -62,13 +62,15 @@ module.exports = class Core{
         const embed = new discord.MessageEmbed()
             .setColor(color)
             .setTitle("Debug Information")
-            .addFields("Prefix", prefix, true)
-            .addFields("Name", name, true)
-            .addFields("Colour", color, true)
-            .addFields("Game", game, true)
-            .addFields("Hosting Server", server, true)
-            .addFields("Repository", repo, true)
-            .addFields("Server Count", client.guilds.size, true)
+            .addFields(
+                { name: 'Prefix', value: prefix, inline: true},
+                { name: 'Name', value: name, inline: true },
+                { name: 'Colour', value: color, inline: true },
+                { name: 'Game', value: game, inline: true },
+                { name: 'Hosting Server', value: server, inline: true },
+                { name: 'Repository', value: repo, inline: true },
+                { name: 'Server Count', value: client.guilds.size, inline: true }
+            )
             .setFooter('Handled by '+name+', ' + server, pfp);
 
         //Send the command to the channel where the message was recieved
