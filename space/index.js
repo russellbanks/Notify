@@ -47,9 +47,7 @@ module.exports = class Space{
                     embed.setDescription('Spirit stopped communicating before this date due to getting stuck in a sand trap');
                 }else if(date >= '2018-6-10' && rover == 'opportunity') {
                     embed.setDescription('Opportunity stopped communicating before this date due to severe dust storms');
-                }else if(rover == "perseverance") {
-                    embed.setDescription('The perseverance rover has not yet touched down on mars');
-                }else if(rover != 'spirit' || rover != 'opportunity' || rover != 'curiosity') {
+                }else if(rover != 'spirit' && rover != 'opportunity' && rover != 'curiosity' && rover != 'perseverance') {
                     embed.setDescription('Unkown rover **' + rover + '**');
                 }else {
                     embed.setDescription('Unknown error occurred');
