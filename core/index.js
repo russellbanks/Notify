@@ -69,7 +69,7 @@ module.exports = class Core{
                 { name: 'Game', value: game, inline: true },
                 { name: 'Hosting Server', value: server, inline: true },
                 { name: 'Repository', value: repo, inline: true },
-                { name: 'Server Count', value: client.guilds.size, inline: true }
+                { name: 'Server Count', value: client.guilds.cache.size, inline: true }
             )
             .setFooter('Handled by '+name+', ' + server, pfp);
 
