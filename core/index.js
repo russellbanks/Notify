@@ -7,6 +7,8 @@ const prefix = process.env.PREFIX;
 const name = process.env.NAME;
 const pfp = process.env.PFP;
 const color = process.env.COLOR;
+const game = process.env.GAME;
+const repo = process.env.REPO;
 
 //The class that will be accessed by index.js
 module.exports = class Core{
@@ -46,6 +48,27 @@ module.exports = class Core{
             .setColor(color)
             .setTitle("Error!")
             .setDescription("The command **" + command + "** couldn't be found here!")
+            .setFooter('Handled by '+name+', ' + server, pfp);
+
+        //Send the command to the channel where the message was recieved
+        message.channel.send(embed);
+    }
+
+    //Debug info
+    debug(message, discord, client) {
+        //Send a text message first for people with embeds disabled
+        message.channel.send("Debug info:");
+        //Create a nice embed to send back to tell the user all the debug info
+        const embed = new discord.MessageEmbed()
+            .setColor(color)
+            .setTitle("Debug Information")
+            .addFields("Prefix", prefix, true)
+            .addFields("Name", name, true)
+            .addFields("Colour", color, true)
+            .addFields("Game", game, true)
+            .addFields("Hosting Server", server, true)
+            .addFields("Repository", repo, true)
+            .addFields("Server Count", client.guilds.size, true)
             .setFooter('Handled by '+name+', ' + server, pfp);
 
         //Send the command to the channel where the message was recieved

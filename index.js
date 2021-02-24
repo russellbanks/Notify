@@ -132,6 +132,9 @@ client.on("message", message => {
         case "bytetest":
             music.byteplTest(message, Discord, args, player);
             break;
+        case "debug":
+            //Shows all the debug info for the sever
+            core.debug(message, Discord, client);
         default:
             //Shows an error message
             core.unknown(message, Discord, command);
