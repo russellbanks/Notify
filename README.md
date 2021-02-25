@@ -22,7 +22,7 @@ these can also be defined in the system's session variables. This customisation 
 ## License
 ```
 Byte
-Copyright © 2021 Jack Devey
+Copyright © 2021 BanDev
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
