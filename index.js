@@ -26,7 +26,7 @@ const prefix = process.env.PREFIX;
 const name = process.env.NAME;
 const pfp = process.env.PFP;
 const color = process.env.COLOR;
-const game = process.env.GAME;
+const url = process.env.URL;
 
 //New discord client instance
 const client = new Discord.Client();
@@ -46,8 +46,20 @@ client.player = player;
 
 //When client logs successfully in
 client.once("ready", () => {
-    //Set the game to what is provided in env variables
-    client.user.setActivity(game);
+    //Set the game based on how many servers the bot is in
+    client.user.setPresence({
+        status: 'online',
+        activity: {
+            name: "in " + client.guilds.cache.size + " servers | " + url,
+            type: "PLAYING",
+        }
+    })
+
+    //Discord / commands to help people
+    client.api.applications(client.user.id).commands.post({data: {
+        name: name+'Help',
+        description: 'Get help and commands for ' + name + ' bot.'
+    }})
 
     //Show debug information in the console for turn on
     console.log("Build Successful");
@@ -55,11 +67,12 @@ client.once("ready", () => {
     console.log("Configured variables:");
     console.log("=========================");
     console.log("server: " + server);
+    console.log("server_count: " + client.guilds.cache.size);
     console.log("prefix: " + prefix);
     console.log("name: " + name);
     console.log("pfp: " + pfp);
     console.log("color: " + color);
-    console.log("playing: " + game);
+    console.log("url: " + url);
     console.log("=========================");
     console.log("Waiting for commands:");
     console.log("=========================");
