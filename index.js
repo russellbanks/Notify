@@ -92,11 +92,15 @@ client.on("message", message => {
     switch(command) {
         case "play":
             //Play song: play [name/url]
-            music.play(message, args, player, Discord, server, prefix);
+            music.play(message, args, player, Discord, server, prefix, false);
             break;
         case "playlist":
             //Play playlist: playlist [name/url]
             music.playlist(message, args, player, Discord, server, prefix);
+            break;
+        case "byteplaylist":
+            //Play a byte playlist [extID]
+            music.byteplTest(message, Discord, args, player);
             break;
         case "skip":
             //Skips the current song: skip
@@ -141,9 +145,6 @@ client.on("message", message => {
         case "help":
             //Shows a help embed for new users: help
             core.help(message, Discord);
-            break;
-        case "bytetest":
-            music.byteplTest(message, Discord, args, player);
             break;
         case "debug":
             //Shows all the debug info for the sever
