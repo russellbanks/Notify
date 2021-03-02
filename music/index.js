@@ -11,7 +11,7 @@ const color = process.env.COLOR;
 module.exports = class Music{
 
     //When the user wants to play a song
-    async play(message, args, player, discord, headless){
+    async play(message, args, player, discord){
         //Join the arguments into a string
         args = args.join(" ")
 
@@ -28,10 +28,9 @@ module.exports = class Music{
             let song = await player.addToQueue(message.guild.id, args);
             song = song.song;
             //Tell the user the song has been added to the queue
-            if(headless == false){
-                message.channel.send(`Song ${song.name} was added to the queue:`);
-                this.showEmbed(song, message.author, discord, message)
-            }
+            message.channel.send(`Song ${song.name} was added to the queue:`);
+            this.showEmbed(song, message.author, discord, message)
+            
         } else {
             //Else, play the song
             let song = await player.play(message.member.voice.channel, args);

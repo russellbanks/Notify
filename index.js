@@ -92,7 +92,7 @@ client.on("message", message => {
     switch(command) {
         case "play":
             //Play song: play [name/url]
-            music.play(message, args, player, Discord, server, prefix, false);
+            music.play(message, args, player, Discord, server, prefix);
             break;
         case "playlist":
             //Play playlist: playlist [name/url]
