@@ -28,7 +28,7 @@ module.exports = class Music{
             let song = await player.addToQueue(message.guild.id, args);
             song = song.song;
             //Tell the user the song has been added to the queue
-            if(!headless){
+            if(headless == false){
                 message.channel.send(`Song ${song.name} was added to the queue:`);
                 this.showEmbed(song, message.author, discord, message)
             }
