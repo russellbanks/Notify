@@ -30,13 +30,16 @@ module.exports = class Music{
             //Tell the user the song has been added to the queue
             message.channel.send(`Song ${song.name} was added to the queue:`);
             this.showEmbed(song, message.author, discord, message)
+            
         } else {
             //Else, play the song
             let song = await player.play(message.member.voice.channel, args);
             song = song.song;
             //Tell the user the song is now playing
-            message.channel.send(`Started playing ${song.name}:`);
-            this.showEmbed(song, message.author, discord, message)
+            if(!headless){
+                message.channel.send(`Started playing ${song.name}:`);
+                this.showEmbed(song, message.author, discord, message)
+            }
         }
     }
 
@@ -181,7 +184,7 @@ module.exports = class Music{
         var title = response[0]
         var songs = response[2].split(",");
         for(const song2 in songs) {
-            await this.play(message, [songs[song2]], player, discord);
+            await this.play(message, [songs[song2]], player, discord, true);
         }
         message.channel.send("Started playing Byte playlist: **" + title + "**");
         //Show a custom embed for this
