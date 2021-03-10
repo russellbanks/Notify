@@ -100,7 +100,7 @@ client.on("message", message => {
             break;
         case "byteplaylist":
             //Play a byte playlist [extID]
-            music.bytepl(message, Discord, args, player);
+            music.byteplTest(message, Discord, args, player);
             break;
         case "skip":
             //Skips the current song: skip
