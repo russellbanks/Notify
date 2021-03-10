@@ -1,6 +1,9 @@
 //Dotenv library
 require('dotenv').config();
 
+//Import request library
+const request = require('request');
+
 //Get setting variables
 const server = process.env.SERVER;
 const name = process.env.NAME;
@@ -11,14 +14,12 @@ const color = process.env.COLOR;
 module.exports = class Music{
 
     //When the user wants to play a song
-    async play(message, args, player, discord, headless){
+    async play(message, args, player, discord){
         //Join the arguments into a string
         args = args.join(" ")
 
-        //Sanitse the inputs to be something that the bot can understand
+        //If its a yt music link, convert to normal yt
         if(args.startsWith("https://music.youtube")){
-            args = args.replace("music.", "")
-        }else if(args.startsWith("https://www.youtube")){
             args = args.replace("music.", "")
         } 
         
@@ -28,19 +29,15 @@ module.exports = class Music{
             let song = await player.addToQueue(message.guild.id, args);
             song = song.song;
             //Tell the user the song has been added to the queue
-            if(!headless){
-                message.channel.send(`Song ${song.name} was added to the queue:`);
-                this.showEmbed(song, message.author, discord, message)
-            }
+            message.channel.send(`Song ${song.name} was added to the queue:`);
+            this.showEmbed(song, message.author, discord, message)
         } else {
             //Else, play the song
             let song = await player.play(message.member.voice.channel, args);
             song = song.song;
             //Tell the user the song is now playing
-            if(!headless){
-                message.channel.send(`Started playing ${song.name}:`);
-                this.showEmbed(song, message.author, discord, message)
-            }
+            message.channel.send(`Started playing ${song.name}:`);
+            this.showEmbed(song, message.author, discord, message)
         }
     }
 
@@ -117,10 +114,8 @@ module.exports = class Music{
         //Join the arguments into a string
         args = args.join(" ")
 
-        //Sanitse the inputs to be something that the bot can understand
+        //If its a yt music link, convert to normal yt
         if(args.startsWith("https://music.youtube")){
-            args = args.replace("music.", "")
-        }else if(args.startsWith("https://www.youtube")){
             args = args.replace("music.", "")
         } 
 
@@ -178,27 +173,13 @@ module.exports = class Music{
         message.channel.send(embed);
     }
 
-    async bytepl(message, discord, args, player) {
-        var request = require('sync-request');
-        var res = request('GET', 'https://computub.com/byte/api/get_playlist?extID=' + args.join(" "));
-        var response = res.getBody().toString().split("[][]")
-        var title = response[0]
-        var songs = response[2].split(",");
-        for(const song2 in songs) {
-            await this.play(message, [songs[song2]], player, discord, true);
-        }
-        message.channel.send("Started playing Byte playlist: **" + title + "**");
-        //Show a custom embed for this
-        let guild = message.guild;
-        let member = guild.member(message.author);
-        let nickname = member ? member.displayName : null;
-        const embed = new discord.MessageEmbed()
-            .setColor(color)
-            .setTitle(title)
-            .setURL("https://computub.com/byte/dashboard/playlist/view?extID=" + args.join(" "))
-            .setAuthor(nickname, member.user.displayAvatarURL())
-            .addField('Video Count', songs.length, true)
-            .setFooter('Playing on '+name+', ' + server, pfp);
-        message.channel.send(embed);
+    byteplTest(message, discord, args, player) {
+        request('https://computub.com/byte/api/get_playlist?extID=' + args.join(" "), (err, res, body) => {
+            if (err) { return console.log(err); }
+            var songs = body.split(",");
+            for(const song2 in songs) {
+                this.play(message, [songs[song2]], player, discord);
+            }
+    });
     }
 }
