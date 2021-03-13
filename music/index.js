@@ -18,33 +18,40 @@ module.exports = class Music{
         //Join the arguments into a string
         args = args.join(" ")
 
+        if (args == "") {
+            message.channel.send(`Unknown song`);
+            return;
+        }
+
         //If its a yt music link, convert to normal yt
         if(args.startsWith("https://music.youtube")){
             args = args.replace("music.", "")
         } 
         
         //If a song is currently playing
-        if(player.isPlaying(message.guild.id)){
+        if(player.isPlaying(message)){
             //Add the song to the queue
-            let song = await player.addToQueue(message.guild.id, args);
-            song = song.song;
+            let song = await player.addToQueue(message, args);
             //Tell the user the song has been added to the queue
-            message.channel.send(`Song ${song.name} was added to the queue:`);
-            this.showEmbed(song, message.author, discord, message)
+            if(song) {
+                message.channel.send(`Song ${song.name} was added to the queue:`);
+                this.showEmbed(song, message.author, discord, message);
+            } else { message.channel.send(`Unknown song : ` + args); }
         } else {
             //Else, play the song
-            let song = await player.play(message.member.voice.channel, args);
-            song = song.song;
+            let song = await player.play(message, args);
             //Tell the user the song is now playing
-            message.channel.send(`Started playing ${song.name}:`);
-            this.showEmbed(song, message.author, discord, message)
+            if(song) {
+                message.channel.send(`Started playing ${song.name}:`);
+                this.showEmbed(song, message.author, discord, message);
+            } else { message.channel.send(`Unknown song : ` + args); }
         }
     }
 
     //When the user wants to skip a song
     async skip(message, player) {
         //Skip the song
-        let song = await player.skip(message.guild.id);
+        let song = await player.skip(message);
         //Alert the user the song has been skipped
         message.channel.send(`${song.name} was skipped!`);
     }
@@ -52,7 +59,7 @@ module.exports = class Music{
     //When the user wants to clear the queue
     clear(message, player) {
         //Clear the queue
-        player.stop(message.guild.id);
+        player.stop(message);
         //Alert the user the queue has been cleared
         message.channel.send('Music stopped, the Queue was cleared!');
     }
@@ -60,7 +67,7 @@ module.exports = class Music{
     //When the user wants to shuffle the queue
     shuffle(message, player) {
         //Shuffle the queue
-        player.shuffle(message.guild.id);
+        player.shuffle(message);
         //Alert the user the queue has been shuffled
         message.channel.send('Server Queue was shuffled.');
     }
@@ -68,7 +75,7 @@ module.exports = class Music{
     //When the user wants to list the queue
     async queue(message, player) {
         //Get the queue
-        let queue = await player.getQueue(message.guild.id);
+        let queue = await player.getQueue(message);
         //Loop through it and alert the user
         message.channel.send('Queue:\n'+(queue.songs.map((song, i) => {
             return `${i === 0 ? 'Now Playing' : `#${i+1}`} - ${song.name} | ${song.author}`
@@ -78,7 +85,7 @@ module.exports = class Music{
     //When the user wants to loop a song
     loop(message, player) {
         //Find if it has been looped already
-        let toggle = player.toggleLoop(message.guild.id);
+        let toggle = player.toggleLoop(message);
         //Turn loop on
         if (toggle) message.channel.send('I will now repeat the current playing song.');
         //Turn loop off
@@ -88,7 +95,7 @@ module.exports = class Music{
     //When the user pauses a song
     async pause(message, player) {
         //Pause the song
-        let song = await player.pause(message.guild.id);
+        let song = await player.pause(message);
         //Alert the user
         message.channel.send(`${song.name} was paused!`);
     }
@@ -96,7 +103,7 @@ module.exports = class Music{
     //When the user resumes a song
     async resume(message, player) {
         //Pause the song
-        let song = await player.resume(message.guild.id);
+        let song = await player.resume(message);
         //Alert the user
         message.channel.send(`${song.name} was paused!`);
     }
@@ -104,7 +111,7 @@ module.exports = class Music{
     //When the user wants a progress bar
     progress(message, player) {
         //Create the bar
-        let progressBar = player.createProgressBar(message.guild.id, 20);
+        let progressBar = player.createProgressBar(message, 20);
         //Send it to the user
         message.channel.send(progressBar);
     }
@@ -119,25 +126,21 @@ module.exports = class Music{
             args = args.replace("music.", "")
         } 
 
-        //If the song is playing now
-        let isPlaying = player.isPlaying(message.guild.id);
-        //If MaxSongs is -1, will be infinite.
-        let playlist = await player.playlist(message.guild.id, args, message.member.voice.channel, -1, message.author.tag);
-
-        //Determine the Song (only if the music was not playing previously)
-        let song = playlist.song;
-        //Get the Playlist
-        playlist = playlist.playlist;
-
-        //Send information about adding the Playlist to the Queue
-        message.channel.send(`Added ${playlist.name} to the queue`)
-        this.showEmbedPL(playlist, message.author, discord, message)
-
-        //If there was no songs previously playing, send a message about playing one.
-        if (!isPlaying) {
-            message.channel.send(`Started playing ${song.name}`);
-            this.showEmbed(song, message.author, discord, message)
-        }
+        await player.playlist(message, {
+            search: args,
+            maxSongs: -1        
+        });
+        
+        let guild = message.guild;
+        let member = guild.member(message.author);
+        let nickname = member ? member.displayName : null;
+        const embed = new discord.MessageEmbed()
+            .setColor(color)
+            .setTitle("Requesting playlist information...")
+            .setAuthor(nickname, user.displayAvatarURL())
+            .setDescription(args)
+            .setFooter('Handled on '+name+', ' + server, pfp);
+        message.channel.send(embed);
     }
 
     //Show embeds for a song

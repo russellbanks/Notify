@@ -9,7 +9,7 @@
   "author": "Jack Devey",
   "license": "GPL-3.0",
   "dependencies": {
-    "discord-music-player": "^6.4.1",
+    "discord-music-player": "^7.0.0",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "opusscript": "0.0.7",

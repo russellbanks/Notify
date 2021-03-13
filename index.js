@@ -78,6 +78,9 @@ client.once("ready", () => {
     console.log("=========================");
 });
 
+client.player.on('playlistAdd',  (message, queue, playlist) => 
+        message.channel.send(`${playlist.name} playlist with ${playlist.videoCount} songs has been added to the queue!`));
+
 client.on("message", message => {
     //If message is not meant for us, ignore it
     if (!message.content.startsWith(prefix) || message.author.bot) return;
