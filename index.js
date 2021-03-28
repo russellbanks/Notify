@@ -163,9 +163,11 @@ client.on("message", message => {
 // On voice state canged
 client.on('voiceStateUpdate', (oldMember, newMember) => {
     // If parent bot is present, do nothing
-    if(newMember.guild.members.fetch(parentId)) {
-        console.log("Handled by parent bot: " + parentId)
-        return;
+    if(parentId != "null") {
+        if(newMember.guild.members.fetch(parentId)) {
+            console.log("Handled by parent bot: " + parentId)
+            return;
+        }
     }
 
     let newUserChannel = newMember.channelID;
