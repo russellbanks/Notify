@@ -1,8 +1,8 @@
 //Dotenv library
-require('dotenv').config();
+require("dotenv").config();
 
 //Import request library
-const request = require('request');
+const request = require("request");
 
 //Get setting variables
 const server = process.env.SERVER;
@@ -16,16 +16,16 @@ module.exports = class Music{
     //When the user wants to play a song
     async play(message, args, player, discord){
         //Join the arguments into a string
-        args = args.join(" ")
+        args = args.join(" ");
 
-        if (args == "") {
+        if (args === "") {
             message.channel.send(`Unknown song`);
             return;
         }
 
         //If its a yt music link, convert to normal yt
         if(args.startsWith("https://music.youtube")){
-            args = args.replace("music.", "")
+            args = args.replace("music.", "");
         } 
         
         //If a song is currently playing
@@ -36,7 +36,7 @@ module.exports = class Music{
             if(song) {
                 message.channel.send(`Song ${song.name} was added to the queue:`);
                 this.showEmbed(song, message.author, discord, message);
-            } else { message.channel.send(`Unknown song : ` + args); }
+            } else { message.channel.send("Unknown song : " + args); }
         } else {
             //Else, play the song
             let song = await player.play(message, args);
@@ -44,7 +44,7 @@ module.exports = class Music{
             if(song) {
                 message.channel.send(`Started playing ${song.name}:`);
                 this.showEmbed(song, message.author, discord, message);
-            } else { message.channel.send(`Unknown song : ` + args); }
+            } else { message.channel.send("Unknown song : " + args); }
         }
     }
 
@@ -61,7 +61,7 @@ module.exports = class Music{
         //Clear the queue
         player.stop(message);
         //Alert the user the queue has been cleared
-        message.channel.send('Music stopped, the Queue was cleared!');
+        message.channel.send("Music stopped, the Queue was cleared!");
     }
 
     //When the user wants to shuffle the queue
@@ -69,7 +69,7 @@ module.exports = class Music{
         //Shuffle the queue
         player.shuffle(message);
         //Alert the user the queue has been shuffled
-        message.channel.send('Server Queue was shuffled.');
+        message.channel.send("Server Queue was shuffled.");
     }
 
     //When the user wants to list the queue
@@ -77,8 +77,8 @@ module.exports = class Music{
         //Get the queue
         let queue = await player.getQueue(message);
         //Loop through it and alert the user
-        message.channel.send('Queue:\n'+(queue.songs.map((song, i) => {
-            return `${i === 0 ? 'Now Playing' : `#${i+1}`} - ${song.name} | ${song.author}`
+        message.channel.send("Queue:\n"+(queue.songs.map((song, i) => {
+            return `${i === 0 ? "Now Playing" : `#${i+1}`} - ${song.name} | ${song.author}`
         }).join('\n')), { split: true });
     }
 
@@ -87,9 +87,11 @@ module.exports = class Music{
         //Find if it has been looped already
         let toggle = player.toggleLoop(message);
         //Turn loop on
-        if (toggle) message.channel.send('I will now repeat the current playing song.');
+        if (toggle) {
+            message.channel.send("I will now repeat the current playing song."); 
+        }
         //Turn loop off
-        else message.channel.send('I will not longer repeat the current playing song.');
+        else message.channel.send("I will not longer repeat the current playing song.");
     }
 
     //When the user pauses a song
@@ -137,9 +139,9 @@ module.exports = class Music{
         const embed = new discord.MessageEmbed()
             .setColor(color)
             .setTitle("Requesting playlist information...")
-            .setAuthor(nickname, user.displayAvatarURL())
+            .setAuthor(nickname, message.author.displayAvatarURL())
             .setDescription(args)
-            .setFooter('Handled on '+name+', ' + server, pfp);
+            .setFooter("Handled on "+name+", " + server, pfp);
         message.channel.send(embed);
     }
 
@@ -156,7 +158,7 @@ module.exports = class Music{
             .setDescription(song.author)
             .setThumbnail(song.thumbnail)
             .addField('Duration', song.duration, true)
-            .setFooter('Playing on '+name+', ' + server, pfp);
+            .setFooter("Playing on "+name+", " + server, pfp);
         message.channel.send(embed);
     }
 
@@ -171,13 +173,13 @@ module.exports = class Music{
             .setURL(playlist.url)
             .setAuthor(nickname, user.displayAvatarURL())
             .setDescription(playlist.author)
-            .addField('Video Count', playlist.videoCount, true)
-            .setFooter('Playing on '+name+', ' + server, pfp);
+            .addField("Video Count", playlist.videoCount, true)
+            .setFooter("Playing on "+name+", " + server, pfp);
         message.channel.send(embed);
     }
 
     byteplTest(message, discord, args, player) {
-        request('https://computub.com/byte/api/get_playlist?extID=' + args.join(" "), (err, res, body) => {
+        request("https://computub.com/byte/api/get_playlist?extID=" + args.join(" "), (err, res, body) => {
             if (err) { return console.log(err); }
             var songs = body.split(",");
             for(const song2 in songs) {

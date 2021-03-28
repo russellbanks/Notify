@@ -27,6 +27,7 @@ const name = process.env.NAME;
 const pfp = process.env.PFP;
 const color = process.env.COLOR;
 const url = process.env.URL;
+const parentId = process.env.PARENTID;
 
 //New discord client instance
 const client = new Discord.Client();
@@ -158,6 +159,42 @@ client.on("message", message => {
             break;
         }
     });
+
+// On voice state canged
+client.on('voiceStateUpdate', (oldMember, newMember) => {
+    // If parent bot is present, do nothing
+    if(newMember.guild.members.fetch(parentId)) {
+        console.log("Handled by parent bot: " + parentId)
+        return;
+    }
+
+    let newUserChannel = newMember.channelID;
+    let oldUserChannel = oldMember.channelID;
+        
+    console.log(newUserChannel);
+    if(oldUserChannel == undefined && newUserChannel != undefined && newMember.member.user.bot != true) {
+    
+        // User Joins a voice channel
+        const channel = newMember.guild.channels.cache.find(channel => channel.name === "vcupdates");
+    
+        let guild = newMember.guild;
+        let member = guild.member(newMember.member.user);
+        let nickname = member ? member.displayName : null;
+    
+        const exampleEmbed = new Discord.MessageEmbed()
+            .setColor(color)
+            .setTitle(nickname + ' just joined ' + newMember.channel.name)
+            .setAuthor(nickname, newMember.member.user.displayAvatarURL())
+            .setTimestamp();
+    
+        channel.send(exampleEmbed);
+       
+    } else if(newUserChannel === undefined && oldUserChannel != undefined){
+       
+        // User leaves a voice channel
+       
+    }
+})
 
 //Log the bot in with the token provided
 client.login(token); 

@@ -3,11 +3,11 @@ Just another discord bot made in node.js. It's pretty cool though.
 
 ## Setup
 Once you have downloaded the source code for Byte, you must run 
-```
+```bash
 npm install
 ```
 to install all of the latest dependencies required for Byte to run. After that, create a file called `.env` in the root directory of the source code. The file needs look like this:
-```
+```txt
 TOKEN=[YOUR_BOT_TOKEN]
 SERVER=[NAME_OF_SERVER]
 PREFIX=[BOT_PREFIX]
