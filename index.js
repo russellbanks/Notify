@@ -94,6 +94,10 @@ client.on("message", message => {
     console.log("command recieved: " + command + " " + args);
 
     switch(command) {
+        case "say":
+            //Play song: play [name/url]
+            message.channel.send(args);
+            break;
         case "play":
             //Play song: play [name/url]
             music.play(message, args, player, Discord, server, prefix);
