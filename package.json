@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Just another discord bot made in node.js. It's pretty cool though.",
   "main": "index.js",
+  "engines": {
+    "node": "16.7.0"
+  },
   "scripts": {
     "test": "node ."
   },
