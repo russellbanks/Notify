@@ -89,6 +89,7 @@ bot.on('message', message => {
           otherMembers.push(member.displayName)
         }
       });
+
       var numbers = members.size - otherMembers.length - 1
       if(numbers == 1) {
         var other = "other"
@@ -96,6 +97,7 @@ bot.on('message', message => {
         var other = "others"
       }
       var membersOut;
+
       if(otherMembers.length == 1) {
         membersOut = "with " + otherMembers[0];
       }else if(otherMembers == 0) {
@@ -105,10 +107,8 @@ bot.on('message', message => {
         otherMembers.pop();
         membersOut = "with " + otherMembers.join(", ") + " and " + final
       }
-      channel.send("@everyone, " + nickname + " is in **" + member.voice.channel.name + "** " + membersOut)
+      message.lineReplyNoMention("@everyone, " + nickname + " is in **" + member.voice.channel.name + "** " + membersOut)
     }else {
-      
-    
       message.reply("you must be in a voice channel to run this command")
     }
   }
