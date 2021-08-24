@@ -1,43 +1,39 @@
-
-
-const Discord = require("discord.js");
-
-const intents = [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_MEMBERS,
-    Discord.Intents.FLAGS.GUILD_BANS,
-    Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-    Discord.Intents.FLAGS.GUILD_INTEGRATIONS,
-    Discord.Intents.FLAGS.GUILD_WEBHOOKS,
-    Discord.Intents.FLAGS.GUILD_INVITES,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-    Discord.Intents.FLAGS.GUILD_PRESENCES,
-    Discord.Intents.FLAGS.GUILD_MESSAGES,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.GUILD_MESSAGE_TYPING,
-    Discord.Intents.FLAGS.DIRECT_MESSAGES,
-    Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-    Discord.Intents.FLAGS.DIRECT_MESSAGE_TYPING
-];
-
-const bot = new Discord.Client({ intents: intents });
-
+// Import environment variables.
 require('dotenv').config();
 
-bot.login(process.env.TOKEN)
+// Import Discord.js library
+const Discord = require("discord.js");
 
-bot.on('ready', () => {
-  bot.user.setStatus('available')
-  bot.user.setPresence({
-    status: 'online',
-    activity: {
-        name: "you ;)",
-        type: "LISTENING",
-    }
-  })
+// Define the intents the bot
+// will use.
+const intents = [
+    Discord.Intents.FLAGS.GUILDS,
+    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+    Discord.Intents.FLAGS.GUILD_MESSAGES
+];
+
+// Create a new client class and
+// login with token.
+const client = new Discord.Client({ intents: intents });
+client.login(process.env.TOKEN);
+
+// When an interaction gets created
+// by a user.
+client.on('interactionCreate', async interaction => {
+  // Ensure its a command
+	if (!interaction.isCommand()) return;
+
+  // Decide which interaction is 
+  // needed.
+  switch(interaction.commandName) {
+    case 'notify': require("./notify.js")(interaction); break;
+  }  
 });
 
-bot.on('voiceStateUpdate', (oldMember, newMember) => {
+// NEEDS REWRITE!!!!
+// When someone leaves or joins 
+// a VC.
+client.on('voiceStateUpdate', (oldMember, newMember) => {
     let newUserChannel = newMember.channelId
     let oldUserChannel = oldMember.channelId
     
@@ -52,8 +48,6 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
 
         let nickname = member ? member.nickname : null;
 
-        console.log(nickname);
-
         if(typeof nickname === "undefined") {
             nickname = newMember.member.user.username;
         }
@@ -67,49 +61,6 @@ bot.on('voiceStateUpdate', (oldMember, newMember) => {
         channel.send({ embeds: [exampleEmbed] })
    
      } else if(newUserChannel === undefined && oldUserChannel != undefined){
-   
-       // User leaves a voice channel
-   
+     
      }
-
-
 })
-
-bot.on('message', message => {
-  if (message.content == '/notify') {
-    if(message.member.voice.channel) {
-      const channel = bot.channels.cache.find(channel => channel.name === "vcupdates")
-
-      let member = message.member
-      let nickname = member ? member.displayName : null;
-      var members = member.voice.channel.members;
-      var otherMembers = []
-      members.forEach(member => {
-        if(member.displayName != nickname && !member.user.bot) {
-          otherMembers.push(member.displayName)
-        }
-      });
-
-      var numbers = members.size - otherMembers.length - 1
-      if(numbers == 1) {
-        var other = "other"
-      }else{
-        var other = "others"
-      }
-      var membersOut;
-
-      if(otherMembers.length == 1) {
-        membersOut = "with " + otherMembers[0];
-      }else if(otherMembers == 0) {
-        membersOut = "";
-      }else {
-        var final = otherMembers[otherMembers.length - 1];
-        otherMembers.pop();
-        membersOut = "with " + otherMembers.join(", ") + " and " + final
-      }
-      message.lineReplyNoMention("@everyone, " + nickname + " is in **" + member.voice.channel.name + "** " + membersOut)
-    }else {
-      message.reply("you must be in a voice channel to run this command")
-    }
-  }
-});
