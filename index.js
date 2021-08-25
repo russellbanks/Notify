@@ -33,34 +33,40 @@ client.on('interactionCreate', async interaction => {
 // NEEDS REWRITE!!!!
 // When someone leaves or joins 
 // a VC.
-client.on('voiceStateUpdate', (oldMember, newMember) => {
-    let newUserChannel = newMember.channelId
-    let oldUserChannel = oldMember.channelId
-    
-    console.log(newUserChannel)
-    if(oldUserChannel == undefined && newUserChannel != undefined && newMember.member.user.bot != true) {
 
-        // User Joins a voice channel
-        const channel = newMember.guild.channels.cache.find(channel => channel.name === "vcupdates");
+client.on('voiceStateUpdate', (before, updated) => {
+    // Find the channel to send the 
+    // message to.
+    let updateChannel = before.guild.channels.cache.find(channel => channel.name === "vcupdates");
 
-        let guild = newMember.guild;
-        let member = guild.members.fetch(newMember.member.id);
+    // Get the member in question.
+    let member = before.member;
 
-        let nickname = member ? member.nickname : null;
+    // If they are a bot, ignore them.
+    if(member.user.bot == true) return;
 
-        if(typeof nickname === "undefined") {
-            nickname = newMember.member.user.username;
-        }
+    // Decide on what the message should
+    // say based on if they joined or left.
+    var message;
+    if(before.channel == undefined && updated.channel != undefined) {
+      // User joined a VC
+      message = `${member.displayName} just joined ${updated.channel.name}`
+    } else if(before.channel != undefined && updated.channel == undefined) {
+      // User left a VC
+      message = `${member.displayName} just left ${before.channel.name}`
+    } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
+      // User switched VCs
+      message = `${member.displayName} just switched from ${before.channel.name} to ${updated.channel.name}`
+    }
 
-        const exampleEmbed = new Discord.MessageEmbed()
+    // Build the embed.
+    const embed = new Discord.MessageEmbed()
             .setColor('#0067f4')
-            .setTitle(nickname + ' just joined ' + newMember.channel.name)
-            .setAuthor(nickname, newMember.member.user.displayAvatarURL())
+            .setTitle(message)
+            .setAuthor(member.displayName, member.user.displayAvatarURL())
             .setTimestamp()
 
-        channel.send({ embeds: [exampleEmbed] })
-   
-     } else if(newUserChannel === undefined && oldUserChannel != undefined){
-     
-     }
+    // Send the embed in the special
+    // channel.
+    updateChannel.send({ embeds: [embed] })
 })
