@@ -2,19 +2,22 @@
 require('dotenv').config();
 
 // Import Discord.js library
-const Discord = require("discord.js");
+const discord = require("discord.js");
+
+// Import redis db
+const redis = require("./redis.js");
 
 // Define the intents the bot
 // will use.
 const intents = [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-    Discord.Intents.FLAGS.GUILD_MESSAGES
+  discord.Intents.FLAGS.GUILDS,
+  discord.Intents.FLAGS.GUILD_VOICE_STATES,
+  discord.Intents.FLAGS.GUILD_MESSAGES
 ];
 
 // Create a new client class and
 // login with token.
-const client = new Discord.Client({ intents: intents });
+const client = new discord.Client({ intents: intents });
 client.login(process.env.TOKEN);
 
 // When an interaction gets created

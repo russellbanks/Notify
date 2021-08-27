@@ -10,14 +10,13 @@ module.exports = async (interaction) => {
         return;
     }
 
-    var members = []
-
     // Get the VC that the member 
     // is in.
     let vc = member.voice.channel;
 
     // Iterate through VC members
     // and remove caller and bots.
+    var members = []
     vc.members.forEach(it => {
         if(it != member && !it.user.bot) members.push(it.displayName)
     });
