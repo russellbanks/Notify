@@ -27,13 +27,12 @@ client.on('interactionCreate', async interaction => {
   // needed.
   switch(interaction.commandName) {
     case 'notify': require("./notify.js")(interaction); break;
+    case 'setup': require("./setup.js")(interaction); break;
   }  
 });
 
-// NEEDS REWRITE!!!!
 // When someone leaves or joins 
 // a VC.
-
 client.on('voiceStateUpdate', (before, updated) => {
     // Find the channel to send the 
     // message to.
