@@ -62,7 +62,7 @@ client.on('voiceStateUpdate', (before, updated) => {
     }
 
     // Build the embed.
-    const embed = new Discord.MessageEmbed()
+    const embed = new discord.MessageEmbed()
             .setColor('#0067f4')
             .setTitle(message)
             .setAuthor(member.displayName, member.user.displayAvatarURL())
@@ -71,4 +71,4 @@ client.on('voiceStateUpdate', (before, updated) => {
     // Send the embed in the special
     // channel.
     updateChannel.send({ embeds: [embed] })
-})
+});
