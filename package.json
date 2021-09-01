@@ -2,7 +2,7 @@
   "name": "byte",
   "version": "1.0.0",
   "description": "Just another discord bot made in node.js. It's pretty cool though.",
-  "main": "index.js",
+  "main": "index.ts",
   "engines": {
     "node": "16.7.0"
   },
@@ -14,5 +14,8 @@
   "dependencies": {
     "discord.js": "13.1.0",
     "dotenv": "10.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.4.2"
   }
 }
