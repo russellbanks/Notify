@@ -56,7 +56,7 @@ client.on('voiceStateUpdate', (before, updated) => {
     } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
       // User switched VCs
       message = `${member.displayName} just switched from ${before.channel.name} to ${updated.channel.name}`
-    }
+    } else return;
 
     // Build the embed.
     const embed = new Discord.MessageEmbed()
