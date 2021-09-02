@@ -10,7 +10,10 @@ module.exports = async (interaction) => {
         return;
     }
 
-    var members = []
+    // Make an empty members
+    // list for adding things into
+    // later.
+    var members: String[] = []
 
     // Get the VC that the member 
     // is in.
@@ -24,11 +27,11 @@ module.exports = async (interaction) => {
 
     // Decide on what should be
     // said after the caller.
-    var after;
+    var after: String;
     if(members.length == 1) {
         // Just one other member
         after = `with ${members[0]}`
-    } else if(members == 0) {
+    } else if(members.length == 0) {
         // No other members :(
         after = ``;
     } else {

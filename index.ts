@@ -50,12 +50,15 @@ client.on('voiceStateUpdate', (before, updated) => {
     if(before.channel == undefined && updated.channel != undefined) {
       // User joined a VC
       message = `${member.displayName} just joined ${updated.channel.name}`
+      console.log(`${member.id} joined ${updated.channel.name}`);
     } else if(before.channel != undefined && updated.channel == undefined) {
       // User left a VC
       message = `${member.displayName} just left ${before.channel.name}`
+      console.log(`${member.id} left ${updated.channel.name}`);
     } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
       // User switched VCs
-      message = `${member.displayName} just switched from ${before.channel.name} to ${updated.channel.name}`
+      message = `${member.displayName} just switched to ${updated.channel.name}`
+      console.log(`${member.id} switched to ${updated.channel.name}`);
     } else return;
 
     // Build the embed.
@@ -63,9 +66,9 @@ client.on('voiceStateUpdate', (before, updated) => {
             .setColor('#0067f4')
             .setTitle(message)
             .setAuthor(member.displayName, member.user.displayAvatarURL())
-            .setTimestamp()
+            .setTimestamp();
 
     // Send the embed in the special
     // channel.
-    updateChannel.send({ embeds: [embed] })
+    updateChannel.send({ embeds: [embed] });
 })
