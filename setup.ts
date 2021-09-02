@@ -8,9 +8,10 @@ module.exports = async (interaction) => {
     // let them know if not.
     if (!member.permissions.has("ADMINISTRATOR")) {
         await interaction.reply({ content: `You need admin` });
+        console.log(`${member.id} SENT SETUP COMMAND [FAILED]`);
         return;
     }
 
     await interaction.reply({ content: `You are the admin` });
-     
+    console.log(`${member.id} SENT SETUP COMMAND [SUCCESS]`);
 }

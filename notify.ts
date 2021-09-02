@@ -7,6 +7,7 @@ module.exports = async (interaction) => {
     // If member is not in any VC.
     if(!member.voice.channel) {
         await interaction.reply({ content: `You must be in a VC to run this command!`, ephemeral: true });
+        console.log(`${member.id} SENT NOTIFY COMMAND [FAILED]`);
         return;
     }
 
@@ -43,4 +44,7 @@ module.exports = async (interaction) => {
 
     // Reply to the interaction.
     await interaction.reply(`@everyone, ${member.displayName} is in **${vc.name}** ${after}`);
+
+    // Log info in the console
+    console.log(`${member.id} SENT NOTIFY COMMAND [SUCCESS]`);
 }
