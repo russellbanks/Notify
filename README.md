@@ -1,9 +1,9 @@
 # Notify
-Discord VC notification bot
+Notify is a voice channel notification bot for Discord.
 
 ## License
 ```
-Byte
+Notify
 Copyright © 2021 BanDev
 
 This program is free software: you can redistribute it and/or modify
