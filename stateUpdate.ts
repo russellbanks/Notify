@@ -16,15 +16,15 @@ module.exports = (discord, before, updated) => {
     if(before.channel == undefined && updated.channel != undefined) {
       // User joined a VC
       message = `${member.displayName} just joined ${updated.channel.name}`
-      console.log(`${member.id} JOINED ${updated.channel.id}`);
+      console.log(`${member.user.tag} JOINED ${updated.channel.name}`);
     } else if(before.channel != undefined && updated.channel == undefined) {
       // User left a VC
       message = `${member.displayName} just left ${before.channel.name}`
-      console.log(`${member.id} LEFT ${before.channel.id}`);
+      console.log(`${member.user.tag} LEFT ${before.channel.name}`);
     } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
       // User switched VCs
       message = `${member.displayName} just switched to ${updated.channel.name}`
-      console.log(`${member.id} SWITCH TO ${updated.channel.id}`);
+      console.log(`${member.user.tag} SWITCH TO ${updated.channel.name}`);
     } else return;
 
     // Build the embed.
