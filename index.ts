@@ -33,8 +33,8 @@ client.on('interactionCreate', async interaction => {
   // Decide which interaction is 
   // needed.
   switch(interaction.commandName) {
-    case 'notify': require("./notify.js")(interaction); break;
-    case 'setup': require("./setup.js")(interaction); break;
+    case 'notify': require("./notify.ts")(interaction); break;
+    case 'setup': require("./setup.ts")(interaction); break;
   }  
 });
 
