@@ -50,15 +50,15 @@ client.on('voiceStateUpdate', (before, updated) => {
     if(before.channel == undefined && updated.channel != undefined) {
       // User joined a VC
       message = `${member.displayName} just joined ${updated.channel.name}`
-      console.log(`${member.id} joined ${updated.channel.name}`);
+      console.log(`${member.id} JOINED ${updated.channel.id}`);
     } else if(before.channel != undefined && updated.channel == undefined) {
       // User left a VC
       message = `${member.displayName} just left ${before.channel.name}`
-      console.log(`${member.id} left ${updated.channel.name}`);
+      console.log(`${member.id} LEFT ${before.channel.id}`);
     } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
       // User switched VCs
       message = `${member.displayName} just switched to ${updated.channel.name}`
-      console.log(`${member.id} switched to ${updated.channel.name}`);
+      console.log(`${member.id} SWITCH TO ${updated.channel.id}`);
     } else return;
 
     // Build the embed.
