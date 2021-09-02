@@ -24,7 +24,7 @@ module.exports = (discord, before, updated) => {
     } else if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
       // User switched VCs
       message = `${member.displayName} just switched to ${updated.channel.name}`
-      console.log(`${member.user.tag} SWITCH TO ${updated.channel.name}`);
+      console.log(`${member.user.tag} SWITCHED TO ${updated.channel.name}`);
     } else return;
 
     // Build the embed.
