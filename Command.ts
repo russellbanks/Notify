@@ -1,6 +1,9 @@
+import { Bot } from "./Bot";
+
 export abstract class Command {
 
-    name: String;
+    abstract name: string;
+    abstract description: string;
 
     abstract run(interaction, complete);
 

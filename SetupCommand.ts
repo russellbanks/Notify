@@ -2,6 +2,9 @@ import { Command } from "./Command";
 
 export class SetupCommand extends Command {
 
+    name = "setup"
+    description = "Begin setting up a server"
+
     async run(interaction, complete) {
         // Get the member who begun the
         // interaction.
