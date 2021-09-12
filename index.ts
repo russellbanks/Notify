@@ -1,3 +1,9 @@
+import { Bot } from "./Bot";
+import { Command } from "./Command";
+import { Client, VoiceState } from "discord.js";
+import { SetupCommand } from "./SetupCommand";
+import { stateUpdate } from "./stateUpdate";
+
 // Import environment variables.
 require('dotenv').config();
 
@@ -7,39 +13,31 @@ const Discord = require("discord.js");
 // Define the intents the bot
 // will use.
 const intents = [
-    Discord.Intents.FLAGS.GUILDS,
-    Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-    Discord.Intents.FLAGS.GUILD_MESSAGES
+  Discord.Intents.FLAGS.GUILDS,
+  Discord.Intents.FLAGS.GUILD_VOICE_STATES,
+  Discord.Intents.FLAGS.GUILD_MESSAGES
 ];
 
-// Create a new client class and
-// login with token.
-const client = new Discord.Client({ intents: intents });
-client.login(process.env.TOKEN);
+const commands: Command[] = [
+  
+]
 
-client.on("ready", () => {
+// Construct a custom Bot class
+// to deal with discord js.
+const bot = new Bot(process.env.TOKEN, intents, commands);
+
+// Begin listening to commands
+// and print information to the
+// console.
+bot.listen(function (_: Client) {
   console.log("NOTIFY BOT ONLINE");
   console.log("BanDev | 1.0.0");
   console.log("===");
   console.log("AWAITING COMMANDS...");
 });
 
-// When an interaction gets created
-// by a user.
-client.on('interactionCreate', async interaction => {
-  // Ensure its a command
-	if (!interaction.isCommand()) return;
-
-  // Decide which interaction is 
-  // needed.
-  switch(interaction.commandName) {
-    case 'notify': require("./notify.ts")(interaction); break;
-    case 'setup': require("./setup.ts")(interaction); break;
-  }  
+// When something changes in a
+// Voice Channel.
+bot.vcUpdate(function (before: VoiceState, after: VoiceState) {
+  stateUpdate(Discord, before, after); 
 });
-
-// When someone leaves or joins 
-// a VC.
-client.on('voiceStateUpdate', (before, updated) => { 
-  require("./stateUpdate.ts")(Discord, before, updated); 
-})

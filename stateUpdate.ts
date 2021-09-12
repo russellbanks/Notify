@@ -1,6 +1,5 @@
-module.exports = (discord, before, updated) => {
-    
-    // Find the channel to send the 
+export function stateUpdate(discord, before, updated) {
+  // Find the channel to send the 
     // message to.
     let updateChannel = before.guild.channels.cache.find(channel => channel.name === "vcupdates");
 
