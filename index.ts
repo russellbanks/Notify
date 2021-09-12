@@ -19,7 +19,7 @@ const intents = [
 ];
 
 const commands: Command[] = [
-  new SetupCommand()
+  
 ]
 
 // Construct a custom Bot class

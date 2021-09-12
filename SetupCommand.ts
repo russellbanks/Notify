@@ -5,7 +5,7 @@ export class SetupCommand extends Command {
     name = "setup"
     description = "Begin setting up a server"
 
-    async run(interaction, complete) {
+    async run(interaction, complete: (boolean) => any) {
         // Get the member who begun the
         // interaction.
         let member = interaction.member;

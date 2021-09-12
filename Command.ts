@@ -1,5 +1,3 @@
-import { Bot } from "./Bot";
-
 export abstract class Command {
 
     abstract name: string;
