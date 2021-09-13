@@ -1,16 +1,16 @@
 {
-  "name": "byte",
+  "name": "notify",
   "version": "1.0.0",
-  "description": "Just another discord bot made in node.js. It's pretty cool though.",
+  "description": "A Discord bot written in TypeScript to send notifications when people join voice channels.",
   "main": "index.ts",
   "engines": {
     "node": "16.7.0"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --outDir build",
     "start": "node index.js"
   },
-  "author": "Jack Devey",
+  "author": "BanDev",
   "license": "GPL-3.0",
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
