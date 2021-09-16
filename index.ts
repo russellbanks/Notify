@@ -2,6 +2,7 @@ import { Bot } from "./Bot";
 import { Command } from "./Command";
 import { Client, VoiceState } from "discord.js";
 import { SetupCommand } from "./SetupCommand";
+import { NotifyCommand } from "./NotifyCommand";
 import { stateUpdate } from "./stateUpdate";
 
 // Import environment variables.
@@ -19,7 +20,7 @@ const intents = [
 ];
 
 const commands: Command[] = [
-  
+  new NotifyCommand()
 ]
 
 // Construct a custom Bot class
@@ -29,7 +30,7 @@ const bot = new Bot(process.env.TOKEN, intents, commands);
 // Begin listening to commands
 // and print information to the
 // console.
-bot.listen(function (_: Client) {
+bot.listen(function (client: Client) {
   console.log("NOTIFY BOT ONLINE");
   console.log("BanDev | 1.0.0");
   console.log("===");

@@ -5,6 +5,10 @@ function stateUpdate(discord, before, updated) {
     // Find the channel to send the 
     // message to.
     let updateChannel = before.guild.channels.cache.find(channel => channel.name === "vcupdates");
+    before.client.guilds.cache.get(before.guild.id).commands.create({
+        name: 'notify',
+        description: 'POOOOOOO HAHAHAHAHAHAH AMOGUS'
+    });
     // Get the member in question.
     let member = before.member;
     // If they are a bot, ignore them.
