@@ -20,7 +20,8 @@ const intents = [
 ];
 
 const commands: Command[] = [
-  new NotifyCommand()
+  new NotifyCommand(Discord),
+  new SetupCommand(Discord)
 ]
 
 // Construct a custom Bot class
