@@ -2,6 +2,7 @@
     "name": "Notify",
     "description": "A Discord bot written in TypeScript to send notifications when people join voice channels. ",
     "repository": "https://github.com/heroku/bandev/notify",
+    "website": "https://bandev.uk/notify/",
     "logo": "https://raw.githubusercontent.com/BanDev/Notify/main/assets/logo-round.png",
     "keywords": ["nodejs", "typescript", "discordjs", "discord-bot"],
     "env": {
@@ -10,6 +11,12 @@
           "value": "",
           "required": true
         }
-      }
-  }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        }
+    ],
+    "stack": "heroku-20"
+}
   
