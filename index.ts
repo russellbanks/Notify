@@ -1,9 +1,9 @@
-import { Bot } from "./Bot";
-import { Command } from "./Command";
+import { Bot } from "./src/Bot";
+import { Command } from "./src/Command";
 import { Client, VoiceState } from "discord.js";
-import { SetupCommand } from "./SetupCommand";
-import { NotifyCommand } from "./NotifyCommand";
-import { stateUpdate } from "./stateUpdate";
+import { SetupCommand } from "./src/SetupCommand";
+import { NotifyCommand } from "./src/NotifyCommand";
+import { stateUpdate } from "./src/stateUpdate";
 
 // Import environment variables.
 require('dotenv').config();
