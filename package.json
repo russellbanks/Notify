@@ -7,7 +7,8 @@
     "node": "17.x"
   },
   "scripts": {
-    "start": "tsc --outDir build & node ./build/index.js"
+    "start": "tsc --outDir build & node build/index.js",
+    "build": "tsc --outDir build"
   },
   "author": "BanDev",
   "license": "GPL-3.0",

@@ -12,4 +12,4 @@ jobs:
         node-version: 17
         cache: 'npm'
     - run: npm install
-    - run: npm run start
+    - run: npm run build
