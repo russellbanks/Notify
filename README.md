@@ -1,6 +1,8 @@
 # Notify
 Notify is a voice channel notification bot for Discord.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/bandev/notify)
+
 ## License
 ```
 Notify
