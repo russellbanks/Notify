@@ -3,6 +3,13 @@
     "description": "A Discord bot written in TypeScript to send notifications when people join voice channels. ",
     "repository": "https://github.com/heroku/bandev/notify",
     "logo": "https://raw.githubusercontent.com/BanDev/Notify/main/assets/logo-round.png",
-    "keywords": ["nodejs", "typescript", "discordjs", "discord-bot"]
+    "keywords": ["nodejs", "typescript", "discordjs", "discord-bot"],
+    "env": {
+        "TOKEN": {
+          "description": "The token for your discord bot",
+          "value": "",
+          "required": true
+        }
+      }
   }
   
