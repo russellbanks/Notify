@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "A Discord bot written in TypeScript to send notifications when people join voice channels.",
   "main": "index.ts",
-  "engines": {
-    "node": "16.7.0"
-  },
   "scripts": {
     "build": "tsc --outDir build",
     "start": "node index.js"
