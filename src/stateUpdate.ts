@@ -61,11 +61,11 @@ function send(discord, message: String, emoji: String, member, updateChannel) {
 
   // Build the embed.
   const embed = new discord.MessageEmbed()
-  .setColor('#0067f4')
-  .setTitle(message)
-  .setAuthor(member.displayName, member.user.displayAvatarURL())
-  .setFooter(emoji)
-  .setTimestamp();
+    .setColor('#0067f4')
+    .setTitle(message)
+    .setAuthor(member.displayName, member.user.displayAvatarURL())
+    .setFooter(emoji)
+    .setTimestamp();
 
   // Send the embed in the special
   // channel.
