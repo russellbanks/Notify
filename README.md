@@ -19,19 +19,6 @@
 
 ![Contributors](https://img.shields.io/github/contributors/BanDev/Notify?color=dark-green) ![Issues](https://img.shields.io/github/issues/BanDev/Notify) ![License](https://img.shields.io/github/license/BanDev/Notify)
 
-## Table Of Contents
-
-* [About the Project](#about-the-project)
-* [Built With](#built-with)
-* [Getting Started](#getting-started)
-  * [Prerequisites](#prerequisites)
-  * [Installation](#installation)
-* [Usage](#usage)
-* [Roadmap](#roadmap)
-* [Contributing](#contributing)
-* [License](#license)
-* [Authors](#authors)
-
 ## About The Project
 
 Notify is a voice channel notification bot for Discord. It is a self-hosted Discord bot, written in TypeScript, that can send a message to a Discord  chat with any updates to a voice channel. For example, sending a notification when a user has joined a voice channel is ideal for small communities and friends. This functionality extends to wider usage, such as whenever a user goes live or screen shares. This project was originally created so that our group of friends can all join the voice channel when they know that someone has joined.
