@@ -76,8 +76,6 @@ Once Notify has been installed and is running, you must create a voice channel c
 
 ## Roadmap
 
-As this project is written from scratch in Jetpack Compose, not everything has been added from the original [Buddha Quotes](https://github.com/BanDev/Buddha-Quotes).
-
 - [x] Notify when a user has joined a voice channel
 - [x] Notify when a user has left a voice channel
 - [x] Notify when user has switched voice channel
@@ -87,10 +85,10 @@ As this project is written from scratch in Jetpack Compose, not everything has b
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/BanDev/Buddha-Quotes-Compose/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
+* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/BanDev/Notify/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
 * Please make sure you check your spelling and grammar.
 * Create individual PR for each suggestion.
-* Please also read through the [Code Of Conduct](https://github.com/BanDev/Buddha-Quotes-Compose/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
+* Please also read through the [Code Of Conduct](https://github.com/BanDev/Notify/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
 
 ### Creating A Pull Request
 
