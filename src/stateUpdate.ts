@@ -42,7 +42,7 @@ export function stateUpdate(discord, before, updated) {
 
       // User left a VC
       console.log(`${member.user.tag} LEFT ${before.channel.name}`);
-      return send(discord, `${member.user.tag} just left ${before.channel.name}`, `🚪`, member, updateChannel);
+      return send(discord, `${member.displayName} just left ${before.channel.name}`, `🚪`, member, updateChannel);
 
     } 
     
