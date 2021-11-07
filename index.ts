@@ -33,7 +33,8 @@ const Discord = require("discord.js");
 const intents = [
   Discord.Intents.FLAGS.GUILDS,
   Discord.Intents.FLAGS.GUILD_VOICE_STATES,
-  Discord.Intents.FLAGS.GUILD_MESSAGES
+  Discord.Intents.FLAGS.GUILD_MESSAGES,
+  Discord.Intents.FLAGS.DIRECT_MESSAGES
 ];
 
 const commands: Command[] = [
@@ -53,8 +54,6 @@ bot.listen(function (client: Client) {
   console.log("BanDev | 1.0.0");
   console.log("===");
   console.log("AWAITING COMMANDS...");
-
-  client.user.setActivity('bandev.uk/notify', { type: 'PLAYING' });
 });
 
 // When something changes in a

@@ -51,14 +51,14 @@ export function stateUpdate(discord, before, updated) {
 
     }
 
-    if(updated.streaming) {
+    if(updated.streaming && !before.streaming) {
 
       // User is streaming
       return send(discord, `${member.displayName} is live in ${updated.channel.name}`, `🔴`, member, updateChannel);
 
     }
 
-    if(updated.selfVideo) {
+    if(updated.selfVideo && !before.selfVideo) {
 
       // User has camera on
       return send(discord, `${member.displayName} turned their camera on in ${updated.channel.name}`, `📷`, member, updateChannel);
