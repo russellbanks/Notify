@@ -37,6 +37,7 @@ export class Bot {
         this.ready = ready;
         this.client.login(this.token);
         this.onInteraction();
+        this.onMessage();
         this.onReady();
     }
 
@@ -62,7 +63,14 @@ export class Bot {
 
     private onReady() {
         this.client.on("ready", client => {
-            this.ready(this.client);
+            client.user.setActivity('bandev.uk/notify', { type: 'PLAYING' });
+            this.ready(client);
+        });
+    }
+
+    private onMessage() {
+        this.client.on("messageCreate", async message => {
+            console.log(message)
         });
     }
 
