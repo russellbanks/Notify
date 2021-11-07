@@ -78,8 +78,9 @@ Once Notify has been installed and is running, you must create a voice channel c
 
 - [x] Notify when a user has joined a voice channel
 - [x] Notify when a user has left a voice channel
-- [x] Notify when user has switched voice channel
-- [x] Notify when user goes live in a voice channel
+- [x] Notify when a user has switched voice channel
+- [x] Notify when a user goes live in a voice channel
+- [x] Notify when a user turns on their camera in a voice channel
 - [ ] Server level configuration (enabling/disabling which notifications should send and the channel that it should send to)
 
 ## Contributing
