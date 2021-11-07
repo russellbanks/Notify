@@ -24,6 +24,7 @@ export class Bot {
     token: string;
     intents: Intents[];
     commands: Command[];
+    ready: (client: Client) => void;
 
     constructor(token: string, intents: Intents[], commands: Command[]) {
         this.token = token;
@@ -33,9 +34,10 @@ export class Bot {
 
     public listen(ready: (client: Client) => void) {
         this.client = new Client({ intents: this.intents });
+        this.ready = ready;
         this.client.login(this.token);
         this.onInteraction();
-        ready(this.client);
+        this.onReady();
     }
 
     public vcUpdate(respond: (before: VoiceState, after: VoiceState) => void) {
@@ -55,6 +57,12 @@ export class Bot {
             if (!interaction.isCommand()) return;
             let command = this.commands.find(it => it.name === interaction.commandName);
             await command.run(interaction, null);
+        });
+    }
+
+    private onReady() {
+        this.client.on("ready", client => {
+            this.ready(this.client);
         });
     }
 

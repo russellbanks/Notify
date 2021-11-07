@@ -33,7 +33,6 @@ export function stateUpdate(discord, before, updated) {
     if(before.channel == undefined && updated.channel != undefined) {
 
       // User joined a VC
-      console.log(`${member.user.tag} JOINED ${updated.channel.name}`);
       return send(discord, `${member.displayName} just joined ${updated.channel.name}`, `🎧`, member, updateChannel);
 
     }
@@ -41,7 +40,6 @@ export function stateUpdate(discord, before, updated) {
     if(before.channel != undefined && updated.channel == undefined) {
 
       // User left a VC
-      console.log(`${member.user.tag} LEFT ${before.channel.name}`);
       return send(discord, `${member.displayName} just left ${before.channel.name}`, `🚪`, member, updateChannel);
 
     } 
@@ -49,7 +47,6 @@ export function stateUpdate(discord, before, updated) {
     if(before.channel != undefined && updated.channel != undefined && before.channel != updated.channel) {
 
       // User switched VCs
-      console.log(`${member.user.tag} SWITCHED TO ${updated.channel.name}`);
       return send(discord, `${member.displayName} just switched to ${updated.channel.name}`, `🔄️`, member, updateChannel);
 
     }
@@ -57,8 +54,14 @@ export function stateUpdate(discord, before, updated) {
     if(updated.streaming) {
 
       // User is streaming
-      console.log(`${member.user.tag} IS LIVE IN ${updated.channel.name}`);
       return send(discord, `${member.displayName} is live in ${updated.channel.name}`, `🔴`, member, updateChannel);
+
+    }
+
+    if(updated.selfVideo) {
+
+      // User has camera on
+      return send(discord, `${member.displayName} turned their camera on in ${updated.channel.name}`, `📷`, member, updateChannel);
 
     }
 

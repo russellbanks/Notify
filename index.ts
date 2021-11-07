@@ -53,6 +53,8 @@ bot.listen(function (client: Client) {
   console.log("BanDev | 1.0.0");
   console.log("===");
   console.log("AWAITING COMMANDS...");
+
+  client.user.setActivity('bandev.uk/notify', { type: 'PLAYING' });
 });
 
 // When something changes in a
