@@ -1,4 +1,6 @@
-*.env
-.vscode
-node_modules
-build
+.gradle/
+.idea/
+build/
+
+.env
+
