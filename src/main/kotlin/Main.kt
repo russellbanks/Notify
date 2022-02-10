@@ -25,5 +25,10 @@ suspend fun main() {
 
     MessageCreateEvent.listener()
 
-    kord.login { intents = Intents.nonPrivileged + Intents(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages) }
+    kord.login {
+        intents = Intents.nonPrivileged + Intents(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)
+        presence {
+            playing("bandev.uk/notify")
+        }
+    }
 }
