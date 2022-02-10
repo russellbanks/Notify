@@ -1,5 +1,8 @@
-import dev.kord.common.entity.PresenceStatus
+import configureInteraction.configureInteraction
 import dev.kord.core.Kord
+import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import dev.kord.core.event.interaction.InteractionCreateEvent
+import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
@@ -24,6 +27,15 @@ suspend fun main() {
     VoiceStateUpdateEvent.listener()
 
     MessageCreateEvent.listener()
+
+    kord.on<ChatInputCommandInteractionCreateEvent>{
+        when(interaction.data.data.name.value) {
+            "configure" -> configureInteraction(interaction)
+        }
+
+
+        interaction.acknowledgePublic()
+    }
 
     kord.login {
         intents = Intents.nonPrivileged + Intents(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)

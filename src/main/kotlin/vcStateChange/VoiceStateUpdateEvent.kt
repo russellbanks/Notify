@@ -56,6 +56,11 @@ object VoiceStateUpdateEvent: Klogging {
         if (action == Action.UNKNOWN) return
         // Find the guild preferences from db
         val prefs = getGuildPrefs(channel.data.guildId.value?.value.toString())
+        // Don't show if the feature is disabled
+        for(feature in prefs.getDisabled()) if(feature.uppercase() == action.name) {
+            logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Blocked by guild config ]")
+            return
+        }
         // Build the embed
         val embed = MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
             color = Color(0x00, 0x67, 0xf4)
