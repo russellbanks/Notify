@@ -1,2 +1,2 @@
-worker: java -jar build/libs/kotlin-getting-started-1.0.jar
+worker: ./build/install/KtNotify/bin/KtNotify
 
