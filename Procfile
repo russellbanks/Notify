@@ -1,1 +1,2 @@
-worker: ts-node .
+worker: ./build/install/KtNotify/bin/KtNotify
+
