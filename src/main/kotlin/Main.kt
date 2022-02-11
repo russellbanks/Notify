@@ -1,14 +1,13 @@
 import configureInteraction.configureInteraction
 import dev.kord.core.Kord
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
-import dev.kord.core.event.interaction.InteractionCreateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
-import notifyCommand.MessageCreateEvent
+import commands.MessageCreateEvent
 import vcStateChange.VoiceStateUpdateEvent
 import java.security.Security
 
@@ -29,10 +28,7 @@ suspend fun main() {
     MessageCreateEvent.listener()
 
     kord.on<ChatInputCommandInteractionCreateEvent>{
-        when(interaction.data.data.name.value) {
-            "configure" -> configureInteraction(interaction)
-        }
-
+        if (interaction.data.data.name.value == "configure") configureInteraction(interaction)
 
         interaction.acknowledgePublic()
     }

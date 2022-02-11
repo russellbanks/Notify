@@ -71,7 +71,7 @@ object VoiceStateUpdateEvent: Klogging {
                 icon = member.avatar?.url
             }
             footer {
-                text = action.emoji
+                text = action.emojiUnicode
             }
         }
         logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Embed id: ${embed.data.id.value} ]")
