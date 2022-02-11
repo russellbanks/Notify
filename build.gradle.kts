@@ -16,7 +16,7 @@ repositories {
 dependencies {
     implementation("dev.kord:kord-core:0.8.0-M9")
     implementation ("dev.kord.x:emoji:0.5.0")
-    implementation("org.slf4j:slf4j-simple:1.7.35")
+    implementation("org.slf4j:slf4j-simple:1.7.36")
     implementation("io.klogging:klogging-jvm:0.4.1")
     implementation("org.litote.kmongo:kmongo:4.4.0")
     implementation("org.mongodb:mongodb-driver-async:3.12.10")
