@@ -29,7 +29,7 @@ object MessageCreateEvent: Klogging {
         }
     }
 
-    private suspend fun getReply(member: Member) = "@ everyone, ${member.mention} is in **${getChannelName(member)}** ${getFormattedListOfMembers(getListOfVCMembers(member))}"
+    private suspend fun getReply(member: Member) = "@everyone, ${member.mention} is in **${getChannelName(member)}** ${getFormattedListOfMembers(getListOfVCMembers(member))}"
 
     private suspend fun getListOfVCMembers(member: Member) = mutableListOf<Member>().also { list ->
         member.getVoiceState().getChannelOrNull()?.voiceStates?.collect {
