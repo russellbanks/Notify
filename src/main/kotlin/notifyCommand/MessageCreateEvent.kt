@@ -14,7 +14,7 @@ object MessageCreateEvent: Klogging {
             if (member.isBot) return@on
 
             if (message.content == "/notify") {
-                if (member.getVoiceStateOrNull() != null) {
+                if (member.getVoiceStateOrNull()?.channelId != null) {
                     message.channel.createMessage(getReply(member))
                     runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
                 } else {
