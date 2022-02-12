@@ -23,7 +23,6 @@ class ConfigureInteraction(override val name: String = "configure") : Interactio
      *
      * @return [Boolean]
      */
-
     private fun String.toBool(): Boolean {
         return when(this) {
             "yes", "on", "true" -> true

@@ -27,7 +27,11 @@ suspend fun voiceStateChange(event: VoiceStateUpdateEvent): Error? {
 
     val prefs = Datastore.GuildPrefsCollection.get(channel.data.guildId.value?.value.toString())
 
-    for (feature in prefs.getDisabled()) if (feature.uppercase() == action.name) throw Error("${action.name.lowercase().replaceFirstChar { it.titlecase() }} blocked by config")
+    for (feature in prefs.getDisabled()) {
+        if (feature.uppercase() == action.name) {
+            throw Error("${action.name.lowercase().replaceFirstChar { it.titlecase() }} blocked by config")
+        }
+    }
 
     MessageChannelBehavior(Snowflake(prefs.channelId), bot.client).createEmbed {
         color = Color(0x00, 0x67, 0xf4)

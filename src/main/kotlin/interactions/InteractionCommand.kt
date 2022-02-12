@@ -12,7 +12,7 @@ abstract class InteractionCommand: Klogging {
     suspend fun call(interaction: ChatInputCommandInvocationInteraction) {
         runCatching { main(interaction) }
             .onSuccess { logger.info("${interaction.name.replaceFirstChar { it.titlecase() }} toggled successfully") }
-            .onFailure{ logger.error(it.message.toString()) }
+            .onFailure { logger.error(it.message.toString()) }
     }
 
 }

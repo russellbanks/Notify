@@ -29,7 +29,9 @@ object Datastore: Klogging {
 
             val record: GuildPrefs? = if (cachedRecord == null) {
                 guildPrefs.findOne(GuildPrefs::guildId eq guildId)!!.also { cache.put(it) }
-            } else guildPrefs.findOne(GuildPrefs::guildId eq guildId)
+            } else {
+                guildPrefs.findOne(GuildPrefs::guildId eq guildId)
+            }
 
             if (record == null) throw Error("Guild preferences were not found for this guild")
 
