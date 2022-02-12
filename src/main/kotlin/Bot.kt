@@ -19,24 +19,18 @@ class Bot: Klogging {
 
     suspend fun listenInteractions(vararg interactions: InteractionCommand) {
         client.on<ChatInputCommandInteractionCreateEvent> {
-            // Find the chosen interaction from the provided list
-            val chosen = arrayOf(*interactions).find { ic -> ic.name == interaction.name }
+            val chosen = arrayOf(*interactions).find { interactionCommand -> interactionCommand.name == interaction.name }
 
-            // If interaction exists call it
-            if(chosen != null) chosen.call(interaction)
+            if (chosen != null) chosen.call(interaction)
             else logger.error("Interaction ${interaction.name} not found")
         }
     }
 
     suspend fun listenVoiceState() {
         client.on<VoiceStateUpdateEvent> {
-            runCatching {
-                 voiceStateChange(this)
-            }.onSuccess {
-                logger.info("[VoiceStateChange] Executed successfully")
-            }.onFailure {
-                logger.error("[VoiceStateChange] ${it.message.toString()}")
-            }
+            runCatching { voiceStateChange(this) }
+                .onSuccess { logger.info("[VoiceStateChange] Executed successfully") }
+                .onFailure { logger.error("[VoiceStateChange] ${it.message.toString()}") }
         }
     }
 
@@ -50,9 +44,7 @@ class Bot: Klogging {
     }
 
     companion object {
-
         suspend fun create(): Bot = Bot().init()
-
     }
 
 }

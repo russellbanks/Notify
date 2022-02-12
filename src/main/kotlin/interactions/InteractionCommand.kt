@@ -10,13 +10,9 @@ abstract class InteractionCommand: Klogging {
     abstract suspend fun main(interaction: ChatInputCommandInvocationInteraction)
 
     suspend fun call(interaction: ChatInputCommandInvocationInteraction) {
-        runCatching {
-            main(interaction)
-        }.onSuccess {
-            logger.info("Executed successfully")
-        }.onFailure{
-            logger.error(it.message.toString())
-        }
+        runCatching { main(interaction) }
+            .onSuccess { logger.info("${interaction.name.replaceFirstChar { it.titlecase() }} toggled successfully") }
+            .onFailure{ logger.error(it.message.toString()) }
     }
 
 }

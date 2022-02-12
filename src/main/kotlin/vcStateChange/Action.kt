@@ -15,5 +15,4 @@ internal enum class Action(val text: String, val emojiUnicode: String) {
     LEAVE("left", Emojis.door.unicode),
     STREAM("is live in", Emojis.redCircle.unicode),
     VIDEO("turned their video on in", Emojis.camera.unicode),
-    UNKNOWN("unknown", Emojis.greyQuestion.unicode)
 }
