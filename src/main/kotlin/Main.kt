@@ -1,17 +1,14 @@
-import configureInteraction.configureInteraction
-import dev.kord.core.Kord
-import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
-import dev.kord.core.on
+import data.Datastore
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
+import interactions.ConfigureInteraction
+import interactions.NotifyInteraction
 import io.klogging.config.DEFAULT_CONSOLE
 import io.klogging.config.loggingConfiguration
-import commands.MessageCreateEvent
-import vcStateChange.VoiceStateUpdateEvent
 import java.security.Security
 
-lateinit var kord: Kord
+lateinit var bot: Bot
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
@@ -21,22 +18,12 @@ suspend fun main() {
     System.setProperty("io.ktor.random.secure.random.provider", "DRBG")
     Security.setProperty("securerandom.drbg.config", "HMAC_DRBG,SHA-512,256,pr_and_reseed")
 
-    kord = Kord(Config.discordApiKey)
+    // Setup cache for guild prefs
+    Datastore.GuildPrefsCollection.setupCache()
 
-    VoiceStateUpdateEvent.listener()
-
-    MessageCreateEvent.listener()
-
-    kord.on<ChatInputCommandInteractionCreateEvent>{
-        if (interaction.data.data.name.value == "configure") configureInteraction(interaction)
-
-        interaction.acknowledgePublic()
-    }
-
-    kord.login {
-        intents = Intents.nonPrivileged + Intents(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)
-        presence {
-            playing("bandev.uk/notify")
-        }
-    }
+    // Setup bot
+    bot = Bot.create()
+    bot.listenInteractions(NotifyInteraction(), ConfigureInteraction())
+    bot.listenVoiceState()
+    bot.login(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)
 }
