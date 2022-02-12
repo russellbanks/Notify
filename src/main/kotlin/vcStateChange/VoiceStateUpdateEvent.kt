@@ -43,8 +43,7 @@ object VoiceStateUpdateEvent: Klogging {
     }
 
     /**
-     * Send an embed to "vcupdates" in
-     * response to a voice channel update.
+     * Send an embed to the preferred channel of the action
      *
      * @param member [Member] - The member who made the change
      * @param channel [Channel] - The voice channel
@@ -57,8 +56,8 @@ object VoiceStateUpdateEvent: Klogging {
         // Find the guild preferences from db
         val prefs = getGuildPrefs(channel.data.guildId.value?.value.toString())
         // Don't show if the feature is disabled
-        for(feature in prefs.getDisabled()) if(feature.uppercase() == action.name) {
-            logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Blocked by guild config ]")
+        for (feature in prefs.getDisabled()) if (feature.uppercase() == action.name) {
+            logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Message send blocked by guild config ]")
             return
         }
         // Build the embed
@@ -74,6 +73,6 @@ object VoiceStateUpdateEvent: Klogging {
                 text = action.emojiUnicode
             }
         }
-        logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Embed id: ${embed.data.id.value} ]")
+        logger.info("[ ${member.tag} | ${action.name} | ${channel.data.name.value} | Embed ID: ${embed.data.id.value} ]")
     }
 }

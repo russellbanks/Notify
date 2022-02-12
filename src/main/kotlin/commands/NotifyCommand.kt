@@ -11,16 +11,24 @@ object NotifyCommand: Klogging {
     suspend fun run(member: Member, message: Message) {
         logger.info("${member.tag} ran ${Command.Notify.actionName}")
         if (member.getVoiceStateOrNull()?.channelId != null) {
-            message.channel.createMessage(getReply(member))
-            runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
+            userIsInVC(member, message)
         } else {
-            val botMessage = message.channel.createMessage("${member.mention}, you must be in a voice channel to use this command.")
-            runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
-            runCatching {
-                delay(10000)
-                botMessage.delete()
-            }.onFailure { logger.trace("Unable to delete '${botMessage.id}' due to $it") }
+            userIsNotInVC(member, message)
         }
+    }
+
+    private suspend fun userIsInVC(member: Member, message: Message) {
+        message.channel.createMessage(getReply(member))
+        runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
+    }
+
+    private suspend fun userIsNotInVC(member: Member, message: Message) {
+        val botMessage = message.channel.createMessage("${member.mention}, you must be in a voice channel to use this command.")
+        runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
+        runCatching {
+            delay(10000)
+            botMessage.delete()
+        }.onFailure { logger.trace("Unable to delete '${botMessage.id}' due to $it") }
     }
 
     private suspend fun getReply(member: Member) = "@everyone, ${member.mention} is in **${getChannelName(member)}** ${getFormattedListOfMembers(getListOfVCMembers(member))}"

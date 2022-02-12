@@ -11,7 +11,6 @@ object MessageCreateEvent: Klogging {
         kord.on<MessageCreateEvent> {
             val member = member ?: return@on
             if (member.isBot) return@on
-
             if (message.content == Command.Notify.actionName) NotifyCommand.run(member, message)
         }
     }
