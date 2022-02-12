@@ -1,4 +1,7 @@
 package db
+
+import vcStateChange.Action
+
 data class GuildPrefs(
     val guildId: String,
     val channelId: String,
@@ -9,14 +12,12 @@ data class GuildPrefs(
     val video: Boolean
 ) {
 
-    fun getDisabled(): MutableList<String> {
-        val list = mutableListOf<String>()
-        if (!join) list.add("join")
-        if (!switch) list.add("switch")
-        if (!leave) list.add("leave")
-        if (!stream) list.add("stream")
-        if (!video) list.add("video")
-        return list
+    fun getDisabled() = mutableListOf<String>().apply {
+        if (!join) add(Action.JOIN.name.lowercase())
+        if (!switch) add(Action.SWITCH.name.lowercase())
+        if (!leave) add(Action.LEAVE.name.lowercase())
+        if (!stream) add(Action.STREAM.name.lowercase())
+        if (!video) add(Action.VIDEO.name.lowercase())
     }
 
 }

@@ -14,4 +14,5 @@ object MessageCreateEvent: Klogging {
             if (message.content == Command.Notify.actionName) NotifyCommand.run(member, message)
         }
     }
+
 }
