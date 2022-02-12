@@ -14,12 +14,23 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.kord:kord-core:0.8.0-M9")
-    implementation ("dev.kord.x:emoji:0.5.0")
-    implementation("org.slf4j:slf4j-simple:1.7.36")
-    implementation("io.klogging:klogging-jvm:0.4.1")
-    implementation("org.litote.kmongo:kmongo-coroutine:4.4.0")
+    // Dotenv-Kotlin - https://github.com/cdimascio/dotenv-kotlin
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
+
+    // Klogging - https://github.com/klogging/klogging
+    implementation("io.klogging:klogging-jvm:0.4.1")
+
+    // KMongo Coroutine - https://github.com/Litote/kmongo
+    implementation("org.litote.kmongo:kmongo-coroutine:4.4.0")
+
+    // Kord - https://github.com/kordlib/kord
+    implementation("dev.kord:kord-core:0.8.0-M9")
+
+    // KordX.Emoji - https://github.com/kordlib/kordx.emoji
+    implementation ("dev.kord.x:emoji:0.5.0")
+
+    // SLF4J (Required by Kord) - https://github.com/qos-ch/slf4j
+    implementation("org.slf4j:slf4j-simple:1.7.36")
 }
 
 tasks.withType<KotlinCompile> {
