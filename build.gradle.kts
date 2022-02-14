@@ -21,7 +21,7 @@ dependencies {
     implementation("io.klogging:klogging-jvm:0.4.1")
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
-    implementation("org.litote.kmongo:kmongo-coroutine:4.4.0")
+    implementation("org.litote.kmongo:kmongo-coroutine:4.5.0")
 
     // Kord - https://github.com/kordlib/kord
     implementation("dev.kord:kord-core:0.8.0-M9")
