@@ -11,7 +11,7 @@ class NotifyInteraction(override val name: String = "notify"): InteractionComman
     override suspend fun main(interaction: ChatInputCommandInvocationInteraction) {
         val member = interaction.user.asMember(interaction.data.guildId.value!!)
 
-        if (member.getVoiceState().channelId == null) {
+        if (member.getVoiceStateOrNull()?.channelId == null) {
             interaction.acknowledgeEphemeral().followUpEphemeral {
                 content = "You must be in a voice channel to run this."
             }
