@@ -34,7 +34,7 @@ object FallbackNotifyCommand: Klogging {
      * @param message [Message] - The command message
      */
     private suspend fun sendInvalidReply(member: Member, message: Message) {
-        val botMessage = message.channel.createMessage("${member.mention}, you must be in a voice channel to use this command.")
+        val botMessage = message.channel.createMessage(NotifyReply.getInvalidReply(member))
         runCatching { message.delete() }.onFailure { logger.trace("Unable to delete '${message.id}' from ${member.tag} due to $it") }
         runCatching {
             delay(10000)
