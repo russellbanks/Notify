@@ -25,6 +25,7 @@ suspend fun main() {
     bot = Bot.create()
     bot.run {
         listenInteractions(NotifyInteraction(), ConfigureInteraction())
+        listenMessage()
         listenVoiceState()
         login(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)
     }

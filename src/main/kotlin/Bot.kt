@@ -1,5 +1,6 @@
 import dev.kord.core.Kord
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.event.user.VoiceStateUpdateEvent
 import dev.kord.core.on
 import dev.kord.gateway.Intent
@@ -31,6 +32,13 @@ class Bot: Klogging {
             runCatching { voiceStateChange(this) }
                 .onSuccess { logger.info("[VoiceStateChange] Executed successfully") }
                 .onFailure { logger.error("[VoiceStateChange] ${it.message.toString()}") }
+        }
+    }
+
+    suspend fun listenMessage() {
+        client.on<MessageCreateEvent> {
+            val member = member ?: return@on
+            if (message.content == "/notify") FallbackNotifyCommand.sendReply(member, message)
         }
     }
 
