@@ -7,7 +7,7 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import interactions.InteractionCommand
 import io.klogging.Klogging
-import vcStateChange.voiceStateChange
+import vcStateChange.StateChange
 
 class Bot: Klogging {
 
@@ -29,7 +29,7 @@ class Bot: Klogging {
 
     suspend fun listenVoiceState() {
         client.on<VoiceStateUpdateEvent> {
-            runCatching { voiceStateChange(this) }
+            runCatching { StateChange.voiceStateChange(this) }
                 .onSuccess { logger.info("[VoiceStateChange] Executed successfully") }
                 .onFailure { logger.error("[VoiceStateChange] ${it.message.toString()}") }
         }

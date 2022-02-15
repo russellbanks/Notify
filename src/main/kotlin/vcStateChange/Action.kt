@@ -9,10 +9,10 @@ import dev.kord.x.emoji.Emojis
  * @param emojiUnicode [String] - The emoji's unicode for the action
  */
 
-internal enum class Action(val text: String, val emojiUnicode: String) {
+enum class Action(val text: String, val emojiUnicode: String) {
     JOIN("joined", Emojis.headphones.unicode),
     SWITCH("switched to", Emojis.repeat.unicode),
     LEAVE("left", Emojis.door.unicode),
     STREAM("is live in", Emojis.redCircle.unicode),
-    VIDEO("turned their video on in", Emojis.camera.unicode),
+    VIDEO("turned their video on in", Emojis.camera.unicode)
 }
