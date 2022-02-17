@@ -43,6 +43,7 @@ object StateChange: Klogging {
             (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
             (event.state.getChannelOrNull() == null) -> Action.LEAVE
             (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
+            (event.state.isSelfVideo) -> Action.VIDEO
             else -> return
         }
 
