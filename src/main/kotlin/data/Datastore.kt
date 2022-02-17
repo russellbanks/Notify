@@ -48,7 +48,7 @@ object Datastore: Klogging {
             val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guildId }.singleOrNull()
 
             val record: GuildPrefs? = if (cachedRecord == null) {
-                guildPrefs.findOne(GuildPrefs::guildId eq guildId)!!.also { cache.put(it) }
+                guildPrefs.findOne(GuildPrefs::guildId eq guildId).also { cache.put(it!!) }
             } else {
                 guildPrefs.findOne(GuildPrefs::guildId eq guildId)
             }
