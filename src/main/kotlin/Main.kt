@@ -20,7 +20,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import data.Datastore
 import dev.kord.gateway.Intent
-import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import interactions.ConfigureInteraction
 import interactions.NotifyInteraction
