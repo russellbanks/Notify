@@ -19,7 +19,7 @@ dependencies {
     implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 
     // Klogging - https://github.com/klogging/klogging
-    implementation("io.klogging:klogging-jvm:0.4.1")
+    implementation("io.klogging:klogging-jvm:0.4.3")
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
     implementation("org.litote.kmongo:kmongo-coroutine:4.5.0")
