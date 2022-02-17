@@ -25,7 +25,7 @@ dependencies {
     implementation("org.litote.kmongo:kmongo-coroutine:4.5.0")
 
     // Kord - https://github.com/kordlib/kord
-    implementation("dev.kord:kord-core:voice-state-props-SNAPSHOT")
+    implementation("dev.kord:kord-core:395-lazy-intents-SNAPSHOT")
 
     // KordX.Emoji - https://github.com/kordlib/kordx.emoji
     implementation ("dev.kord.x:emoji:0.5.0") { exclude("dev.kord", "kord-core") }
