@@ -40,4 +40,8 @@ data class GuildPrefs(
         if (!video) add(Action.VIDEO.name.lowercase())
     }
 
+    override fun toString(): String {
+        return """{}"""
+    }
+
 }

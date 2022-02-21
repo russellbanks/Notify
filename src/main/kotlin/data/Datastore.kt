@@ -75,6 +75,11 @@ object Datastore: Klogging {
             else cachedRecord.update { dbRecord }
         }
 
+        suspend fun new(guildId: String, channelId: String) {
+            val prefs = GuildPrefs(guildId, channelId, join = true, switch = true, leave = true, stream = true, true)
+            prefs.toString()
+        }
+
     }
 
 }
