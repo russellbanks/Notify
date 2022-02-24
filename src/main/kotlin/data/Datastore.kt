@@ -74,8 +74,12 @@ object Datastore {
             else cachedRecord.update { dbRecord }
         }
 
-        suspend fun new(guildId: String, channelId: String) {
-            val prefs = GuildPrefs(guildId, channelId, join = true, switch = true, leave = true, stream = true, true)
+        suspend fun isNewGuild(guildId: ULong): Boolean {
+            return guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString()) == null
+        }
+
+        suspend fun new(guildId: ULong, channelId: ULong) {
+            val prefs = GuildPrefs(guildId.toString(), channelId.toString(), join = true, switch = true, leave = true, stream = true, true)
             prefs.toString()
         }
 

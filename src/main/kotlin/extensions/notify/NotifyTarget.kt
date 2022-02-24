@@ -1,6 +1,6 @@
 package extensions.notify
 
-enum class NotifyTarget {
+internal enum class NotifyTarget {
     HERE,
     EVERYONE
 }

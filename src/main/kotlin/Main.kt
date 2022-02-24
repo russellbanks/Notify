@@ -53,7 +53,7 @@ suspend fun main() {
         }
 
         presence {
-            playing("bandev.uk/notify")
+            playing(Config.playing)
         }
 
         extensions {

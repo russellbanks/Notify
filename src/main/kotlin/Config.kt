@@ -19,10 +19,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 import com.kotlindiscord.kord.extensions.utils.env
+import com.kotlindiscord.kord.extensions.utils.envOrNull
 
 object Config {
 
     val discordApiKey = env("DISCORD_API_KEY")
     val mongoDbUri = env("MONGODB_URI")
-    val defaultGuildID = env("DEFAULT_GUILD_ID")
+    val defaultGuildID = envOrNull("DEFAULT_GUILD_ID")
+    val playing = envOrNull("BOT_PLAYING") ?: "bandev.uk/notify"
+
+    fun accentColor(): List<Int> {
+        return (envOrNull("BOT_COLOR_HEX") ?: "0067f4")
+            .chunked(2)
+            .map { it.toInt(16) }
+    }
+
 }

@@ -50,7 +50,7 @@ class VoiceStateUpdate: Extension() {
 
                 val member = event.state.getMember()
                 MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
-                    color = Color(0x00, 0x67, 0xf4)
+                    color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
                     title = "${member.displayName} ${action.text} ${channel?.data?.name?.value}"
                     timestamp = Clock.System.now()
                     author {

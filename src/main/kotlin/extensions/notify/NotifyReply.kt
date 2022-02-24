@@ -22,7 +22,7 @@ package extensions.notify
 
 import dev.kord.core.entity.Member
 
-object NotifyReply {
+internal object NotifyReply {
 
     /**
      * Builds the message that tags everyone and states what members are in a voice channel
