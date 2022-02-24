@@ -26,18 +26,17 @@ import dev.kord.cache.api.data.description
 import dev.kord.cache.api.put
 import dev.kord.cache.api.query
 import dev.kord.cache.map.MapDataCache
-import io.klogging.Klogging
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 
-object Datastore: Klogging {
+object Datastore {
 
     private val client = KMongo.createClient(Config.mongoDbUri).coroutine
     private var database = client.getDatabase("notify")
     private val guildPrefs = database.getCollection<GuildPrefs>("guildPrefs")
 
-    object GuildPrefsCollection: Klogging {
+    object GuildPrefsCollection {
 
         private val cache = MapDataCache()
         private val description = description(GuildPrefs::guildId)

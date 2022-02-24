@@ -18,34 +18,52 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
+import extensions.notify.NotifyCommand
+import extensions.voicestateupdate.VoiceStateUpdate
+import com.kotlindiscord.kord.extensions.ExtensibleBot
 import data.Datastore
 import dev.kord.gateway.Intent
+import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import interactions.ConfigureInteraction
-import interactions.NotifyInteraction
-import io.klogging.config.DEFAULT_CONSOLE
-import io.klogging.config.loggingConfiguration
-import java.security.Security
-
-lateinit var bot: Bot
+import extensions.ConfigureInteraction
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
-    loggingConfiguration { DEFAULT_CONSOLE() }
 
-    // Set security properties, this stops warning message from okhttp
-    System.setProperty("io.ktor.random.secure.random.provider", "DRBG")
-    Security.setProperty("securerandom.drbg.config", "HMAC_DRBG,SHA-512,256,pr_and_reseed")
-
-    // Setup cache for guild prefs
     Datastore.GuildPrefsCollection.setupCache()
 
-    // Setup bot
-    bot = Bot.create()
-    bot.run {
-        listenInteractions(NotifyInteraction(), ConfigureInteraction())
-        listenMessage()
-        listenVoiceState()
-        login(Intent.Guilds, Intent.GuildVoiceStates, Intent.GuildMembers, Intent.DirectMessages)
-    }
+    ExtensibleBot(Config.discordApiKey) {
+        chatCommands {
+            defaultPrefix = "/"
+            enabled = true
+            invokeOnMention = true
+        }
+
+        intents {
+            +Intents.nonPrivileged
+            +Intent.Guilds
+            +Intent.GuildVoiceStates
+            +Intent.GuildMembers
+            +Intent.DirectMessages
+        }
+
+        applicationCommands {
+            enabled = true
+            defaultGuild(Config.defaultGuildID)
+        }
+
+        presence {
+            playing("bandev.uk/notify")
+        }
+
+        extensions {
+            add(::NotifyCommand)
+            add(::ConfigureInteraction)
+            add(::VoiceStateUpdate)
+
+            help {
+                pingInReply = false
+            }
+        }
+    }.start()
 }

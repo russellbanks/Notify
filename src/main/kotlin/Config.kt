@@ -18,17 +18,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
-import io.github.cdimascio.dotenv.Dotenv
-import io.github.cdimascio.dotenv.dotenv
+import com.kotlindiscord.kord.extensions.utils.env
 
 object Config {
 
-    private val dotenv: Dotenv = dotenv {
-        ignoreIfMalformed = true
-        ignoreIfMissing = true
-    }
-
-    val discordApiKey = dotenv["DISCORD_API_KEY"] ?: error("Token required.")
-    val mongoDbUri = dotenv["MONGODB_URI"] ?: error("Mongodb uri required.")
-    val url = dotenv["BOT_URL"] ?: "bandev.uk/notify"
+    val discordApiKey = env("DISCORD_API_KEY")
+    val mongoDbUri = env("MONGODB_URI")
+    val defaultGuildID = env("DEFAULT_GUILD_ID")
 }

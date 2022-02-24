@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package data
 
-import vcStateChange.Action
+import extensions.voicestateupdate.Action
 
 data class GuildPrefs(
     val guildId: String,
