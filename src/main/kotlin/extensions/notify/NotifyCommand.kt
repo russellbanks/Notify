@@ -23,25 +23,17 @@ package extensions.notify
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.enumChoice
-import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.stringChoice
-import com.kotlindiscord.kord.extensions.commands.application.slash.group
-import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescingDefaultingString
-import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescingString
-import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.core.entity.Member
-import io.github.qbosst.kordex.commands.hybrid.publicGroupCommand
 import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
-import io.github.qbosst.kordex.commands.hybrid.publicSubCommand
 
 class NotifyCommand: Extension() {
     override val name = "Notify"
 
     override suspend fun setup() {
-        publicSlashCommand(::Args) {
+        publicHybridCommand(::Args) {
             name = "Notify"
             description = "Notify"
 
@@ -62,7 +54,7 @@ class NotifyCommand: Extension() {
     inner class Args : Arguments() {
 
         val scope by enumChoice<NotifyTarget> {
-            typeName = "target"
+            typeName = "notify target"
             name = "target"
             description = "The target"
         }
