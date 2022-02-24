@@ -35,27 +35,6 @@ class ConfigureInteraction: Extension() {
     override val name = "Configure"
 
     override suspend fun setup() {
-        publicHybridCommand {
-            name = "Configure"
-            description = "Configure this server's preferences"
 
-            check { isNotBot() }
-
-            action {
-                respondingPaginator {
-                    page {
-                        color = Color(0x00, 0x67, 0xf4)
-                        title = "hi"
-                        timestamp = Clock.System.now()
-                        author {
-                            name = "Test"
-                        }
-                        footer {
-                            text = "some more test"
-                        }
-                    }
-                }.send()
-            }
-        }
     }
 }

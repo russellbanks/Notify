@@ -21,8 +21,19 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package extensions.notify
 
 import com.kotlindiscord.kord.extensions.checks.isNotBot
+import com.kotlindiscord.kord.extensions.commands.Arguments
+import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.enumChoice
+import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.stringChoice
+import com.kotlindiscord.kord.extensions.commands.application.slash.group
+import com.kotlindiscord.kord.extensions.commands.application.slash.publicSubCommand
+import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescingDefaultingString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.coalescingString
+import com.kotlindiscord.kord.extensions.commands.converters.impl.defaultingString
 import com.kotlindiscord.kord.extensions.extensions.Extension
+import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
+import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.core.entity.Member
+import io.github.qbosst.kordex.commands.hybrid.publicGroupCommand
 import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
 import io.github.qbosst.kordex.commands.hybrid.publicSubCommand
 
@@ -30,39 +41,32 @@ class NotifyCommand: Extension() {
     override val name = "Notify"
 
     override suspend fun setup() {
-        publicHybridCommand {
+        publicSlashCommand(::Args) {
             name = "Notify"
             description = "Notify"
 
             check { isNotBot() }
 
-            publicSubCommand {
-                name = "everyone"
-                description = "Notify everyone that you are in a voice channel"
-                action {
-                    respond {
-                        content = if (member?.getVoiceStateOrNull()?.channelId != null) {
-                            NotifyReply.getValidReply(member as Member, NotifyTarget.EVERYONE)
-                        } else {
-                            NotifyReply.getInvalidReply(member as Member)
-                        }
-                    }
-                }
-            }
-
-            publicSubCommand {
-                name = "here"
-                description = "Notify people who are online that you are in a voice channel"
-                action {
-                    respond {
-                        content = if (member?.getVoiceStateOrNull()?.channelId != null) {
-                            NotifyReply.getValidReply(member as Member, NotifyTarget.HERE)
-                        } else {
-                            NotifyReply.getInvalidReply(member as Member)
-                        }
+            action {
+                respond {
+                    content = if (member?.getVoiceStateOrNull()?.channelId != null) {
+                        NotifyReply.getValidReply(member as Member, arguments.scope)
+                    } else {
+                        NotifyReply.getInvalidReply(member as Member)
                     }
                 }
             }
         }
     }
+
+    inner class Args : Arguments() {
+
+        val scope by enumChoice<NotifyTarget> {
+            typeName = "target"
+            name = "target"
+            description = "The target"
+        }
+
+    }
+
 }
