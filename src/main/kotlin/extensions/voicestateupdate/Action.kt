@@ -26,11 +26,11 @@ import dev.kord.x.emoji.Emojis
 /**
  * Enum class for all state change actions
  *
- * @param text [String] - The english text for the action
- * @param emoji [String] - The emoji
+ * @param phrase [String] - The phrase of the action
+ * @param emoji [DiscordEmoji.Generic] - The emoji
  */
 
-enum class Action(val text: String, val emoji: DiscordEmoji.Generic) {
+enum class Action(val phrase: String, val emoji: DiscordEmoji.Generic) {
     JOIN("joined", Emojis.headphones),
     LEAVE("left", Emojis.door),
     SWITCH("switched to", Emojis.repeat),
