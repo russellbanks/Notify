@@ -41,7 +41,7 @@ class VoiceStateUpdate: Extension() {
                     (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
                     (event.state.getChannelOrNull() == null) -> Action.LEAVE
                     (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
-                    else -> Action.VIDEO
+                    else -> Action.UNKNOWN
                 }
 
                 val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
@@ -49,16 +49,18 @@ class VoiceStateUpdate: Extension() {
                 val prefs = Datastore.GuildPrefsCollection.get(event.state.getMember().guildId)
 
                 val member = event.state.getMember()
-                MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
-                    color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
-                    title = "${member.displayName} ${action.text} ${channel?.data?.name?.value}"
-                    timestamp = Clock.System.now()
-                    author {
-                        name = member.displayName
-                        icon = member.avatar?.url
-                    }
-                    footer {
-                        text = action.emoji.unicode
+                if (action != Action.UNKNOWN) {
+                    MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
+                        color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
+                        title = "${member.displayName} ${action.text} ${channel?.data?.name?.value}"
+                        timestamp = Clock.System.now()
+                        author {
+                            name = member.displayName
+                            icon = member.avatar?.url
+                        }
+                        footer {
+                            text = action.emoji.unicode
+                        }
                     }
                 }
             }
