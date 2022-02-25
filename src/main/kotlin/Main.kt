@@ -27,6 +27,7 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import extensions.ConfigureInteraction
+import extensions.notify.NotifyChatCommand
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
@@ -63,6 +64,7 @@ suspend fun main() {
 
         extensions {
             add(::NotifyCommand)
+            add(::NotifyChatCommand)
             add(::ConfigureInteraction)
             add(::VoiceStateUpdate)
 

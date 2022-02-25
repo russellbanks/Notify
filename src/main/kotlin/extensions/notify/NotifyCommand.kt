@@ -27,7 +27,6 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.core.entity.Member
-import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
 
 class NotifyCommand: Extension() {
     override val name = "Notify"
@@ -41,11 +40,7 @@ class NotifyCommand: Extension() {
 
             action {
                 respond {
-                    content = if (member?.getVoiceStateOrNull()?.channelId != null) {
-                        NotifyReply.getValidReply(member as Member, arguments.scope)
-                    } else {
-                        NotifyReply.getInvalidReply(member as Member)
-                    }
+                    content = NotifyReply.getNotifyReply(member as Member, arguments.scope)
                 }
             }
         }

@@ -25,11 +25,25 @@ import dev.kord.core.entity.Member
 internal object NotifyReply {
 
     /**
+     * Public function to retrieve the response that Notifies the chosen target
+     *
+     * @param member [Member] -  The member that ran the command
+     * @param target [NotifyTarget] - The scope of whom the notifications should be sent to
+     */
+    suspend fun getNotifyReply(member: Member, target: NotifyTarget): String {
+        return if (member.getVoiceStateOrNull()?.channelId != null) {
+            getValidReply(member, target)
+        } else {
+            getInvalidReply(member)
+        }
+    }
+
+    /**
      * Builds the message that tags everyone and states what members are in a voice channel
      *
      * @param member [Member] - The member that ran the command
      */
-    suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${getChannelName(member)}** ${
+    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${getChannelName(member)}** ${
         getFormattedListOfMembers(getListOfVCMembers(member))
     }"
 
@@ -38,7 +52,7 @@ internal object NotifyReply {
      *
      * @param member [Member] - The member that ran the command
      */
-    fun getInvalidReply(member: Member) = "${member.mention}, you must be in a voice channel to use this command."
+    private fun getInvalidReply(member: Member) = "${member.mention}, you must be in a voice channel to use this command."
 
     /**
      * Returns @here or @everyone based on the NotifyTarget
