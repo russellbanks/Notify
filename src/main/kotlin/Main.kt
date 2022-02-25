@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import extensions.notify.NotifyCommand
 import extensions.voicestateupdate.VoiceStateUpdate
 import com.kotlindiscord.kord.extensions.ExtensibleBot
+import com.kotlindiscord.kord.extensions.checks.isNotBot
 import data.Datastore
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
@@ -52,6 +53,10 @@ suspend fun main() {
             defaultGuild(Config.defaultGuildID)
         }
 
+        cache {
+            cachedMessages = null
+        }
+
         presence {
             playing(Config.playing)
         }
@@ -62,6 +67,7 @@ suspend fun main() {
             add(::VoiceStateUpdate)
 
             help {
+                check { isNotBot() }
                 pingInReply = false
             }
         }

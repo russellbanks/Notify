@@ -46,7 +46,7 @@ class VoiceStateUpdate: Extension() {
 
                 val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
                 val channel = event.kord.getChannel(channelId)
-                val prefs = Datastore.GuildPrefsCollection.get(channel?.data?.guildId?.value?.value.toString())
+                val prefs = Datastore.GuildPrefsCollection.get(event.state.getMember().guildId)
 
                 val member = event.state.getMember()
                 MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
@@ -58,7 +58,7 @@ class VoiceStateUpdate: Extension() {
                         icon = member.avatar?.url
                     }
                     footer {
-                        text = action.emojiUnicode
+                        text = action.emoji.unicode
                     }
                 }
             }

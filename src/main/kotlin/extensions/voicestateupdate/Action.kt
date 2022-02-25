@@ -20,19 +20,21 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package extensions.voicestateupdate
 
+import dev.kord.x.emoji.DiscordEmoji
 import dev.kord.x.emoji.Emojis
 
 /**
  * Enum class for all state change actions
  *
  * @param text [String] - The english text for the action
- * @param emojiUnicode [String] - The emoji's unicode for the action
+ * @param emoji [String] - The emoji
  */
 
-enum class Action(val text: String, val emojiUnicode: String) {
-    JOIN("joined", Emojis.headphones.unicode),
-    SWITCH("switched to", Emojis.repeat.unicode),
-    LEAVE("left", Emojis.door.unicode),
-    STREAM("is live in", Emojis.redCircle.unicode),
-    VIDEO("turned their video on in", Emojis.camera.unicode)
+enum class Action(val text: String, val emoji: DiscordEmoji.Generic) {
+    JOIN("joined", Emojis.headphones),
+    LEAVE("left", Emojis.door),
+    SWITCH("switched to", Emojis.repeat),
+    STREAM("is live in", Emojis.redCircle),
+    VIDEO("turned their video on in", Emojis.camera),
+    UNKNOWN("unknown", Emojis.greyQuestion)
 }

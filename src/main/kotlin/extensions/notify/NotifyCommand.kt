@@ -33,7 +33,7 @@ class NotifyCommand: Extension() {
     override val name = "Notify"
 
     override suspend fun setup() {
-        publicHybridCommand(::Args) {
+        publicSlashCommand(::Args) {
             name = "Notify"
             description = "Notify"
 
