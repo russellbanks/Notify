@@ -23,6 +23,8 @@ Notify is a voice channel notification bot for Discord. It is a self-hosted Disc
 ## Built With
 
 * [Kord](https://github.com/kordlib/kord)
+* [Kord Extensions](https://github.com/Kord-Extensions/kord-extensions)
+* [Kordex Hybrid Commands](https://github.com/qbosst/kordex-hybrid-commands)
 * [Kotlin](https://kotlinlang.org/)
 * [Klogging](https://github.com/klogging/klogging)
 * [KMongo](https://github.com/Litote/kmongo)
