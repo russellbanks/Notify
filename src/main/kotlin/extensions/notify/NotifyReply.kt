@@ -18,16 +18,18 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
+package extensions.notify
+
 import dev.kord.core.entity.Member
 
-object NotifyReply {
+internal object NotifyReply {
 
     /**
      * Builds the message that tags everyone and states what members are in a voice channel
      *
      * @param member [Member] - The member that ran the command
      */
-    suspend fun getValidReply(member: Member) = "@everyone, ${member.mention} is in **${getChannelName(member)}** ${
+    suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${getChannelName(member)}** ${
         getFormattedListOfMembers(getListOfVCMembers(member))
     }"
 
@@ -37,6 +39,13 @@ object NotifyReply {
      * @param member [Member] - The member that ran the command
      */
     fun getInvalidReply(member: Member) = "${member.mention}, you must be in a voice channel to use this command."
+
+    /**
+     * Returns @here or @everyone based on the NotifyTarget
+     *
+     * @param target [NotifyTarget]
+     */
+    private fun getTarget(target: NotifyTarget) = if (target == NotifyTarget.HERE) "@here" else "@everyone"
 
     /**
      * Gets a mutable list of a valid members inside the voice channel that the member is in
@@ -73,5 +82,5 @@ object NotifyReply {
      *
      * @param member [Member] - The member that ran the command
      */
-    private suspend fun getChannelName(member: Member) = bot.client.getChannel(member.getVoiceState().channelId!!)?.data?.name?.value
+    private suspend fun getChannelName(member: Member) = member.kord.getChannel(member.getVoiceState().channelId!!)?.data?.name?.value
 }

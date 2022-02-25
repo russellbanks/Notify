@@ -18,21 +18,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
-package interactions
+package extensions.voicestateupdate
 
-import dev.kord.core.entity.interaction.ChatInputCommandInvocationInteraction
-import io.klogging.Klogging
+import dev.kord.x.emoji.DiscordEmoji
+import dev.kord.x.emoji.Emojis
 
-abstract class InteractionCommand: Klogging {
+/**
+ * Enum class for all state change actions
+ *
+ * @param text [String] - The english text for the action
+ * @param emoji [String] - The emoji
+ */
 
-    abstract val name: String
-
-    abstract suspend fun main(interaction: ChatInputCommandInvocationInteraction)
-
-    suspend fun call(interaction: ChatInputCommandInvocationInteraction) {
-        runCatching { main(interaction) }
-            .onSuccess { logger.info("${interaction.name.replaceFirstChar { it.titlecase() }} toggled successfully") }
-            .onFailure { logger.error(it.message.toString()) }
-    }
-
+enum class Action(val text: String, val emoji: DiscordEmoji.Generic) {
+    JOIN("joined", Emojis.headphones),
+    LEAVE("left", Emojis.door),
+    SWITCH("switched to", Emojis.repeat),
+    STREAM("is live in", Emojis.redCircle),
+    VIDEO("turned their video on in", Emojis.camera),
+    UNKNOWN("unknown", Emojis.greyQuestion)
 }

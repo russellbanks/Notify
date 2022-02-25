@@ -12,23 +12,22 @@ version = "2.0.0"
 repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
+    maven("https://maven.kotlindiscord.com/repository/maven-public/")
 }
 
 dependencies {
-    // Dotenv-Kotlin - https://github.com/cdimascio/dotenv-kotlin
-    implementation("io.github.cdimascio:dotenv-kotlin:6.2.2")
 
-    // Klogging - https://github.com/klogging/klogging
-    implementation("io.klogging:klogging-jvm:0.4.3")
+    // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
+    implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.2-RC1")
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
     implementation("org.litote.kmongo:kmongo-coroutine:4.5.0")
 
-    // Kord - https://github.com/kordlib/kord
-    implementation("dev.kord:kord-core:voice-state-props-SNAPSHOT")
+    // Hybrid commands - https://github.com/qbosst/kordex-hybrid-commands
+    implementation("io.github.qbosst:kordex-hybrid-commands:1.0.4-SNAPSHOT")
 
     // KordX.Emoji - https://github.com/kordlib/kordx.emoji
-    implementation ("dev.kord.x:emoji:0.5.0") { exclude("dev.kord", "kord-core") }
+    implementation ("dev.kord.x:emoji:0.5.0")
 
     // SLF4J (Required by Kord) - https://github.com/qos-ch/slf4j
     implementation("org.slf4j:slf4j-simple:1.7.36")
