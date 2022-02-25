@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    // Kord - https://github.com/kordlib/kord
+    implementation("dev.kord:kord-core:0.8.0-M10")
 
     // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
     implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.2-RC1")
