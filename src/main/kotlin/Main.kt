@@ -51,7 +51,6 @@ suspend fun main() {
 
         applicationCommands {
             enabled = true
-            defaultGuild(Config.defaultGuildID)
         }
 
         cache {
