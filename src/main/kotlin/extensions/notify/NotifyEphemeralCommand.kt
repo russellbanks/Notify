@@ -28,7 +28,7 @@ import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.core.entity.Member
 
-class NotifyCommand: Extension() {
+class NotifyEphemeralCommand: Extension() {
     override val name = "NotifyEphemeral"
 
     override suspend fun setup() {

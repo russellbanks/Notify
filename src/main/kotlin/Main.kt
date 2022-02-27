@@ -18,7 +18,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
-import extensions.notify.NotifyCommand
+import extensions.notify.NotifyEphemeralCommand
 import extensions.voicestateupdate.VoiceStateUpdate
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
@@ -62,7 +62,7 @@ suspend fun main() {
         }
 
         extensions {
-            add(::NotifyCommand)
+            add(::NotifyEphemeralCommand)
             add(::NotifyChatCommand)
             add(::ConfigureInteraction)
             add(::VoiceStateUpdate)
