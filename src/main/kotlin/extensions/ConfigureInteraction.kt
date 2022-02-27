@@ -23,6 +23,7 @@ package extensions
 import Config
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.components.ComponentContainer
+import com.kotlindiscord.kord.extensions.components.components
 import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.components.types.emoji
 import com.kotlindiscord.kord.extensions.extensions.Extension
@@ -31,12 +32,14 @@ import data.Datastore
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.Snowflake
+import dev.kord.core.behavior.channel.createMessage
+import dev.kord.core.entity.Guild
+import dev.kord.rest.Image
+import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.embed
 import dev.kord.x.emoji.Emojis
 import extensions.voicestateupdate.Action
-import io.github.qbosst.kordex.builders.embed
 import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
-import io.github.qbosst.kordex.components.components
 
 class ConfigureInteraction: Extension() {
     override val name = "Configure"
@@ -49,18 +52,25 @@ class ConfigureInteraction: Extension() {
             check { isNotBot() }
 
             action {
+                val guild = member?.getGuild()!!
                 respond {
+                    content = "I have sent you the configuration options for this server via DM."
+                }
+                member?.getDmChannel()?.createMessage {
                     embed {
+                        author {
+                            name = "${guild.name} server configuration"
+                            icon = guild.getIconUrl(Image.Format.PNG)
+                        }
                         color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
-                        title = "${member?.getGuild()?.name} server configuration"
-                        actionList().forEach { action ->
+                        actionList.forEach { action ->
                             field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, member?.guildId!!)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }
                     }
                     components {
                         member?.let {
-                            actionList().forEach { action ->
-                                publicActionButton(action, it.guildId)
+                            actionList.forEach { action ->
+                                publicActionButton(action, guild)
                             }
                         }
                     }
@@ -69,20 +79,23 @@ class ConfigureInteraction: Extension() {
         }
     }
 
-    private suspend fun ComponentContainer.publicActionButton(action: Action, guildId: Snowflake) {
+    private suspend fun ComponentContainer.publicActionButton(action: Action, guild: Guild) {
         publicButton {
             label = action.name.lowercase().replaceFirstChar { it.titlecase() }
             style = ButtonStyle.Secondary
             emoji(action.emoji.unicode)
             deferredAck = true
             action {
-                Datastore.GuildPrefsCollection.update(guildId, action, !getActionToggle(action, guildId))
+                Datastore.GuildPrefsCollection.update(guild.id, action, !getActionToggle(action, guild.id))
                 edit {
                     this.embed {
+                        author {
+                            name = "${guild.name} server configuration"
+                            icon = guild.getIconUrl(Image.Format.PNG)
+                        }
                         color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
-                        title = "${member?.getGuild()?.name} server configuration"
-                        actionList().forEach { action ->
-                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guildId)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                        actionList.forEach { action ->
+                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild.id)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }
                     }
                 }
@@ -90,7 +103,7 @@ class ConfigureInteraction: Extension() {
         }
     }
 
-    private fun actionList() = listOf(
+    private val actionList = listOf(
         Action.JOIN,
         Action.LEAVE,
         Action.SWITCH,
