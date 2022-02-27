@@ -26,6 +26,7 @@ object Config {
     val discordApiKey = env("DISCORD_API_KEY")
     val mongoDbUri = env("MONGODB_URI")
     val playing = envOrNull("BOT_PLAYING") ?: "bandev.uk/notify"
+    val defaultGuildId = envOrNull("DEFAULT_GUILD_ID")
 
     fun accentColor(): List<Int> {
         return (envOrNull("BOT_COLOR_HEX") ?: "0067f4")

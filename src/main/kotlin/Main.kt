@@ -23,10 +23,13 @@ import extensions.voicestateupdate.VoiceStateUpdate
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import data.Datastore
+import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import extensions.ConfigureInteraction
+import extensions.joinleaveupdate.LeaveGuild
+import extensions.joinleaveupdate.NewGuild
 import extensions.notify.NotifyChatCommand
 
 @OptIn(PrivilegedIntent::class)
@@ -51,6 +54,7 @@ suspend fun main() {
 
         applicationCommands {
             enabled = true
+            if (Config.defaultGuildId != null) defaultGuild(Snowflake(Config.defaultGuildId))
         }
 
         cache {
@@ -66,6 +70,8 @@ suspend fun main() {
             add(::NotifyChatCommand)
             add(::ConfigureInteraction)
             add(::VoiceStateUpdate)
+            add(::NewGuild)
+            add(::LeaveGuild)
 
             help {
                 check { isNotBot() }

@@ -80,6 +80,20 @@ object Datastore {
             return guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString()) == null
         }
 
+        suspend fun createGuild(guildId: Snowflake) {
+            guildPrefs.insertOne(GuildPrefs(guildId.toString(), "null",
+                join = true,
+                switch = true,
+                leave = true,
+                stream = true,
+                video = true
+            ))
+        }
+
+        suspend fun deleteGuild(guildId: Snowflake) {
+            guildPrefs.deleteOne(GuildPrefs::guildId eq guildId.toString())
+        }
+
     }
 
 }
