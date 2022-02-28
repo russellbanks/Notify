@@ -20,12 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package extensions.notify
 
+import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.enumChoice
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
 
 class NotifyEphemeralCommand: Extension() {
@@ -36,7 +38,8 @@ class NotifyEphemeralCommand: Extension() {
             name = "Notify"
             description = "Notify"
 
-
+            check { isNotBot() }
+            check { hasPermission(Permission.MentionEveryone) }
 
             action {
                 respond {

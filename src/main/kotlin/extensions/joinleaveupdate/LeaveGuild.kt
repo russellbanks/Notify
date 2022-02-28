@@ -3,7 +3,6 @@ package extensions.joinleaveupdate
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import data.Datastore
-import dev.kord.core.event.guild.GuildCreateEvent
 import dev.kord.core.event.guild.GuildDeleteEvent
 
 class LeaveGuild: Extension() {

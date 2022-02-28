@@ -21,6 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package extensions
 
 import Config
+import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.components.ComponentContainer
 import com.kotlindiscord.kord.extensions.components.components
@@ -31,6 +32,7 @@ import com.kotlindiscord.kord.extensions.types.edit
 import data.Datastore
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
+import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.entity.Guild
@@ -48,6 +50,9 @@ class ConfigureInteraction: Extension() {
         publicHybridCommand {
             name = "Configure"
             description = "Configure a server's preferences"
+
+            check { isNotBot() }
+            check { hasPermission(Permission.ManageGuild) }
 
             action {
                 val guild = member?.getGuild()!!

@@ -18,8 +18,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
  */
 
-import extensions.notify.NotifyEphemeralCommand
-import extensions.voicestateupdate.VoiceStateUpdate
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import data.Datastore
@@ -31,6 +29,8 @@ import extensions.ConfigureInteraction
 import extensions.joinleaveupdate.LeaveGuild
 import extensions.joinleaveupdate.NewGuild
 import extensions.notify.NotifyChatCommand
+import extensions.notify.NotifyEphemeralCommand
+import extensions.voicestateupdate.VoiceStateUpdate
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
@@ -53,8 +53,6 @@ suspend fun main() {
         }
 
         applicationCommands {
-            messageCommandCheck { isNotBot() }
-            slashCommandCheck { isNotBot() }
             defaultGuild(Config.defaultGuildId?.let { Snowflake(it) })
         }
 

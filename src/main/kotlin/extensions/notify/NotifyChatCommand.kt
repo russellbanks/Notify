@@ -1,8 +1,11 @@
 package extensions.notify
 
+import com.kotlindiscord.kord.extensions.checks.hasPermission
+import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatGroupCommand
 import com.kotlindiscord.kord.extensions.utils.respond
+import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
 
 class NotifyChatCommand: Extension() {
@@ -12,6 +15,9 @@ class NotifyChatCommand: Extension() {
         chatGroupCommand {
             name = "Notify"
             description = "Notify"
+
+            check { isNotBot() }
+            check { hasPermission(Permission.MentionEveryone) }
 
             chatCommand {
                 name = "here"
