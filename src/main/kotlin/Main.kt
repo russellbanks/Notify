@@ -53,9 +53,9 @@ suspend fun main() {
         }
 
         applicationCommands {
-            if (Config.defaultGuildId != null) defaultGuild(Snowflake(Config.defaultGuildId))
             messageCommandCheck { isNotBot() }
             slashCommandCheck { isNotBot() }
+            defaultGuild(Config.defaultGuildId?.let { Snowflake(it) })
         }
 
         cache {
