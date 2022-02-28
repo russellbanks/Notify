@@ -25,19 +25,19 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import extensions.ConfigureInteraction
-import extensions.joinleaveupdate.LeaveGuild
-import extensions.joinleaveupdate.NewGuild
-import extensions.notify.NotifyChatCommand
-import extensions.notify.NotifyEphemeralCommand
-import extensions.voicestateupdate.VoiceStateUpdate
+import extensions.ConfigureHybridExtension
+import extensions.joinleaveupdate.LeaveGuildExtension
+import extensions.joinleaveupdate.NewGuildExtension
+import extensions.notify.NotifyChatExtension
+import extensions.notify.NotifyEphemeralExtension
+import extensions.voicestateupdate.VoiceStateExtension
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
 
     Datastore.GuildPrefsCollection.setupCache()
 
-    ExtensibleBot(Config.discordApiKey) {
+    ExtensibleBot(EnvironmentVariables.discordApiKey) {
         chatCommands {
             defaultPrefix = "/"
             enabled = true
@@ -53,7 +53,7 @@ suspend fun main() {
         }
 
         applicationCommands {
-            defaultGuild(Config.defaultGuildId?.let { Snowflake(it) })
+            defaultGuild(EnvironmentVariables.defaultGuildId?.let { Snowflake(it) })
         }
 
         cache {
@@ -61,16 +61,16 @@ suspend fun main() {
         }
 
         presence {
-            playing(Config.playing)
+            playing(EnvironmentVariables.playing)
         }
 
         extensions {
-            add(::NotifyEphemeralCommand)
-            add(::NotifyChatCommand)
-            add(::ConfigureInteraction)
-            add(::VoiceStateUpdate)
-            add(::NewGuild)
-            add(::LeaveGuild)
+            add(::NotifyEphemeralExtension)
+            add(::NotifyChatExtension)
+            add(::ConfigureHybridExtension)
+            add(::VoiceStateExtension)
+            add(::NewGuildExtension)
+            add(::LeaveGuildExtension)
 
             help {
                 check { isNotBot() }

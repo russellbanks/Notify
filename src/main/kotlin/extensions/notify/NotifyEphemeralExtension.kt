@@ -30,8 +30,8 @@ import com.kotlindiscord.kord.extensions.types.respond
 import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
 
-class NotifyEphemeralCommand: Extension() {
-    override val name = "NotifyEphemeral"
+class NotifyEphemeralExtension: Extension() {
+    override val name = "notify-ephemeral"
 
     override suspend fun setup() {
         publicSlashCommand(::Args) {
@@ -50,13 +50,11 @@ class NotifyEphemeralCommand: Extension() {
     }
 
     inner class Args : Arguments() {
-
         val scope by enumChoice<NotifyTarget> {
             typeName = "notify target"
             name = "target"
             description = "The target"
         }
-
     }
 
 }

@@ -8,8 +8,8 @@ import com.kotlindiscord.kord.extensions.utils.respond
 import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
 
-class NotifyChatCommand: Extension() {
-    override val name = "NotifyChat"
+class NotifyChatExtension: Extension() {
+    override val name = "notify-chat"
 
     override suspend fun setup() {
         chatGroupCommand {

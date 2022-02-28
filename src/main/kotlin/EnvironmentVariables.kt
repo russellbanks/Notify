@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import com.kotlindiscord.kord.extensions.utils.env
 import com.kotlindiscord.kord.extensions.utils.envOrNull
 
-object Config {
+object EnvironmentVariables {
 
     val discordApiKey = env("DISCORD_API_KEY")
     val mongoDbUri = env("MONGODB_URI")

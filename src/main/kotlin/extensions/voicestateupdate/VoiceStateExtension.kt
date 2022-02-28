@@ -20,6 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package extensions.voicestateupdate
 
+import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import data.Datastore
@@ -30,8 +31,8 @@ import dev.kord.core.behavior.channel.createEmbed
 import dev.kord.core.event.user.VoiceStateUpdateEvent
 import kotlinx.datetime.Clock
 
-class VoiceStateUpdate: Extension() {
-    override val name = "Voice State Update"
+class VoiceStateExtension: Extension() {
+    override val name = "voice-state"
 
     override suspend fun setup() {
         event<VoiceStateUpdateEvent> {
@@ -45,14 +46,14 @@ class VoiceStateUpdate: Extension() {
                 }
 
                 val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
-                val channel = event.kord.getChannel(channelId)
+                val channel = kord.getChannel(channelId)!!
                 val prefs = Datastore.GuildPrefsCollection.get(event.state.getMember().guildId)
 
                 val member = event.state.getMember()
                 if (action != Action.UNKNOWN) {
                     MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
-                        color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
-                        title = "${member.displayName} ${action.phrase} ${channel?.data?.name?.value}"
+                        color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
+                        title = "${member.displayName} ${action.phrase} ${channel.data.name.value}"
                         timestamp = Clock.System.now()
                         author {
                             name = member.displayName

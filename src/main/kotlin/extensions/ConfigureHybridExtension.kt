@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package extensions
 
-import Config
+import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.components.ComponentContainer
@@ -43,8 +43,8 @@ import dev.kord.x.emoji.Emojis
 import extensions.voicestateupdate.Action
 import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
 
-class ConfigureInteraction: Extension() {
-    override val name = "Configure"
+class ConfigureHybridExtension: Extension() {
+    override val name = "configure"
 
     override suspend fun setup() {
         publicHybridCommand {
@@ -65,7 +65,7 @@ class ConfigureInteraction: Extension() {
                             name = "${guild.name} configuration"
                             icon = guild.getIconUrl(Image.Format.PNG)
                         }
-                        color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
+                        color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
                             field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, member?.guildId!!)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }
@@ -96,7 +96,7 @@ class ConfigureInteraction: Extension() {
                             name = "${guild.name} server configuration"
                             icon = guild.getIconUrl(Image.Format.PNG)
                         }
-                        color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
+                        color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
                             field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild.id)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }

@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package data
 
-import Config
+import EnvironmentVariables
 import com.mongodb.client.model.Updates.*
 import dev.kord.cache.api.data.description
 import dev.kord.cache.api.put
@@ -34,7 +34,7 @@ import org.litote.kmongo.reactivestreams.KMongo
 
 object Datastore {
 
-    private val client = KMongo.createClient(Config.mongoDbUri).coroutine
+    private val client = KMongo.createClient(EnvironmentVariables.mongoDbUri).coroutine
     private var database = client.getDatabase("notify")
     private val guildPrefs = database.getCollection<GuildPrefs>("guildPrefs")
 

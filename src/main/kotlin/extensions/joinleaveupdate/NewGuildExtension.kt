@@ -5,10 +5,9 @@ import com.kotlindiscord.kord.extensions.extensions.event
 import data.Datastore
 import dev.kord.core.event.guild.GuildCreateEvent
 
-class NewGuild: Extension() {
+class NewGuildExtension: Extension() {
 
-    override val name: String
-        get() = "NewGuild"
+    override val name = "new-guild"
 
     override suspend fun setup() {
         event<GuildCreateEvent> {
