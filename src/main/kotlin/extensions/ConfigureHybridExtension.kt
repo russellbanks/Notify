@@ -41,13 +41,13 @@ import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.embed
 import dev.kord.x.emoji.Emojis
 import extensions.voicestateupdate.Action
-import io.github.qbosst.kordex.commands.hybrid.publicHybridCommand
+import io.github.qbosst.kordex.commands.hybrid.ephemeralHybridCommand
 
 class ConfigureHybridExtension: Extension() {
     override val name = "configure"
 
     override suspend fun setup() {
-        publicHybridCommand {
+        ephemeralHybridCommand {
             name = "Configure"
             description = "Configure a server's preferences"
 
