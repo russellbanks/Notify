@@ -57,7 +57,7 @@ class ConfigureInteraction: Extension() {
                 member?.getDmChannel()?.createMessage {
                     embed {
                         author {
-                            name = "${guild.name} server configuration"
+                            name = "${guild.name} configuration"
                             icon = guild.getIconUrl(Image.Format.PNG)
                         }
                         color = Color(Config.accentColor()[0], Config.accentColor()[1], Config.accentColor()[2])
