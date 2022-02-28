@@ -49,8 +49,6 @@ class ConfigureInteraction: Extension() {
             name = "Configure"
             description = "Configure a server's preferences"
 
-            check { isNotBot() }
-
             action {
                 val guild = member?.getGuild()!!
                 respond {

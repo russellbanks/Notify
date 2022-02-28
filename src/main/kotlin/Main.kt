@@ -53,8 +53,9 @@ suspend fun main() {
         }
 
         applicationCommands {
-            enabled = true
             if (Config.defaultGuildId != null) defaultGuild(Snowflake(Config.defaultGuildId))
+            messageCommandCheck { isNotBot() }
+            slashCommandCheck { isNotBot() }
         }
 
         cache {

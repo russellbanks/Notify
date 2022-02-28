@@ -36,7 +36,7 @@ class NotifyEphemeralCommand: Extension() {
             name = "Notify"
             description = "Notify"
 
-            check { isNotBot() }
+
 
             action {
                 respond {
