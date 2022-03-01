@@ -5,8 +5,10 @@ import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.chatGroupCommand
 import com.kotlindiscord.kord.extensions.utils.respond
+import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
+import kotlin.time.Duration.Companion.hours
 
 class NotifyChatExtension: Extension() {
     override val name = "notify-chat"
@@ -24,8 +26,12 @@ class NotifyChatExtension: Extension() {
                 description = "Notify everyone online"
 
                 action {
-                    message.respond {
+                    val notifyMessage = message.respond {
                         content = NotifyReply.getNotifyReply(member as Member, NotifyTarget.HERE)
+                    }
+                    Scheduler().schedule(5.hours) {
+                        message.delete()
+                        notifyMessage.delete()
                     }
                 }
             }
@@ -35,8 +41,12 @@ class NotifyChatExtension: Extension() {
                 description = "Notify everyone"
 
                 action {
-                    message.respond {
+                    val notifyMessage = message.respond {
                         content = NotifyReply.getNotifyReply(member as Member, NotifyTarget.EVERYONE)
+                    }
+                    Scheduler().schedule(5.hours) {
+                        message.delete()
+                        notifyMessage.delete()
                     }
                 }
             }

@@ -27,8 +27,10 @@ import com.kotlindiscord.kord.extensions.commands.application.slash.converters.i
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
 import dev.kord.core.entity.Member
+import kotlin.time.Duration.Companion.hours
 
 class NotifyEphemeralExtension: Extension() {
     override val name = "notify-ephemeral"
@@ -42,8 +44,11 @@ class NotifyEphemeralExtension: Extension() {
             check { hasPermission(Permission.MentionEveryone) }
 
             action {
-                respond {
+                val notifyMessage = respond {
                     content = NotifyReply.getNotifyReply(member as Member, arguments.scope)
+                }
+                Scheduler().schedule(5.hours) {
+                    notifyMessage.delete()
                 }
             }
         }
