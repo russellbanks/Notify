@@ -24,6 +24,7 @@ import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
 import data.Datastore
+import data.GuildPrefs
 import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.MessageChannelBehavior
@@ -50,7 +51,7 @@ class VoiceStateExtension: Extension() {
                 val prefs = Datastore.GuildPrefsCollection.get(event.state.getMember().guildId)
 
                 val member = event.state.getMember()
-                if (action != Action.UNKNOWN) {
+                if (shouldSendEmbed(action, prefs)) {
                     MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         title = "${member.displayName} ${action.phrase} ${channel.data.name.value}"
@@ -65,6 +66,18 @@ class VoiceStateExtension: Extension() {
                     }
                 }
             }
+        }
+    }
+
+    private fun shouldSendEmbed(action: Action, prefs: GuildPrefs): Boolean {
+        return when {
+            action == Action.JOIN && !prefs.join -> false
+            action == Action.LEAVE && !prefs.leave -> false
+            action == Action.SWITCH && !prefs.switch -> false
+            action == Action.STREAM && !prefs.stream -> false
+            action == Action.VIDEO && !prefs.video -> false
+            action == Action.UNKNOWN -> false
+            else -> true
         }
     }
 }
