@@ -12,8 +12,8 @@ class NewGuildExtension: Extension() {
     override suspend fun setup() {
         event<GuildCreateEvent> {
             action {
-                if (Datastore.GuildPrefsCollection.isNewGuild(event.guild.id)) {
-                    Datastore.GuildPrefsCollection.createGuild(event.guild.id)
+                if (Datastore.GuildPrefsCollection.isNewGuild(event.guild)) {
+                    Datastore.GuildPrefsCollection.createGuild(event.guild)
                 }
             }
         }

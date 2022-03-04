@@ -33,7 +33,6 @@ import data.Datastore
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.Permission
-import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.createMessage
 import dev.kord.core.entity.Guild
 import dev.kord.rest.Image
@@ -67,7 +66,7 @@ class ConfigureHybridExtension: Extension() {
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
-                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, member?.guildId!!)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, member!!.getGuild())) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }
                     }
                     components {
@@ -89,7 +88,7 @@ class ConfigureHybridExtension: Extension() {
             emoji(action.emoji.unicode)
             deferredAck = true
             action {
-                Datastore.GuildPrefsCollection.update(guild.id, action, !getActionToggle(action, guild.id))
+                Datastore.GuildPrefsCollection.update(guild, action, !getActionToggle(action, guild))
                 edit {
                     this.embed {
                         author {
@@ -98,7 +97,7 @@ class ConfigureHybridExtension: Extension() {
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
-                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild.id)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                         }
                     }
                 }
@@ -114,8 +113,8 @@ class ConfigureHybridExtension: Extension() {
         Action.VIDEO
     )
 
-    private suspend fun getActionToggle(action: Action, guildId: Snowflake): Boolean {
-        val guildPrefs = Datastore.GuildPrefsCollection.get(guildId)
+    private suspend fun getActionToggle(action: Action, guild: Guild): Boolean {
+        val guildPrefs = Datastore.GuildPrefsCollection.get(guild)
         return when (action) {
             Action.JOIN -> guildPrefs.join
             Action.LEAVE -> guildPrefs.leave

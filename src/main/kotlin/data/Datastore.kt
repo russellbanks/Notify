@@ -26,7 +26,7 @@ import dev.kord.cache.api.data.description
 import dev.kord.cache.api.put
 import dev.kord.cache.api.query
 import dev.kord.cache.map.MapDataCache
-import dev.kord.common.entity.Snowflake
+import dev.kord.core.entity.Guild
 import extensions.voicestateupdate.Action
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
@@ -45,13 +45,13 @@ object Datastore {
 
         suspend fun setupCache() = cache.register(description)
 
-        suspend fun get(guildId: Snowflake): GuildPrefs {
-            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guildId.toString() }.singleOrNull()
+        suspend fun get(guild: Guild): GuildPrefs {
+            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guild.id.toString() }.singleOrNull()
 
             val record: GuildPrefs? = if (cachedRecord == null) {
-                guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString()).also { cache.put(it!!) }
+                guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString()).also { cache.put(it!!) }
             } else {
-                guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString())
+                guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString())
             }
 
             if (record == null) throw Error("Guild preferences were not found for this guild")
@@ -62,26 +62,26 @@ object Datastore {
             )
         }
 
-        suspend fun update(guildId: Snowflake, feature: Action, toggle: Boolean) {
-            val criteria = GuildPrefs::guildId eq guildId.toString()
+        suspend fun update(guild: Guild, feature: Action, toggle: Boolean) {
+            val criteria = GuildPrefs::guildId eq guild.id.toString()
             val changes = combine(set(feature.name.lowercase(), toggle), currentDate("lastModified"))
 
             if (!guildPrefs.updateOne(criteria, changes).wasAcknowledged()) throw Error("DB update not ack")
 
-            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guildId.toString() }
+            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guild.id.toString() }
 
-            val dbRecord = guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString())!!
+            val dbRecord = guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString())!!
 
             if (cachedRecord.singleOrNull() == null) cache.put(dbRecord)
             else cachedRecord.update { dbRecord }
         }
 
-        suspend fun isNewGuild(guildId: Snowflake): Boolean {
-            return guildPrefs.findOne(GuildPrefs::guildId eq guildId.toString()) == null
+        suspend fun isNewGuild(guild: Guild): Boolean {
+            return guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString()) == null
         }
 
-        suspend fun createGuild(guildId: Snowflake) {
-            guildPrefs.insertOne(GuildPrefs(guildId.toString(), "null",
+        suspend fun createGuild(guild: Guild) {
+            guildPrefs.insertOne(GuildPrefs(guild.id.toString(), "null",
                 join = true,
                 switch = true,
                 leave = true,
@@ -90,8 +90,8 @@ object Datastore {
             ))
         }
 
-        suspend fun deleteGuild(guildId: Snowflake) {
-            guildPrefs.deleteOne(GuildPrefs::guildId eq guildId.toString())
+        suspend fun deleteGuild(guild: Guild) {
+            guildPrefs.deleteOne(GuildPrefs::guildId eq guild.id.toString())
         }
 
     }

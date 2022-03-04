@@ -12,7 +12,7 @@ class LeaveGuildExtension: Extension() {
     override suspend fun setup() {
         event<GuildDeleteEvent> {
             action {
-                event.guild?.id?.let { Datastore.GuildPrefsCollection.deleteGuild(it) }
+                event.guild?.let { Datastore.GuildPrefsCollection.deleteGuild(it) }
             }
         }
     }

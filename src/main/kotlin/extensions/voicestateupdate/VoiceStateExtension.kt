@@ -48,7 +48,7 @@ class VoiceStateExtension: Extension() {
 
                 val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
                 val channel = kord.getChannel(channelId)!!
-                val prefs = Datastore.GuildPrefsCollection.get(event.state.getMember().guildId)
+                val prefs = Datastore.GuildPrefsCollection.get(event.state.getGuild())
 
                 val member = event.state.getMember()
                 if (shouldSendEmbed(action, prefs)) {
