@@ -27,6 +27,7 @@ import dev.kord.cache.api.put
 import dev.kord.cache.api.query
 import dev.kord.cache.map.MapDataCache
 import dev.kord.core.entity.Guild
+import dev.kord.core.entity.channel.Channel
 import extensions.voicestateupdate.Action
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
@@ -65,15 +66,8 @@ object Datastore {
         suspend fun update(guild: Guild, feature: Action, toggle: Boolean) {
             val criteria = GuildPrefs::guildId eq guild.id.toString()
             val changes = combine(set(feature.name.lowercase(), toggle), currentDate("lastModified"))
-
             if (!guildPrefs.updateOne(criteria, changes).wasAcknowledged()) throw Error("DB update not ack")
-
-            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guild.id.toString() }
-
-            val dbRecord = guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString())!!
-
-            if (cachedRecord.singleOrNull() == null) cache.put(dbRecord)
-            else cachedRecord.update { dbRecord }
+            updateCache(guild)
         }
 
         suspend fun isNewGuild(guild: Guild): Boolean {
@@ -92,6 +86,20 @@ object Datastore {
 
         suspend fun deleteGuild(guild: Guild) {
             guildPrefs.deleteOne(GuildPrefs::guildId eq guild.id.toString())
+        }
+
+        suspend fun updateChannel(guild: Guild, channel: Channel) {
+            val criteria = GuildPrefs::guildId eq guild.id.toString()
+            val changes = combine(set("channelId", channel.id.toString()), currentDate("lastModified"))
+            if (!guildPrefs.updateOne(criteria, changes).wasAcknowledged()) throw Error("DB update not ack")
+            updateCache(guild)
+        }
+
+        private suspend fun updateCache(guild: Guild) {
+            val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guild.id.toString() }
+            val dbRecord = guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString())!!
+            if (cachedRecord.singleOrNull() == null) cache.put(dbRecord)
+            else cachedRecord.update { dbRecord }
         }
 
     }
