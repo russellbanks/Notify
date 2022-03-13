@@ -43,6 +43,7 @@ class VoiceStateExtension: Extension() {
                     (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
                     (event.state.getChannelOrNull() == null) -> Action.LEAVE
                     (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
+                    (event.state.isSelfVideo && !event.old!!.isSelfVideo)  -> Action.VIDEO
                     else -> Action.UNKNOWN
                 }
 
