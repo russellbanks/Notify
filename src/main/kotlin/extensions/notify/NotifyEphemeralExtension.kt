@@ -45,7 +45,7 @@ class NotifyEphemeralExtension: Extension() {
 
             action {
                 val notifyMessage = respond {
-                    content = NotifyReply.getNotifyReply(member as Member, arguments.scope)
+                    content = member?.let { NotifyReply.getNotifyReply(it.asMember(), arguments.scope) }
                 }
                 Scheduler().schedule(5.hours) {
                     notifyMessage.delete()
