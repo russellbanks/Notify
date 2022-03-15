@@ -29,7 +29,6 @@ import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
 import com.kotlindiscord.kord.extensions.types.respond
 import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
-import dev.kord.core.entity.Member
 import kotlin.time.Duration.Companion.hours
 
 class NotifyEphemeralExtension: Extension() {

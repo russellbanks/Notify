@@ -6,8 +6,6 @@ import data.Datastore
 import dev.kord.common.entity.ChannelType
 import dev.kord.core.event.channel.TextChannelCreateEvent
 import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.first
 
 class ChannelCreateEventExtension: Extension() {
 

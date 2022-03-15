@@ -7,7 +7,6 @@ import com.kotlindiscord.kord.extensions.extensions.chatGroupCommand
 import com.kotlindiscord.kord.extensions.utils.respond
 import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
-import dev.kord.core.entity.Member
 import kotlin.time.Duration.Companion.hours
 
 class NotifyChatExtension: Extension() {
