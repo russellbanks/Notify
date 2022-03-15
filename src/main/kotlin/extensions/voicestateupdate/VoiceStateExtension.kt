@@ -51,17 +51,19 @@ class VoiceStateExtension: Extension() {
                 val prefs = Datastore.GuildPrefsCollection.get(event.state.getGuild())
 
                 val member = event.state.getMember()
-                if (shouldSendEmbed(action, prefs)) {
-                    MessageChannelBehavior(Snowflake(prefs.channelId), kord).createEmbed {
-                        color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                        title = "${member.displayName} ${action.phrase} ${channel.data.name.value}"
-                        timestamp = Clock.System.now()
-                        author {
-                            name = member.displayName
-                            icon = member.avatar?.url
-                        }
-                        footer {
-                            text = action.emoji.unicode
+                prefs.channelId?.let {
+                    if (shouldSendEmbed(action, prefs)) {
+                        MessageChannelBehavior(Snowflake(it), kord).createEmbed {
+                            color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
+                            title = "${member.displayName} ${action.phrase} ${channel.data.name.value}"
+                            timestamp = Clock.System.now()
+                            author {
+                                name = member.displayName
+                                icon = member.avatar?.url
+                            }
+                            footer {
+                                text = action.emoji.unicode
+                            }
                         }
                     }
                 }

@@ -63,6 +63,10 @@ class ConfigureHybridExtension: Extension() {
 
             check { isNotBot() }
 
+            slashCommandSettings {
+                subCommandName = "view"
+            }
+
             action {
                 respond {
                     guild?.let { guild ->
@@ -70,7 +74,11 @@ class ConfigureHybridExtension: Extension() {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                             title = guild.asGuild().name
                             field("Notifications Channel") {
-                                kord.getChannel(Snowflake(Datastore.GuildPrefsCollection.get(guild.asGuild()).channelId))!!.mention
+                                if (Datastore.GuildPrefsCollection.get(guild.asGuild()).channelId != null) {
+                                    Datastore.GuildPrefsCollection.get(guild.asGuild()).channelId?.let { Snowflake(it) }?.let { kord.getChannel(it)?.mention } ?: "No channel set"
+                                } else {
+                                    "No channel set"
+                                }
                             }
                             actionList.forEach { action ->
                                 field(action.name.lowercase().replaceFirstChar { it.titlecase()}) {

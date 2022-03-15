@@ -75,7 +75,7 @@ object Datastore {
         }
 
         suspend fun createGuild(guild: Guild) {
-            guildPrefs.insertOne(GuildPrefs(guild.id.toString(), "null",
+            guildPrefs.insertOne(GuildPrefs(guild.id.toString(), null,
                 join = true,
                 switch = true,
                 leave = true,
@@ -88,9 +88,9 @@ object Datastore {
             guildPrefs.deleteOne(GuildPrefs::guildId eq guild.id.toString())
         }
 
-        suspend fun updateChannel(guild: Guild, channel: Channel) {
+        suspend fun updateChannel(guild: Guild, channel: Channel?) {
             val criteria = GuildPrefs::guildId eq guild.id.toString()
-            val changes = combine(set("channelId", channel.id.toString()), currentDate("lastModified"))
+            val changes = combine(set("channelId", channel?.id?.toString()), currentDate("lastModified"))
             if (!guildPrefs.updateOne(criteria, changes).wasAcknowledged()) throw Error("DB update not ack")
             updateCache(guild)
         }

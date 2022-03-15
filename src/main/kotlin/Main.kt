@@ -26,6 +26,7 @@ import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import extensions.ConfigureHybridExtension
+import extensions.joinleaveupdate.ChannelDeleteEventExtension
 import extensions.joinleaveupdate.LeaveGuildExtension
 import extensions.joinleaveupdate.NewGuildExtension
 import extensions.notify.NotifyChatExtension
@@ -71,6 +72,7 @@ suspend fun main() {
             add(::VoiceStateExtension)
             add(::NewGuildExtension)
             add(::LeaveGuildExtension)
+            add(::ChannelDeleteEventExtension)
 
             help {
                 check { isNotBot() }
