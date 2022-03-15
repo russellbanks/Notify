@@ -94,8 +94,14 @@ class ConfigureHybridExtension: Extension() {
 
                 action {
                     respond {
-                        guild?.let { Datastore.GuildPrefsCollection.updateChannel(it.asGuild(), arguments.scope) }
-                        content = "${if (guild?.let { Datastore.GuildPrefsCollection.get(it.asGuild()).channelId } == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
+                        guild?.let {
+                            content = if (Datastore.GuildPrefsCollection.get(it.asGuild()).channelId != arguments.scope.id.toString()) {
+                                Datastore.GuildPrefsCollection.updateChannel(it.asGuild(), arguments.scope)
+                                "${if (Datastore.GuildPrefsCollection.get(it.asGuild()).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
+                            } else {
+                                "${arguments.scope.mention} is already set as the text channel to send voice state notifications in."
+                            }
+                        }
                     }
                 }
             }
