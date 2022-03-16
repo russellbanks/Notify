@@ -43,7 +43,7 @@ internal object NotifyReply {
      *
      * @param member [Member] - The member that ran the command
      */
-    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${getChannelName(member)}** ${
+    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${member.getVoiceState().getChannelOrNull()?.mention}** ${
         getFormattedListOfMembers(getListOfVCMembers(member))
     }"
 
@@ -91,10 +91,4 @@ internal object NotifyReply {
         }
     }
 
-    /**
-     * Gets the name of the voice channel that the member is currently in
-     *
-     * @param member [Member] - The member that ran the command
-     */
-    private suspend fun getChannelName(member: Member) = member.kord.getChannel(member.getVoiceState().channelId!!)?.data?.name?.value
 }
