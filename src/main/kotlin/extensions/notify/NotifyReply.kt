@@ -43,7 +43,7 @@ internal object NotifyReply {
      *
      * @param member [Member] - The member that ran the command
      */
-    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in **${member.getVoiceState().getChannelOrNull()?.mention}** ${
+    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
         getFormattedListOfMembers(getListOfVCMembers(member))
     }"
 
