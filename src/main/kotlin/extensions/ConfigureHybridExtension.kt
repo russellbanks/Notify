@@ -33,7 +33,7 @@ import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.components.types.emoji
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.types.edit
-import data.Datastore
+import data.DataStore
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.ChannelType
@@ -74,8 +74,8 @@ class ConfigureHybridExtension: Extension() {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                             title = guild.asGuild().name
                             field("Notifications Channel") {
-                                if (Datastore.GuildPrefsCollection.get(guild.asGuild()).channelId != null) {
-                                    Datastore.GuildPrefsCollection.get(guild.asGuild()).channelId?.let { Snowflake(it) }?.let { kord.getChannel(it)?.mention } ?: "No channel set"
+                                if (DataStore.GuildPrefsCollection.get(guild.asGuild()).channelId != null) {
+                                    DataStore.GuildPrefsCollection.get(guild.asGuild()).channelId?.let { Snowflake(it) }?.let { kord.getChannel(it)?.mention } ?: "No channel set"
                                 } else {
                                     "No channel set"
                                 }
@@ -144,9 +144,9 @@ class ConfigureHybridExtension: Extension() {
                 action {
                     respond {
                         guild?.let {
-                            content = if (Datastore.GuildPrefsCollection.get(it.asGuild()).channelId != arguments.scope.id.toString()) {
-                                Datastore.GuildPrefsCollection.updateChannel(it.asGuild(), arguments.scope)
-                                "${if (Datastore.GuildPrefsCollection.get(it.asGuild()).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
+                            content = if (DataStore.GuildPrefsCollection.get(it.asGuild()).channelId != arguments.scope.id.toString()) {
+                                DataStore.GuildPrefsCollection.updateChannel(it.asGuild(), arguments.scope)
+                                "${if (DataStore.GuildPrefsCollection.get(it.asGuild()).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
                             } else {
                                 "${arguments.scope.mention} is already set as the text channel to send voice state notifications in."
                             }
@@ -172,7 +172,7 @@ class ConfigureHybridExtension: Extension() {
             emoji(action.emoji.unicode)
             deferredAck = true
             action {
-                Datastore.GuildPrefsCollection.update(guild, action, !getActionToggle(action, guild))
+                DataStore.GuildPrefsCollection.update(guild, action, !getActionToggle(action, guild))
                 edit {
                     this.embed {
                         author {
@@ -198,7 +198,7 @@ class ConfigureHybridExtension: Extension() {
     )
 
     private suspend fun getActionToggle(action: Action, guild: Guild): Boolean {
-        val guildPrefs = Datastore.GuildPrefsCollection.get(guild)
+        val guildPrefs = DataStore.GuildPrefsCollection.get(guild)
         return when (action) {
             Action.JOIN -> guildPrefs.join
             Action.LEAVE -> guildPrefs.leave

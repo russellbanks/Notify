@@ -20,14 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
-import data.Datastore
+import data.DataStore
 import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
 import extensions.ConfigureHybridExtension
-import extensions.joinleaveupdate.ChannelCreateEventExtension
-import extensions.joinleaveupdate.ChannelDeleteEventExtension
+import extensions.joinleaveupdate.CreateChannelExtension
+import extensions.joinleaveupdate.DeleteChannelExtension
 import extensions.joinleaveupdate.LeaveGuildExtension
 import extensions.joinleaveupdate.NewGuildExtension
 import extensions.notify.NotifyChatExtension
@@ -37,7 +37,7 @@ import extensions.voicestateupdate.VoiceStateExtension
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
 
-    Datastore.GuildPrefsCollection.setupCache()
+    DataStore.GuildPrefsCollection.setupCache()
 
     ExtensibleBot(EnvironmentVariables.discordApiKey) {
         chatCommands {
@@ -73,8 +73,8 @@ suspend fun main() {
             add(::VoiceStateExtension)
             add(::NewGuildExtension)
             add(::LeaveGuildExtension)
-            add(::ChannelDeleteEventExtension)
-            add(::ChannelCreateEventExtension)
+            add(::DeleteChannelExtension)
+            add(::CreateChannelExtension)
 
             help {
                 check { isNotBot() }

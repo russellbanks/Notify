@@ -23,7 +23,7 @@ package extensions.voicestateupdate
 import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.Datastore
+import data.DataStore
 import data.GuildPrefs
 import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
@@ -48,7 +48,7 @@ class VoiceStateExtension: Extension() {
 
                 val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
                 val channel = kord.getChannel(channelId)!!
-                val prefs = Datastore.GuildPrefsCollection.get(event.state.getGuild())
+                val prefs = DataStore.GuildPrefsCollection.get(event.state.getGuild())
 
                 val member = event.state.getMember()
                 prefs.channelId?.let {

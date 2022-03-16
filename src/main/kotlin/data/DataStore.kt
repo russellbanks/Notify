@@ -33,7 +33,7 @@ import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.eq
 import org.litote.kmongo.reactivestreams.KMongo
 
-object Datastore {
+object DataStore {
 
     private val client = KMongo.createClient(EnvironmentVariables.mongoDbUri).coroutine
     private var database = client.getDatabase("notify")

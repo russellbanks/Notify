@@ -2,7 +2,7 @@ package extensions.joinleaveupdate
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.Datastore
+import data.DataStore
 import dev.kord.core.event.guild.GuildDeleteEvent
 
 class LeaveGuildExtension: Extension() {
@@ -12,7 +12,7 @@ class LeaveGuildExtension: Extension() {
     override suspend fun setup() {
         event<GuildDeleteEvent> {
             action {
-                event.guild?.let { Datastore.GuildPrefsCollection.deleteGuild(it) }
+                event.guild?.let { DataStore.GuildPrefsCollection.deleteGuild(it) }
             }
         }
     }
