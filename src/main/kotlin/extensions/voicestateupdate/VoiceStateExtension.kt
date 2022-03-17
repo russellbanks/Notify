@@ -38,16 +38,9 @@ class VoiceStateExtension: Extension() {
     override suspend fun setup() {
         event<VoiceStateUpdateEvent> {
             action {
-                val action = when {
-                    (event.old?.getChannelOrNull() == null) -> Action.JOIN
-                    (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
-                    (event.state.getChannelOrNull() == null) -> Action.LEAVE
-                    (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
-                    else -> Action.UNKNOWN
-                }
+                val action = getAction(event)
 
-                val channelId = if (action == Action.LEAVE) event.old?.channelId!! else event.state.channelId!!
-                val channel = kord.getChannel(channelId)!!
+                val channel = if (action == Action.LEAVE) event.old?.getChannelOrNull() else event.state.getChannelOrNull()
                 val prefs = DataStore.GuildPrefsCollection.get(event.state.getGuild())
 
                 val member = event.state.getMember()
@@ -55,7 +48,7 @@ class VoiceStateExtension: Extension() {
                     if (shouldSendEmbed(action, prefs)) {
                         MessageChannelBehavior(Snowflake(it), kord).createEmbed {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                            title = "${member.displayName} ${action.phrase} ${channel.data.name.value}"
+                            title = "${member.displayName} ${action.phrase} ${channel?.asChannel()?.name}"
                             timestamp = Clock.System.now()
                             author {
                                 name = member.displayName
@@ -71,13 +64,23 @@ class VoiceStateExtension: Extension() {
         }
     }
 
-    private fun shouldSendEmbed(action: Action, prefs: GuildPrefs): Boolean {
+    private suspend fun getAction(event: VoiceStateUpdateEvent): Action {
         return when {
-            action == Action.JOIN && !prefs.join -> false
-            action == Action.LEAVE && !prefs.leave -> false
-            action == Action.SWITCH && !prefs.switch -> false
-            action == Action.STREAM && !prefs.stream -> false
-            action == Action.VIDEO && !prefs.video -> false
+            (event.old?.getChannelOrNull() == null) -> Action.JOIN
+            (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
+            (event.state.getChannelOrNull() == null) -> Action.LEAVE
+            (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
+            else -> Action.UNKNOWN
+        }
+    }
+
+    private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs): Boolean {
+        return when {
+            action == Action.JOIN && !guildPrefs.join -> false
+            action == Action.LEAVE && !guildPrefs.leave -> false
+            action == Action.SWITCH && !guildPrefs.switch -> false
+            action == Action.STREAM && !guildPrefs.stream -> false
+            action == Action.VIDEO && !guildPrefs.video -> false
             action == Action.UNKNOWN -> false
             else -> true
         }
