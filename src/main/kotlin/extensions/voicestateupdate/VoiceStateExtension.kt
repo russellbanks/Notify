@@ -29,6 +29,7 @@ import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.MessageChannelBehavior
 import dev.kord.core.behavior.channel.createEmbed
+import dev.kord.core.entity.Member
 import dev.kord.core.event.user.VoiceStateUpdateEvent
 import kotlinx.datetime.Clock
 
@@ -45,7 +46,7 @@ class VoiceStateExtension: Extension() {
 
                 val member = event.state.getMember()
                 prefs.channelId?.let {
-                    if (shouldSendEmbed(action, prefs)) {
+                    if (shouldSendEmbed(action, prefs, member)) {
                         MessageChannelBehavior(Snowflake(it), kord).createEmbed {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                             title = "${member.displayName} ${action.phrase} ${channel?.asChannel()?.name}"
@@ -74,8 +75,9 @@ class VoiceStateExtension: Extension() {
         }
     }
 
-    private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs): Boolean {
+    private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs, member: Member): Boolean {
         return when {
+            member.isBot -> false
             action == Action.JOIN && !guildPrefs.join -> false
             action == Action.LEAVE && !guildPrefs.leave -> false
             action == Action.SWITCH && !guildPrefs.switch -> false
