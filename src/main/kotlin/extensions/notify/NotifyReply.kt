@@ -21,8 +21,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package extensions.notify
 
 import dev.kord.core.entity.Member
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.count
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.filterNot
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.last
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 
-internal object NotifyReply {
+object NotifyReply {
 
     /**
      * Public function to retrieve the response that Notifies the chosen target
@@ -44,7 +53,7 @@ internal object NotifyReply {
      * @param member [Member] - The member that ran the command
      */
     private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
-        getFormattedListOfMembers(getListOfVCMembers(member))
+        getFormattedStringOfMembers(getListOfVoiceMembers(member))
     }"
 
     /**
@@ -62,31 +71,35 @@ internal object NotifyReply {
     private fun getTarget(target: NotifyTarget) = if (target == NotifyTarget.HERE) "@here" else "@everyone"
 
     /**
-     * Gets a mutable list of a valid members inside the voice channel that the member is in
+     * Gets flow of all valid members inside the voice channel that the member is in
      *
      * @param member [Member] - The member that ran the command
+     * @return [Flow] - A flow containing all valid members in a voice channel
      */
-    private suspend fun getListOfVCMembers(member: Member) = mutableListOf<String>().also { otherMemberMentions ->
-        member.getVoiceState().getChannelOrNull()?.voiceStates?.collect { voiceState ->
-            voiceState.getMemberOrNull()?.run {
-                if (this != member && !isBot) otherMemberMentions.add(nicknameMention)
+    private suspend fun getListOfVoiceMembers(member: Member): Flow<Member> {
+        return flow {
+            member.getVoiceState().getChannelOrNull()?.voiceStates?.filter {
+                it.getMember() != member && it.getMember().isBot
+            }?.collect {
+                emit(it.getMember())
             }
         }
     }
 
     /**
-     * Formats a mutable list of voice members inside a voice channel into a readable string
+     * Formats a flow of valid voice members inside a voice channel into a readable string.
      *
-     * @param listOfVoiceMembers [MutableList] - A list of valid members inside a voice channel
+     * @param membersFlow [Flow] - A flow of valid members inside a voice channel
+     * @return [String] - A readable ending string of voice members
      */
-    private fun getFormattedListOfMembers(listOfVoiceMembers: MutableList<String>) = listOfVoiceMembers.run {
-        when (size) {
+    private suspend fun getFormattedStringOfMembers(membersFlow: Flow<Member>): String {
+        return when (membersFlow.count()) {
             0 -> ""
-            1 -> "with ${first()}"
+            1 -> "with ${membersFlow.first().mention}"
             else -> {
-                val finalMember = last()
-                removeLast()
-                "with ${joinToString()} and $finalMember"
+                val finalMember = membersFlow.last()
+                val finalMembersFlow = membersFlow.filterNot { it == membersFlow.last() }
+                "with ${finalMembersFlow.map { it.mention }.toList().joinToString()} and ${finalMember.mention}"
             }
         }
     }
