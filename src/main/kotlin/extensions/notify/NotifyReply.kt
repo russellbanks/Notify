@@ -51,7 +51,7 @@ object NotifyReply {
      *
      * @param member [Member] - The member that ran the command
      */
-    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "${getTarget(target)}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
+    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "@${target.readableName}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
         getFormattedStringOfMembers(getListOfVoiceMembers(member))
     }"
 
@@ -63,14 +63,7 @@ object NotifyReply {
     private fun getInvalidReply(member: Member) = "${member.mention}, you must be in a voice channel to use this command."
 
     /**
-     * Returns @here or @everyone based on the NotifyTarget
-     *
-     * @param target [NotifyTarget]
-     */
-    private fun getTarget(target: NotifyTarget) = if (target == NotifyTarget.HERE) "@here" else "@everyone"
-
-    /**
-     * Gets flow of all valid members inside the voice channel that the member is in
+     * Gets a flow of all valid members inside the voice channel that the member is in
      *
      * @param member [Member] - The member that ran the command
      * @return [Flow] - A flow containing all valid members in a voice channel
