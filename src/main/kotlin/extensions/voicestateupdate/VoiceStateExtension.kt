@@ -23,7 +23,7 @@ package extensions.voicestateupdate
 import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.DataStore
+import data.Database
 import data.GuildPrefs
 import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
@@ -42,12 +42,12 @@ class VoiceStateExtension: Extension() {
                 val action = getAction(event)
 
                 val channel = if (action == Action.LEAVE) event.old?.getChannelOrNull() else event.state.getChannelOrNull()
-                val prefs = DataStore.GuildPrefsCollection.get(event.state.getGuild())
+                val guildPrefs = Database.get(event.state.getGuild())
 
                 val member = event.state.getMember()
-                prefs.channelId?.let {
-                    if (shouldSendEmbed(action, prefs, member)) {
-                        MessageChannelBehavior(Snowflake(it), kord).createEmbed {
+                if (shouldSendEmbed(action, guildPrefs, member)) {
+                    guildPrefs.channelId?.let { Snowflake(it) }?.let {
+                        MessageChannelBehavior(it, kord).createEmbed {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                             title = "${member.displayName} ${action.phrase} ${channel?.asChannel()?.name}"
                             timestamp = Clock.System.now()

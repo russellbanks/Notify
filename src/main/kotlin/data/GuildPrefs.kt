@@ -28,10 +28,4 @@ data class GuildPrefs(
     val leave: Boolean,
     val stream: Boolean,
     val video: Boolean
-) {
-
-    override fun toString(): String {
-        return """{}"""
-    }
-
-}
+)

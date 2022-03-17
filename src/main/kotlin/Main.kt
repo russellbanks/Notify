@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
-import data.DataStore
+import data.Database
 import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
@@ -37,7 +37,7 @@ import extensions.voicestateupdate.VoiceStateExtension
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
 
-    DataStore.GuildPrefsCollection.setupCache()
+    Database.setupCache()
 
     ExtensibleBot(EnvironmentVariables.discordApiKey) {
         chatCommands {

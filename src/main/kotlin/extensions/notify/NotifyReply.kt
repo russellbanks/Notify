@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 package extensions.notify
 
-import dev.kord.core.entity.Member
+import dev.kord.core.behavior.MemberBehavior
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.flow.filterNot
@@ -35,10 +35,10 @@ object NotifyReply {
     /**
      * Public function to retrieve the response that Notifies the chosen target
      *
-     * @param member [Member] -  The member that ran the command
+     * @param member [MemberBehavior] -  The member that ran the command
      * @param target [NotifyTarget] - The scope of whom the notifications should be sent to
      */
-    suspend fun getNotifyReply(member: Member, target: NotifyTarget): String {
+    suspend fun getNotifyReply(member: MemberBehavior, target: NotifyTarget): String {
         return if (member.getVoiceStateOrNull()?.channelId != null) {
             getValidReply(member, target)
         } else {
@@ -49,26 +49,26 @@ object NotifyReply {
     /**
      * Builds the message that tags everyone and states what members are in a voice channel
      *
-     * @param member [Member] - The member that ran the command
+     * @param member [MemberBehavior] - The member that ran the command
      */
-    private suspend fun getValidReply(member: Member, target: NotifyTarget) = "@${target.readableName}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
+    private suspend fun getValidReply(member: MemberBehavior, target: NotifyTarget) = "@${target.readableName}, ${member.mention} is in ${member.getVoiceState().getChannelOrNull()?.mention} ${
         getFormattedStringOfMembers(getListOfVoiceMembers(member))
     }"
 
     /**
      * Builds the message that tells the user that they need to be in a voice channel to use the command
      *
-     * @param member [Member] - The member that ran the command
+     * @param member [MemberBehavior] - The member that ran the command
      */
-    private fun getInvalidReply(member: Member) = "${member.mention}, you must be in a voice channel to use this command."
+    private fun getInvalidReply(member: MemberBehavior) = "${member.mention}, you must be in a voice channel to use this command."
 
     /**
      * Gets a flow of all valid members inside the voice channel that the member is in
      *
-     * @param member [Member] - The member that ran the command
+     * @param member [MemberBehavior] - The member that ran the command
      * @return [Flow] - A flow containing all valid members in a voice channel
      */
-    private suspend fun getListOfVoiceMembers(member: Member): Flow<Member> {
+    private suspend fun getListOfVoiceMembers(member: MemberBehavior): Flow<MemberBehavior> {
         return flow {
             member.getVoiceState().getChannelOrNull()?.voiceStates?.filterNot {
                 it.getMember() == member || it.getMember().isBot
@@ -84,7 +84,7 @@ object NotifyReply {
      * @param membersFlow [Flow] - A flow of valid members inside a voice channel
      * @return [String] - A readable ending string of voice members
      */
-    private suspend fun getFormattedStringOfMembers(membersFlow: Flow<Member>): String {
+    private suspend fun getFormattedStringOfMembers(membersFlow: Flow<MemberBehavior>): String {
         return when (membersFlow.count()) {
             0 -> ""
             1 -> "with ${membersFlow.first().mention}"

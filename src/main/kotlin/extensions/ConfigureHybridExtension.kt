@@ -33,14 +33,14 @@ import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.components.types.emoji
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.types.edit
-import data.DataStore
+import data.Database
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.ChannelType
 import dev.kord.common.entity.Permission
 import dev.kord.common.entity.Snowflake
+import dev.kord.core.behavior.GuildBehavior
 import dev.kord.core.behavior.channel.createMessage
-import dev.kord.core.entity.Guild
 import dev.kord.rest.Image
 import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.embed
@@ -74,15 +74,15 @@ class ConfigureHybridExtension: Extension() {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                             title = guild.asGuild().name
                             field("Notifications Channel") {
-                                if (DataStore.GuildPrefsCollection.get(guild.asGuild()).channelId != null) {
-                                    DataStore.GuildPrefsCollection.get(guild.asGuild()).channelId?.let { Snowflake(it) }?.let { kord.getChannel(it)?.mention } ?: "No channel set"
+                                if (Database.get(guild).channelId != null) {
+                                    Database.get(guild).channelId?.let { Snowflake(it) }?.let { kord.getChannel(it)?.mention } ?: "No channel set"
                                 } else {
                                     "No channel set"
                                 }
                             }
                             actionList.forEach { action ->
                                 field(action.name.lowercase().replaceFirstChar { it.titlecase()}) {
-                                    if (getActionToggle(action, guild.asGuild())) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
+                                    if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
                                 }
                             }
                             field("Subcommands:") {
@@ -120,13 +120,13 @@ class ConfigureHybridExtension: Extension() {
                                 }
                                 color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                                 actionList.forEach { action ->
-                                    field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild.asGuild())) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                                    field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                                 }
                             }
                             components {
                                 member?.let {
                                     actionList.forEach { action ->
-                                        publicActionButton(action, guild.asGuild())
+                                        publicActionButton(action, guild)
                                     }
                                 }
                             }
@@ -144,9 +144,9 @@ class ConfigureHybridExtension: Extension() {
                 action {
                     respond {
                         guild?.let {
-                            content = if (DataStore.GuildPrefsCollection.get(it.asGuild()).channelId != arguments.scope.id.toString()) {
-                                DataStore.GuildPrefsCollection.updateChannel(it.asGuild(), arguments.scope)
-                                "${if (DataStore.GuildPrefsCollection.get(it.asGuild()).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
+                            content = if (Database.get(it).channelId != arguments.scope.id.toString()) {
+                                Database.updateChannel(it, arguments.scope)
+                                "${if (Database.get(it).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
                             } else {
                                 "${arguments.scope.mention} is already set as the text channel to send voice state notifications in."
                             }
@@ -165,19 +165,19 @@ class ConfigureHybridExtension: Extension() {
         }
     }
 
-    private suspend fun ComponentContainer.publicActionButton(action: Action, guild: Guild) {
+    private suspend fun ComponentContainer.publicActionButton(action: Action, guild: GuildBehavior) {
         publicButton {
             label = action.name.lowercase().replaceFirstChar { it.titlecase() }
             style = ButtonStyle.Secondary
             emoji(action.emoji.unicode)
             deferredAck = true
             action {
-                DataStore.GuildPrefsCollection.update(guild, action, !getActionToggle(action, guild))
+                Database.update(guild, action, !getActionToggle(action, guild))
                 edit {
-                    this.embed {
+                    embed {
                         author {
-                            name = "${guild.name} server configuration"
-                            icon = guild.getIconUrl(Image.Format.PNG)
+                            name = "${guild.asGuild().name} server configuration"
+                            icon = guild.asGuild().getIconUrl(Image.Format.PNG)
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
@@ -197,8 +197,8 @@ class ConfigureHybridExtension: Extension() {
         Action.VIDEO
     )
 
-    private suspend fun getActionToggle(action: Action, guild: Guild): Boolean {
-        val guildPrefs = DataStore.GuildPrefsCollection.get(guild)
+    private suspend fun getActionToggle(action: Action, guild: GuildBehavior): Boolean {
+        val guildPrefs = Database.get(guild)
         return when (action) {
             Action.JOIN -> guildPrefs.join
             Action.LEAVE -> guildPrefs.leave

@@ -22,6 +22,12 @@ package extensions.notify
 
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.ChoiceEnum
 
+/**
+ * Enum class for all notification targets
+ *
+ * @param readableName [String] - The readable name of the target
+ */
+
 enum class NotifyTarget(override val readableName: String): ChoiceEnum {
     HERE("here"),
     EVERYONE("everyone")

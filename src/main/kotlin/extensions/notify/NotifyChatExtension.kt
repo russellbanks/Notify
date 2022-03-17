@@ -26,7 +26,7 @@ class NotifyChatExtension: Extension() {
 
                 action {
                     val notifyMessage = message.respond {
-                        content = member?.let { NotifyReply.getNotifyReply(it.asMember(), NotifyTarget.HERE) }
+                        content = member?.let { NotifyReply.getNotifyReply(it, NotifyTarget.HERE) }
                     }
                     Scheduler().schedule(5.hours) {
                         message.delete()
@@ -41,7 +41,7 @@ class NotifyChatExtension: Extension() {
 
                 action {
                     val notifyMessage = message.respond {
-                        content = member?.let { NotifyReply.getNotifyReply(it.asMember(), NotifyTarget.EVERYONE) }
+                        content = member?.let { NotifyReply.getNotifyReply(it, NotifyTarget.EVERYONE) }
                     }
                     Scheduler().schedule(5.hours) {
                         message.delete()
