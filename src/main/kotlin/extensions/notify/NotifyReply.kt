@@ -23,7 +23,6 @@ package extensions.notify
 import dev.kord.core.entity.Member
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.count
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
@@ -78,8 +77,8 @@ object NotifyReply {
      */
     private suspend fun getListOfVoiceMembers(member: Member): Flow<Member> {
         return flow {
-            member.getVoiceState().getChannelOrNull()?.voiceStates?.filter {
-                it.getMember() != member && it.getMember().isBot
+            member.getVoiceState().getChannelOrNull()?.voiceStates?.filterNot {
+                it.getMember() == member || it.getMember().isBot
             }?.collect {
                 emit(it.getMember())
             }
