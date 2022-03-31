@@ -21,7 +21,7 @@ dependencies {
     implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.2-RC1")
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
-    implementation("org.litote.kmongo:kmongo-coroutine:4.5.0")
+    implementation("org.litote.kmongo:kmongo-coroutine:4.5.1")
 
     // Hybrid commands - https://github.com/qbosst/kordex-hybrid-commands
     implementation("io.github.qbosst:kordex-hybrid-commands:1.0.4-SNAPSHOT")
