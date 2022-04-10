@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-
+  <img title="HashHash Logo" src="https://user-images.githubusercontent.com/74878137/162616758-ac68a1b2-960c-4af6-88d5-02b86d3bf278.svg" alt="hash" width="80">
   <h3 align="center">Notify</h3>
 
   <p align="center">
