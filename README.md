@@ -19,6 +19,9 @@
 
 Notify is a voice channel notification bot for Discord. It is a self-hosted Discord bot, written in Kotlin, that can send a message to a Discord  chat with any updates to a voice channel. For example, sending a notification when a user has joined a voice channel is ideal for small communities and friends. This functionality extends to wider usage, such as whenever a user goes live or turns their video on. This project was originally created so that our group of friends can all join the voice channel when they know that someone has joined.
 
+![Usage of Kord gif](https://user-images.githubusercontent.com/74878137/162617797-8fd50982-302a-4d61-9eef-e80594d1295f.gif)
+
+
 ## Built With
 
 * [Kord](https://github.com/kordlib/kord)
