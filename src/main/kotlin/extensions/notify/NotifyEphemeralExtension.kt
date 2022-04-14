@@ -53,11 +53,8 @@ class NotifyEphemeralExtension: Extension() {
                 member?.let {
                     if (it.getVoiceStateOrNull()?.getChannelOrNull() != null) {
                         ackPublic()
-                        val publicMessage = respondPublic {
+                        respondPublic {
                             content = NotifyReply.getValidReply(it, arguments.scope)
-                        }
-                        Scheduler().schedule(5.hours) {
-                            publicMessage.delete()
                         }
                     } else {
                         ackEphemeral()
