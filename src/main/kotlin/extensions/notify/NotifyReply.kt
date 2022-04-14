@@ -39,7 +39,7 @@ object NotifyReply {
      * @param target [NotifyTarget] - The scope of whom the notifications should be sent to
      */
     suspend fun getNotifyReply(member: MemberBehavior, target: NotifyTarget): String {
-        return if (member.getVoiceStateOrNull()?.channelId != null) {
+        return if (member.getVoiceStateOrNull()?.getChannelOrNull() != null) {
             getValidReply(member, target)
         } else {
             getInvalidReply(member)
