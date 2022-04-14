@@ -31,7 +31,7 @@ import extensions.joinleaveupdate.DeleteChannelExtension
 import extensions.joinleaveupdate.LeaveGuildExtension
 import extensions.joinleaveupdate.NewGuildExtension
 import extensions.notify.NotifyChatExtension
-import extensions.notify.NotifyEphemeralExtension
+import extensions.notify.NotifySlashExtension
 import extensions.voicestateupdate.VoiceStateExtension
 
 @OptIn(PrivilegedIntent::class)
@@ -67,7 +67,7 @@ suspend fun main() {
         }
 
         extensions {
-            add(::NotifyEphemeralExtension)
+            add(::NotifySlashExtension)
             add(::NotifyChatExtension)
             add(::ConfigureHybridExtension)
             add(::VoiceStateExtension)
