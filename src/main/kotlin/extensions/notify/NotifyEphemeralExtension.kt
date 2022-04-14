@@ -32,9 +32,7 @@ import com.kotlindiscord.kord.extensions.modules.unsafe.types.ackEphemeral
 import com.kotlindiscord.kord.extensions.modules.unsafe.types.ackPublic
 import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondEphemeral
 import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondPublic
-import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
-import kotlin.time.Duration.Companion.hours
 
 class NotifyEphemeralExtension: Extension() {
     override val name = "notify-ephemeral"
