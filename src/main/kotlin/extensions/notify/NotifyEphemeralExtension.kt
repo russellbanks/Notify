@@ -25,8 +25,13 @@ import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.converters.impl.enumChoice
 import com.kotlindiscord.kord.extensions.extensions.Extension
-import com.kotlindiscord.kord.extensions.extensions.publicSlashCommand
-import com.kotlindiscord.kord.extensions.types.respond
+import com.kotlindiscord.kord.extensions.modules.unsafe.annotations.UnsafeAPI
+import com.kotlindiscord.kord.extensions.modules.unsafe.extensions.unsafeSlashCommand
+import com.kotlindiscord.kord.extensions.modules.unsafe.types.InitialSlashCommandResponse
+import com.kotlindiscord.kord.extensions.modules.unsafe.types.ackEphemeral
+import com.kotlindiscord.kord.extensions.modules.unsafe.types.ackPublic
+import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondEphemeral
+import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondPublic
 import com.kotlindiscord.kord.extensions.utils.scheduling.Scheduler
 import dev.kord.common.entity.Permission
 import kotlin.time.Duration.Companion.hours
@@ -34,20 +39,32 @@ import kotlin.time.Duration.Companion.hours
 class NotifyEphemeralExtension: Extension() {
     override val name = "notify-ephemeral"
 
+    @OptIn(UnsafeAPI::class)
     override suspend fun setup() {
-        publicSlashCommand(::Args) {
+        unsafeSlashCommand(::Args) {
             name = "Notify"
             description = "Notify"
+            initialResponse = InitialSlashCommandResponse.None
 
             check { isNotBot() }
             check { hasPermission(Permission.MentionEveryone) }
 
             action {
-                val notifyMessage = respond {
-                    content = member?.let { NotifyReply.getNotifyReply(it, arguments.scope) }
-                }
-                Scheduler().schedule(5.hours) {
-                    notifyMessage.delete()
+                member?.let {
+                    if (it.getVoiceStateOrNull()?.getChannelOrNull() != null) {
+                        ackPublic()
+                        val publicMessage = respondPublic {
+                            content = NotifyReply.getValidReply(it, arguments.scope)
+                        }
+                        Scheduler().schedule(5.hours) {
+                            publicMessage.delete()
+                        }
+                    } else {
+                        ackEphemeral()
+                        respondEphemeral {
+                            content = NotifyReply.getInvalidReply(it)
+                        }
+                    }
                 }
             }
         }

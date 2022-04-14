@@ -18,7 +18,9 @@ repositories {
 dependencies {
 
     // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
-    implementation("com.kotlindiscord.kord.extensions:kord-extensions:1.5.2-RC1")
+    val kordExVersion = "1.5.2-RC1"
+    implementation("com.kotlindiscord.kord.extensions:kord-extensions:$kordExVersion")
+    implementation("com.kotlindiscord.kord.extensions:unsafe:$kordExVersion")
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
     implementation("org.litote.kmongo:kmongo-coroutine:4.5.1")
