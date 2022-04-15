@@ -16,23 +16,21 @@ repositories {
 }
 
 dependencies {
-
     // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
-    val kordExVersion = "1.5.2-RC1"
-    implementation("com.kotlindiscord.kord.extensions:kord-extensions:$kordExVersion")
-    implementation("com.kotlindiscord.kord.extensions:unsafe:$kordExVersion")
+    implementation(libs.kordextensions.kordextensions)
+    implementation(libs.kordextensions.unsafe)
 
     // KMongo Coroutine - https://github.com/Litote/kmongo
-    implementation("org.litote.kmongo:kmongo-coroutine:4.5.1")
+    implementation(libs.kmongo.coroutine)
 
     // Hybrid commands - https://github.com/qbosst/kordex-hybrid-commands
-    implementation("io.github.qbosst:kordex-hybrid-commands:1.0.4-SNAPSHOT")
+    implementation(libs.kordextensions.hybrid)
 
     // KordX.Emoji - https://github.com/kordlib/kordx.emoji
-    implementation ("dev.kord.x:emoji:0.5.0")
+    implementation (libs.kordx.emoji)
 
     // SLF4J (Required by Kord) - https://github.com/qos-ch/slf4j
-    implementation("org.slf4j:slf4j-simple:1.7.36")
+    implementation(libs.slf4j.simple)
 }
 
 tasks.withType<KotlinCompile> {
