@@ -1,0 +1,14 @@
+[versions]
+kmongo = "4.5.1"
+kord-extensions = "1.5.2-RC1"
+kordex-hybrid = "1.0.4-SNAPSHOT"
+kordx-emoji = "0.5.0"
+slf4j = "1.7.36"
+
+[libraries]
+kmongo-coroutine = { module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo" }
+kordextensions-kordextensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
+kordextensions-unsafe = { module = "com.kotlindiscord.kord.extensions:unsafe", version.ref = "kord-extensions" }
+kordextensions-hybrid = { module = "io.github.qbosst:kordex-hybrid-commands", version.ref = "kordex-hybrid" }
+kordx-emoji = { module = "dev.kord.x:emoji", version.ref = "kordx-emoji" }
+slf4j-simple = { module = "org.slf4j:slf4j-simple", version.ref = "slf4j" }
