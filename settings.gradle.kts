@@ -1,4 +1,4 @@
-rootProject.name = "KtNotify"
+rootProject.name = "Notify"
 
 dependencyResolutionManagement {
     versionCatalogs {
