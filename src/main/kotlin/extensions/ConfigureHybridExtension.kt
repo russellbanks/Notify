@@ -146,7 +146,10 @@ class ConfigureHybridExtension: Extension() {
                         guild?.let {
                             content = if (Database.get(it).channelId != arguments.scope.id.toString()) {
                                 Database.updateChannel(it, arguments.scope)
-                                "${if (Database.get(it).channelId == arguments.scope.id.toString()) "Successfully" else "Failed to"} set ${arguments.scope.mention} as the text channel to send voice state notifications in."
+                                "${
+                                    if (Database.get(it).channelId == arguments.scope.id.toString()) "Successfully" 
+                                    else "Failed to"
+                                } set ${arguments.scope.mention} as the text channel to send voice state notifications in."
                             } else {
                                 "${arguments.scope.mention} is already set as the text channel to send voice state notifications in."
                             }
@@ -181,7 +184,10 @@ class ConfigureHybridExtension: Extension() {
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->
-                            field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                            field(
+                                action.name.lowercase().replaceFirstChar { it.titlecase() } +
+                                if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
+                            )
                         }
                     }
                 }
