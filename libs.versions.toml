@@ -1,5 +1,5 @@
 [versions]
-kmongo = "4.6.0"
+kmongo = "4.6.1"
 kord-extensions = "1.5.2-RC1"
 kordex-hybrid = "1.0.4-SNAPSHOT"
 kordx-emoji = "0.5.0"
