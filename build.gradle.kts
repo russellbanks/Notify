@@ -34,7 +34,7 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "17"
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_18.toString()
 }
 
 tasks.create("stage") {
