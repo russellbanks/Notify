@@ -3,7 +3,7 @@ kmongo = "4.7.2"
 kord-extensions = "1.5.2-RC1"
 kordex-hybrid = "1.0.4-SNAPSHOT"
 kordx-emoji = "0.5.0"
-slf4j = "2.0.3"
+slf4j = "2.0.4"
 
 [libraries]
 kmongo-coroutine = { module = "org.litote.kmongo:kmongo-coroutine", version.ref = "kmongo" }
