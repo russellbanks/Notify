@@ -21,7 +21,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import data.Database
-import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
@@ -47,7 +46,7 @@ suspend fun main() {
         }
 
         applicationCommands {
-            defaultGuild(EnvironmentVariables.defaultGuildId?.let(::Snowflake))
+            defaultGuild(EnvironmentVariables.defaultGuildId)
         }
 
         cache {

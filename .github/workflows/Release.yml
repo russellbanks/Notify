@@ -26,7 +26,6 @@ jobs:
         run: ./gradlew build
 
       - name: Release JAR
-        if: matrix.os == 'ubuntu-latest'
         uses: softprops/action-gh-release@v1
         with:
           generate_release_notes: true
