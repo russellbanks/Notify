@@ -1,0 +1,39 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Rename assets to Notify-nightly
+        if: github.repository == 'russellbanks/Notify' && github.ref == 'refs/heads/main'
+        shell: pwsh
+        run: |
+          Get-ChildItem -Recurse -Filter "Notify*" -Include "*-all.jar" | ForEach-Object {
+            Rename-Item $_.FullName -NewName "Notify-nightly$($_.Extension)"
+          }
+
+      - name: Release nightly JAR
+        if: github.repository == 'russellbanks/Notify' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v1
+        with:
+          name: Nightly release
+          tag_name: nightly
+          prerelease: true
+          files: build/libs/Notify-nightly.jar
