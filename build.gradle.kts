@@ -12,8 +12,7 @@ version = "2.0.1"
 
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/repositories/snapshots")
-    maven("https://maven.kotlindiscord.com/repository/maven-public")
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots")
 }
 
 dependencies {

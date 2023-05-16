@@ -112,7 +112,7 @@ class ConfigureExtension: Extension() {
                             embed {
                                 author {
                                     name = "${guild.asGuild().name} configuration"
-                                    icon = guild.asGuild().getIconUrl(Image.Format.PNG)
+                                    icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
                                 }
                                 color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                                 actionList.forEach { action ->
@@ -176,7 +176,7 @@ class ConfigureExtension: Extension() {
                     embed {
                         author {
                             name = "${guild.asGuild().name} server configuration"
-                            icon = guild.asGuild().getIconUrl(Image.Format.PNG)
+                            icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         actionList.forEach { action ->

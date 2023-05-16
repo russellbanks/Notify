@@ -53,7 +53,7 @@ class VoiceStateExtension: Extension() {
                             timestamp = Clock.System.now()
                             author {
                                 name = member.displayName
-                                icon = member.avatar?.url
+                                icon = member.avatar?.cdnUrl?.toUrl()
                             }
                             footer {
                                 text = action.emoji.unicode
