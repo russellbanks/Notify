@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.8.21"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.shadow)
     application
 }
 
@@ -13,7 +13,7 @@ version = "2.0.1"
 repositories {
     mavenCentral()
     maven("https://oss.sonatype.org/content/repositories/snapshots")
-    maven("https://maven.kotlindiscord.com/repository/maven-public/")
+    maven("https://maven.kotlindiscord.com/repository/maven-public")
 }
 
 dependencies {
@@ -40,10 +40,6 @@ tasks.withType<KotlinCompile> {
 tasks.withType<JavaCompile> {
     sourceCompatibility = JavaVersion.current().toString()
     targetCompatibility = JavaVersion.VERSION_17.toString()
-}
-
-tasks.create("stage") {
-    dependsOn("installDist")
 }
 
 application {
