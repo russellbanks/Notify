@@ -1,0 +1,50 @@
+import kotlin.Boolean;
+
+CREATE TABLE guildPrefs (
+    guildId TEXT PRIMARY KEY NOT NULL,
+    channelId TEXT,
+    joinPref INTEGER AS Boolean NOT NULL DEFAULT 1,
+    switch INTEGER AS Boolean NOT NULL DEFAULT 1,
+    leave INTEGER AS Boolean NOT NULL DEFAULT 1,
+    stream INTEGER AS Boolean NOT NULL DEFAULT 1,
+    video INTEGER AS Boolean NOT NULL DEFAULT 1
+);
+
+-- Get guild preferences
+getGuild:
+SELECT * FROM guildPrefs WHERE guildId = ?;
+
+-- Create a new guild entry with default settings
+createGuild:
+INSERT INTO guildPrefs (guildId, joinPref, switch, leave, stream, video)
+VALUES (:guildId, 1, 1, 1, 1, 1);
+
+-- Delete a guild
+deleteGuild:
+DELETE FROM guildPrefs WHERE guildId = ?;
+
+-- Update channel
+updateChannel:
+UPDATE guildPrefs
+SET channelId = :channelId
+WHERE guildId = :guildId;
+
+-- Check if a guild exists
+isNewGuild:
+SELECT EXISTS(SELECT 1 FROM guildPrefs WHERE guildId = ?);
+
+-- Update individual guild preferences
+updateJoin:
+UPDATE guildPrefs SET joinPref = :join WHERE guildId = :guildId;
+
+updateSwitch:
+UPDATE guildPrefs SET switch = :switch WHERE guildId = :guildId;
+
+updateLeave:
+UPDATE guildPrefs SET leave = :leave WHERE guildId = :guildId;
+
+updateStream:
+UPDATE guildPrefs SET stream = :stream WHERE guildId = :guildId;
+
+updateVideo:
+UPDATE guildPrefs SET video = :video WHERE guildId = :guildId;

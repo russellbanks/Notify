@@ -22,7 +22,7 @@ package extensions.joinleaveupdate
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.Database
+import data.Dao
 import dev.kord.common.entity.ChannelType
 import dev.kord.core.event.channel.TextChannelDeleteEvent
 import kotlinx.coroutines.flow.count
@@ -38,9 +38,9 @@ class DeleteChannelExtension: Extension() {
             action {
                 val guild = event.channel.guild
                 if (guild.channels.count { it.type == ChannelType.GuildText } == 0) {
-                    Database.updateChannel(guild, null)
-                } else if (Database.get(guild).channelId == event.channel.id.toString()) {
-                    Database.updateChannel(guild, guild.channels.filter { it.type == ChannelType.GuildText }.first())
+                    Dao.updateChannel(guild, null)
+                } else if (Dao.get(guild).channelId == event.channel.id.toString()) {
+                    Dao.updateChannel(guild, guild.channels.filter { it.type == ChannelType.GuildText }.first())
                 }
             }
         }

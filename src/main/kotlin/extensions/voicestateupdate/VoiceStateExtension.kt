@@ -23,8 +23,8 @@ package extensions.voicestateupdate
 import EnvironmentVariables
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.Database
-import data.GuildPrefs
+import com.russellbanks.data.GuildPrefs
+import data.Dao
 import dev.kord.common.Color
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.channel.MessageChannelBehavior
@@ -46,7 +46,7 @@ class VoiceStateExtension: Extension() {
                 } else {
                     event.state.getChannelOrNull()
                 }
-                val guildPrefs = Database.get(event.state.getGuild())
+                val guildPrefs = Dao.get(event.state.getGuild())
 
                 val member = event.state.getMember()
                 if (shouldSendEmbed(action, guildPrefs, member)) {
@@ -81,7 +81,7 @@ class VoiceStateExtension: Extension() {
     private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs, member: Member): Boolean {
         return when {
             member.isBot -> false
-            action == Action.JOIN && !guildPrefs.join -> false
+            action == Action.JOIN && !guildPrefs.joinPref -> false
             action == Action.LEAVE && !guildPrefs.leave -> false
             action == Action.SWITCH && !guildPrefs.switch -> false
             action == Action.STREAM && !guildPrefs.stream -> false

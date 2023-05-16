@@ -34,7 +34,7 @@ import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.ephemeralSlashCommand
 import com.kotlindiscord.kord.extensions.types.edit
 import com.kotlindiscord.kord.extensions.types.respond
-import data.Database
+import data.Dao
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.ChannelType
@@ -105,10 +105,10 @@ class ConfigureExtension: Extension() {
                 action {
                     respond {
                         guild?.let {
-                            content = if (Database.get(it).channelId != arguments.scope.id.toString()) {
-                                Database.updateChannel(it, arguments.scope)
+                            content = if (Dao.get(it).channelId != arguments.scope.id.toString()) {
+                                Dao.updateChannel(it, arguments.scope)
                                 "${
-                                    if (Database.get(it).channelId == arguments.scope.id.toString()) "Successfully" 
+                                    if (Dao.get(it).channelId == arguments.scope.id.toString()) "Successfully" 
                                     else "Failed to"
                                 } set ${arguments.scope.mention} as the text channel to send voice state notifications in."
                             } else {
@@ -136,7 +136,7 @@ class ConfigureExtension: Extension() {
             emoji(action.emoji.unicode)
             deferredAck = true
             action {
-                Database.update(guild, action, !getActionToggle(action, guild))
+                Dao.update(guild, action, !getActionToggle(action, guild))
                 edit {
                     embed {
                         author {
@@ -172,9 +172,9 @@ class ConfigureExtension: Extension() {
     )
 
     private suspend fun getActionToggle(action: Action, guild: GuildBehavior): Boolean {
-        val guildPrefs = Database.get(guild)
+        val guildPrefs = Dao.get(guild)
         return when (action) {
-            Action.JOIN -> guildPrefs.join
+            Action.JOIN -> guildPrefs.joinPref
             Action.LEAVE -> guildPrefs.leave
             Action.SWITCH -> guildPrefs.switch
             Action.STREAM -> guildPrefs.stream

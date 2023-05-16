@@ -24,7 +24,7 @@ Notify is a voice channel notification bot for Discord. It is a self-hosted Disc
 * [Kord](https://github.com/kordlib/kord) - An Idiomatic Kotlin Wrapper for The Discord API 
 * [Kord Extensions](https://github.com/Kord-Extensions/kord-extensions) - An extensions framework for Kord
 * [Kotlin](https://kotlinlang.org/) - A cross-platform, statically typed, general-purpose programming language with type inference
-* [KMongo](https://github.com/Litote/kmongo) - A Kotlin toolkit for MongoDB
+* [SQLDelight](https://github.com/cashapp/sqldelight) - Typesafe APIs from SQL
 
 ## Showcase
 

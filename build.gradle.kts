@@ -4,11 +4,12 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.sqldelight)
     application
 }
 
 group = "com.russellbanks"
-version = "2.1.0"
+version = "3.0.0"
 
 repositories {
     mavenCentral()
@@ -16,9 +17,6 @@ repositories {
 }
 
 dependencies {
-    // KMongo Coroutine - https://github.com/Litote/kmongo
-    implementation(libs.kmongo.coroutine)
-
     // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
     implementation(libs.kordextensions.kordextensions)
     implementation(libs.kordextensions.unsafe)
@@ -33,6 +31,18 @@ dependencies {
 
     // SLF4J (Required by Kord) - https://github.com/qos-ch/slf4j
     implementation(libs.slf4j.simple)
+
+    // SQLDelight - https://github.com/cashapp/sqldelight
+    implementation(libs.sqldelight.primitive.adapters)
+    implementation(libs.sqldelight.sqlite.driver)
+}
+
+sqldelight {
+    databases {
+        create("Database") {
+            packageName.set("com.russellbanks")
+        }
+    }
 }
 
 tasks.withType<KotlinCompile> {

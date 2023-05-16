@@ -22,7 +22,7 @@ package extensions.joinleaveupdate
 
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.event
-import data.Database
+import data.Dao
 import dev.kord.common.entity.ChannelType
 import dev.kord.core.event.channel.TextChannelCreateEvent
 import kotlinx.coroutines.flow.count
@@ -35,7 +35,7 @@ class CreateChannelExtension: Extension() {
             action {
                 val guild = event.channel.guild
                 if (guild.channels.count { it.type == ChannelType.GuildText } == 1) {
-                    Database.updateChannel(guild, event.channel)
+                    Dao.updateChannel(guild, event.channel)
                 }
             }
         }

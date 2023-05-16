@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import com.kotlindiscord.kord.extensions.ExtensibleBot
 import com.kotlindiscord.kord.extensions.checks.isNotBot
-import data.Database
+import data.Dao
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
@@ -34,9 +34,7 @@ import extensions.voicestateupdate.VoiceStateExtension
 
 @OptIn(PrivilegedIntent::class)
 suspend fun main() {
-
-    Database.setupCache()
-
+    Dao.setupCache()
     ExtensibleBot(EnvironmentVariables.discordApiKey) {
         intents {
             +Intents.nonPrivileged
