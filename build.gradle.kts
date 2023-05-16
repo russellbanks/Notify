@@ -16,15 +16,20 @@ repositories {
 }
 
 dependencies {
+    // KMongo Coroutine - https://github.com/Litote/kmongo
+    implementation(libs.kmongo.coroutine)
+
     // Kord Extensions - https://github.com/Kord-Extensions/kord-extensions
     implementation(libs.kordextensions.kordextensions)
     implementation(libs.kordextensions.unsafe)
 
-    // KMongo Coroutine - https://github.com/Litote/kmongo
-    implementation(libs.kmongo.coroutine)
-
     // KordX.Emoji - https://github.com/kordlib/kordx.emoji
     implementation (libs.kordx.emoji)
+
+    // KotlinX Coroutines - https://github.com/Kotlin/kotlinx.coroutines
+    implementation(libs.kotlinx.coroutines.core)
+
+    // KotlinX DateTime - https://github.com/Kotlin/kotlinx-datetime
 
     // SLF4J (Required by Kord) - https://github.com/qos-ch/slf4j
     implementation(libs.slf4j.simple)
