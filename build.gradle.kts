@@ -7,8 +7,8 @@ plugins {
     application
 }
 
-group = "org.bandev"
-version = "2.0.1"
+group = "com.russellbanks"
+version = "2.1.0"
 
 repositories {
     mavenCentral()
