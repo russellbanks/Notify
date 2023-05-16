@@ -25,7 +25,7 @@ object EnvironmentVariables {
 
     val discordApiKey = env("DISCORD_API_KEY")
     val mongoDbUri = env("MONGODB_URI")
-    val playing = envOrNull("BOT_PLAYING") ?: "bandev.uk/notify"
+    val playing = envOrNull("BOT_PLAYING")
     val defaultGuildId = envOrNull("DEFAULT_GUILD_ID")
 
     fun accentColor(): List<Int> {

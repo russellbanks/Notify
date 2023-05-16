@@ -55,7 +55,7 @@ suspend fun main() {
         }
 
         applicationCommands {
-            defaultGuild(EnvironmentVariables.defaultGuildId?.let { Snowflake(it) })
+            defaultGuild(EnvironmentVariables.defaultGuildId?.let(::Snowflake))
         }
 
         cache {
@@ -63,7 +63,7 @@ suspend fun main() {
         }
 
         presence {
-            playing(EnvironmentVariables.playing)
+            EnvironmentVariables.playing?.let(::playing)
         }
 
         extensions {
