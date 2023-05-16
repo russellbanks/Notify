@@ -7,13 +7,13 @@
     A voice channel notification bot for Discord
     <br/>
     <br/>
-    <a href="https://github.com/BanDev/Notify/issues">Report Bug</a>
+    <a href="https://github.com/russellbanks/Notify/issues">Report Bug</a>
     .
-    <a href="https://github.com/BanDev/Notify/issues">Request Feature</a>
+    <a href="https://github.com/russellbanks/Notify/issues">Request Feature</a>
   </p>
 </p>
 
-![Contributors](https://img.shields.io/github/contributors/BanDev/Notify?color=dark-green) ![Issues](https://img.shields.io/github/issues/BanDev/Notify) ![License](https://img.shields.io/github/license/BanDev/Notify)
+![Contributors](https://img.shields.io/github/contributors/russellbanks/Notify?color=dark-green) ![Issues](https://img.shields.io/github/issues/russellbanks/Notify) ![License](https://img.shields.io/github/license/russellbanks/Notify)
 
 ## About The Project
 
@@ -23,7 +23,6 @@ Notify is a voice channel notification bot for Discord. It is a self-hosted Disc
 
 * [Kord](https://github.com/kordlib/kord) - An Idiomatic Kotlin Wrapper for The Discord API 
 * [Kord Extensions](https://github.com/Kord-Extensions/kord-extensions) - An extensions framework for Kord
-* [Kordex Hybrid Commands](https://github.com/qbosst/kordex-hybrid-commands) - A Kord extension that allows for creating hybrid commands 
 * [Kotlin](https://kotlinlang.org/) - A cross-platform, statically typed, general-purpose programming language with type inference
 * [KMongo](https://github.com/Litote/kmongo) - A Kotlin toolkit for MongoDB
 
@@ -32,23 +31,6 @@ Notify is a voice channel notification bot for Discord. It is a self-hosted Disc
 ![Notify voice state messages gif](https://user-images.githubusercontent.com/74878137/162617797-8fd50982-302a-4d61-9eef-e80594d1295f.gif)
 
 ![Notify command being ran gif](https://user-images.githubusercontent.com/74878137/162618207-585bff35-204e-4ec6-9875-d848754bf552.gif)
-
-## Contributing
-
-Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/BanDev/Notify/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
-* Please make sure you check your spelling and grammar.
-* Create individual PR for each suggestion.
-* Please also read through the [Code Of Conduct](https://github.com/BanDev/Notify/blob/main/CODE_OF_CONDUCT.md) before posting your first idea as well.
-
-### Creating A Pull Request
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 ## License
 
