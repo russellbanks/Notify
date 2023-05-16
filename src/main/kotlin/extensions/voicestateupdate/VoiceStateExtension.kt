@@ -50,17 +50,19 @@ class VoiceStateExtension: Extension() {
 
                 val member = event.state.getMember()
                 if (shouldSendEmbed(action, guildPrefs, member)) {
-                    guildPrefs.channelId?.let { Snowflake(it) }?.let {
-                        MessageChannelBehavior(it, kord).createEmbed {
+                    guildPrefs.channelId?.let(::Snowflake)?.let { snowflake ->
+                        MessageChannelBehavior(snowflake, kord).createEmbed {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                            title = "${member.displayName} ${action.phrase} ${channel?.asChannel()?.name}"
+                            title = "${member.displayName} ${action?.phrase} ${channel?.asChannel()?.name}"
                             timestamp = Clock.System.now()
                             author {
                                 name = member.displayName
                                 icon = member.avatar?.cdnUrl?.toUrl()
                             }
                             footer {
-                                text = action.emoji.unicode
+                                action?.emoji?.unicode?.let {
+                                    text = it
+                                }
                             }
                         }
                     }
@@ -69,16 +71,16 @@ class VoiceStateExtension: Extension() {
         }
     }
 
-    private suspend fun getAction(event: VoiceStateUpdateEvent): Action = when {
+    private suspend fun getAction(event: VoiceStateUpdateEvent): Action? = when {
         event.old?.getChannelOrNull() == null -> Action.JOIN
         event.old?.getChannelOrNull() != event.state.getChannelOrNull()
             && event.state.getChannelOrNull() != null -> Action.SWITCH
         event.state.getChannelOrNull() == null -> Action.LEAVE
         event.old?.isSelfStreaming == false && event.state.isSelfStreaming -> Action.STREAM
-        else -> Action.UNKNOWN
+        else -> null
     }
 
-    private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs, member: Member): Boolean {
+    private fun shouldSendEmbed(action: Action?, guildPrefs: GuildPrefs, member: Member): Boolean {
         return when {
             member.isBot -> false
             action == Action.JOIN && !guildPrefs.joinPref -> false
@@ -86,7 +88,7 @@ class VoiceStateExtension: Extension() {
             action == Action.SWITCH && !guildPrefs.switch -> false
             action == Action.STREAM && !guildPrefs.stream -> false
             action == Action.VIDEO && !guildPrefs.video -> false
-            action == Action.UNKNOWN -> false
+            action == null -> false
             else -> true
         }
     }

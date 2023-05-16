@@ -48,6 +48,7 @@ import extensions.voicestateupdate.Action
 class ConfigureExtension: Extension() {
     override val name = "configure"
 
+    @OptIn(ExperimentalStdlibApi::class)
     override suspend fun setup() {
         ephemeralSlashCommand {
             name = "configure"
@@ -70,7 +71,7 @@ class ConfigureExtension: Extension() {
                                     icon = guild.asGuild().icon?.cdnUrl?.toUrl()
                                 }
                                 color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                                for (action in actionList) {
+                                for (action in Action.entries) {
                                     field(
                                         buildString {
                                             append(action.name.lowercase().replaceFirstChar(Char::titlecase))
@@ -86,7 +87,7 @@ class ConfigureExtension: Extension() {
                             }
                             components {
                                 if (member != null) {
-                                    for (action in actionList) {
+                                    for (action in Action.entries) {
                                         publicActionButton(action, guild)
                                     }
                                 }
@@ -129,6 +130,7 @@ class ConfigureExtension: Extension() {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private suspend fun ComponentContainer.publicActionButton(action: Action, guild: GuildBehavior) {
         publicButton {
             label = action.name.lowercase().replaceFirstChar(Char::titlecase)
@@ -144,7 +146,7 @@ class ConfigureExtension: Extension() {
                             icon = guild.asGuild().icon?.cdnUrl?.toUrl()
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                        for (actionItem in actionList) {
+                        for (actionItem in Action.entries) {
                             field(
                                 buildString {
                                     append(actionItem.name.lowercase().replaceFirstChar(Char::titlecase))
@@ -163,14 +165,6 @@ class ConfigureExtension: Extension() {
         }
     }
 
-    private val actionList = setOf(
-        Action.JOIN,
-        Action.LEAVE,
-        Action.SWITCH,
-        Action.STREAM,
-        Action.VIDEO
-    )
-
     private suspend fun getActionToggle(action: Action, guild: GuildBehavior): Boolean {
         val guildPrefs = Dao.get(guild)
         return when (action) {
@@ -179,7 +173,6 @@ class ConfigureExtension: Extension() {
             Action.SWITCH -> guildPrefs.switch
             Action.STREAM -> guildPrefs.stream
             Action.VIDEO -> guildPrefs.video
-            Action.UNKNOWN -> error("Unknown")
         }
     }
 }

@@ -35,6 +35,5 @@ enum class Action(val phrase: String, val emoji: DiscordEmoji.Generic) {
     LEAVE("left", Emojis.door),
     SWITCH("switched to", Emojis.repeat),
     STREAM("is live in", Emojis.redCircle),
-    VIDEO("turned their video on in", Emojis.camera),
-    UNKNOWN("unknown", Emojis.greyQuestion)
+    VIDEO("turned their video on in", Emojis.camera)
 }
