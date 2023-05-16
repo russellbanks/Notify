@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -31,7 +32,14 @@ dependencies {
 }
 
 tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = JavaVersion.VERSION_17.toString()
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
+    }
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = JavaVersion.current().toString()
+    targetCompatibility = JavaVersion.VERSION_17.toString()
 }
 
 tasks.create("stage") {
