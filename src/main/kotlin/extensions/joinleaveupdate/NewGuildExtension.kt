@@ -30,8 +30,8 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 
 class NewGuildExtension: Extension() {
-
     override val name = "new-guild"
+
     override suspend fun setup() {
         event<GuildCreateEvent> {
             action {

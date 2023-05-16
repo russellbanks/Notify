@@ -36,12 +36,11 @@ class DeleteChannelExtension: Extension() {
     override suspend fun setup() {
         event<TextChannelDeleteEvent> {
             action {
-                event.channel.guild.also { guild ->
-                    if (guild.channels.count { it.type == ChannelType.GuildText } == 0) {
-                        Database.updateChannel(guild, null)
-                    } else if (Database.get(guild).channelId == event.channel.id.toString()) {
-                        Database.updateChannel(guild, guild.channels.filter { it.type == ChannelType.GuildText }.first())
-                    }
+                val guild = event.channel.guild
+                if (guild.channels.count { it.type == ChannelType.GuildText } == 0) {
+                    Database.updateChannel(guild, null)
+                } else if (Database.get(guild).channelId == event.channel.id.toString()) {
+                    Database.updateChannel(guild, guild.channels.filter { it.type == ChannelType.GuildText }.first())
                 }
             }
         }

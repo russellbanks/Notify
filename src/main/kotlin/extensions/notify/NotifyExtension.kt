@@ -72,5 +72,4 @@ class NotifyExtension: Extension() {
             description = "The target"
         }
     }
-
 }

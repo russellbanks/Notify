@@ -33,5 +33,4 @@ object EnvironmentVariables {
             .chunked(2)
             .map { it.toInt(16) }
     }
-
 }

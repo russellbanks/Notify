@@ -80,17 +80,21 @@ class ConfigureExtension: Extension() {
                                         "No channel set"
                                     }
                                 }
-                                actionList.forEach { action ->
-                                    field(action.name.lowercase().replaceFirstChar { it.titlecase()}) {
-                                        if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
+                                for (actionItem in actionList) {
+                                    field(actionItem.name.lowercase().replaceFirstChar(Char::titlecase)) {
+                                        if (getActionToggle(actionItem, guild)) {
+                                            Emojis.whiteCheckMark.unicode
+                                        } else {
+                                            Emojis.x.unicode
+                                        }
                                     }
                                 }
                                 field("Subcommands:") {
                                     var subCommandsNames = ""
-                                    messageCommandsRegistry.commands.forEach { chatCommand ->
+                                    for (chatCommand in messageCommandsRegistry.commands) {
                                         if (chatCommand is ChatGroupCommand && chatCommand.name == this@ConfigureExtension.name) {
-                                            chatCommand.commands.forEach {
-                                                subCommandsNames += if (it != chatCommand.commands.last()) "`${it.name}`, " else "`${it.name}`"
+                                            for (command in chatCommand.commands) {
+                                                subCommandsNames += if (command != chatCommand.commands.last()) "`${command.name}`, " else "`${command.name}`"
                                             }
                                         }
                                     }
@@ -120,13 +124,13 @@ class ConfigureExtension: Extension() {
                                     icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
                                 }
                                 color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                                actionList.forEach { action ->
-                                    field("${action.name.lowercase().replaceFirstChar { it.titlecase()} } ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                                for (action in actionList) {
+                                    field("${action.name.lowercase().replaceFirstChar(Char::titlecase)} ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
                                 }
                             }
                             components {
-                                member?.let {
-                                    actionList.forEach { action ->
+                                if (member != null) {
+                                    for (action in actionList) {
                                         publicActionButton(action, guild)
                                     }
                                 }
@@ -171,7 +175,7 @@ class ConfigureExtension: Extension() {
 
     private suspend fun ComponentContainer.publicActionButton(action: Action, guild: GuildBehavior) {
         publicButton {
-            label = action.name.lowercase().replaceFirstChar { it.titlecase() }
+            label = action.name.lowercase().replaceFirstChar(Char::titlecase)
             style = ButtonStyle.Secondary
             emoji(action.emoji.unicode)
             deferredAck = true
@@ -184,10 +188,16 @@ class ConfigureExtension: Extension() {
                             icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                        actionList.forEach { action ->
+                        for (actionItem in actionList) {
                             field(
-                                action.name.lowercase().replaceFirstChar { it.titlecase() } +
-                                if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
+                                buildString {
+                                    append(actionItem.name.lowercase().replaceFirstChar(Char::titlecase))
+                                    if (getActionToggle(actionItem, guild)) {
+                                        append(Emojis.whiteCheckMark.unicode)
+                                    } else {
+                                        append(Emojis.x.unicode)
+                                    }
+                                }
                             )
                         }
                     }
@@ -196,7 +206,7 @@ class ConfigureExtension: Extension() {
         }
     }
 
-    private val actionList = listOf(
+    private val actionList = setOf(
         Action.JOIN,
         Action.LEAVE,
         Action.SWITCH,

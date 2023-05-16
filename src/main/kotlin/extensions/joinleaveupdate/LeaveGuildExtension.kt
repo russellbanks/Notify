@@ -26,7 +26,6 @@ import data.Database
 import dev.kord.core.event.guild.GuildDeleteEvent
 
 class LeaveGuildExtension: Extension() {
-
     override val name = "leave-guild"
 
     override suspend fun setup() {

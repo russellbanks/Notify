@@ -21,7 +21,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 package data
 
 import EnvironmentVariables
-import com.mongodb.client.model.Updates.*
+import com.mongodb.client.model.Updates.combine
+import com.mongodb.client.model.Updates.currentDate
+import com.mongodb.client.model.Updates.set
 import dev.kord.cache.api.data.description
 import dev.kord.cache.api.put
 import dev.kord.cache.api.query
@@ -97,10 +99,8 @@ object Database {
     private suspend fun updateCache(guild: Guild) {
         val cachedRecord = cache.query<GuildPrefs> { GuildPrefs::guildId eq guild.id.toString() }
         val dbRecord = guildPrefs.findOne(GuildPrefs::guildId eq guild.id.toString())!!
-        if (cachedRecord.singleOrNull() == null) cache.put(dbRecord)
-        else cachedRecord.update { dbRecord }
+        if (cachedRecord.singleOrNull() == null) cache.put(dbRecord) else cachedRecord.update { dbRecord }
     }
 
     private suspend fun updateCache(guild: GuildBehavior) = updateCache(guild.asGuild())
-
 }

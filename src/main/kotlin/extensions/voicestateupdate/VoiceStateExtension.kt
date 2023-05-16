@@ -41,7 +41,11 @@ class VoiceStateExtension: Extension() {
             action {
                 val action = getAction(event)
 
-                val channel = if (action == Action.LEAVE) event.old?.getChannelOrNull() else event.state.getChannelOrNull()
+                val channel = if (action == Action.LEAVE) {
+                    event.old?.getChannelOrNull()
+                } else {
+                    event.state.getChannelOrNull()
+                }
                 val guildPrefs = Database.get(event.state.getGuild())
 
                 val member = event.state.getMember()
@@ -65,14 +69,13 @@ class VoiceStateExtension: Extension() {
         }
     }
 
-    private suspend fun getAction(event: VoiceStateUpdateEvent): Action {
-        return when {
-            (event.old?.getChannelOrNull() == null) -> Action.JOIN
-            (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
-            (event.state.getChannelOrNull() == null) -> Action.LEAVE
-            (event.old?.isSelfStreaming == false && event.state.isSelfStreaming) -> Action.STREAM
-            else -> Action.UNKNOWN
-        }
+    private suspend fun getAction(event: VoiceStateUpdateEvent): Action = when {
+        event.old?.getChannelOrNull() == null -> Action.JOIN
+        event.old?.getChannelOrNull() != event.state.getChannelOrNull()
+            && event.state.getChannelOrNull() != null -> Action.SWITCH
+        event.state.getChannelOrNull() == null -> Action.LEAVE
+        event.old?.isSelfStreaming == false && event.state.isSelfStreaming -> Action.STREAM
+        else -> Action.UNKNOWN
     }
 
     private fun shouldSendEmbed(action: Action, guildPrefs: GuildPrefs, member: Member): Boolean {

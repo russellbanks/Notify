@@ -28,16 +28,14 @@ import dev.kord.core.event.channel.TextChannelCreateEvent
 import kotlinx.coroutines.flow.count
 
 class CreateChannelExtension: Extension() {
-
     override val name = "channel-create-event"
 
     override suspend fun setup() {
         event<TextChannelCreateEvent> {
             action {
-                event.channel.guild.also { guild ->
-                    if (guild.channels.count { it.type == ChannelType.GuildText } == 1) {
-                        Database.updateChannel(guild, event.channel)
-                    }
+                val guild = event.channel.guild
+                if (guild.channels.count { it.type == ChannelType.GuildText } == 1) {
+                    Database.updateChannel(guild, event.channel)
                 }
             }
         }
