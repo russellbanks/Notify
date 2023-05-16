@@ -59,38 +59,43 @@ class ConfigureExtension: Extension() {
     override suspend fun setup() {
         ephemeralSlashCommand {
             name = "configure"
-            description = "Show the server's current preferences"
+            description = "Configure the server's current preferences"
 
             check { isNotBot() }
 
-            action {
-                respond {
-                    guild?.let { guild ->
-                        embed {
-                            color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                            title = guild.asGuild().name
-                            field("Notifications Channel") {
-                                if (Database.get(guild).channelId != null) {
-                                    Database.get(guild).channelId?.let(::Snowflake)?.let { this@ConfigureExtension.kord.getChannel(it)?.mention } ?: "No channel set"
-                                } else {
-                                    "No channel set"
-                                }
-                            }
-                            actionList.forEach { action ->
-                                field(action.name.lowercase().replaceFirstChar { it.titlecase()}) {
-                                    if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
-                                }
-                            }
-                            field("Subcommands:") {
-                                var subCommandsNames = ""
-                                messageCommandsRegistry.commands.forEach { chatCommand ->
-                                    if (chatCommand is ChatGroupCommand && chatCommand.name == this@ConfigureExtension.name) {
-                                        chatCommand.commands.forEach {
-                                            subCommandsNames += if (it != chatCommand.commands.last()) "`${it.name}`, " else "`${it.name}`"
-                                        }
+            ephemeralSubCommand {
+                name = "view"
+                description = "View the server's current preferences"
+
+                action {
+                    respond {
+                        guild?.let { guild ->
+                            embed {
+                                color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
+                                title = guild.asGuild().name
+                                field("Notifications Channel") {
+                                    if (Database.get(guild).channelId != null) {
+                                        Database.get(guild).channelId?.let(::Snowflake)?.let { this@ConfigureExtension.kord.getChannel(it)?.mention } ?: "No channel set"
+                                    } else {
+                                        "No channel set"
                                     }
                                 }
-                                subCommandsNames
+                                actionList.forEach { action ->
+                                    field(action.name.lowercase().replaceFirstChar { it.titlecase()}) {
+                                        if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode
+                                    }
+                                }
+                                field("Subcommands:") {
+                                    var subCommandsNames = ""
+                                    messageCommandsRegistry.commands.forEach { chatCommand ->
+                                        if (chatCommand is ChatGroupCommand && chatCommand.name == this@ConfigureExtension.name) {
+                                            chatCommand.commands.forEach {
+                                                subCommandsNames += if (it != chatCommand.commands.last()) "`${it.name}`, " else "`${it.name}`"
+                                            }
+                                        }
+                                    }
+                                    subCommandsNames
+                                }
                             }
                         }
                     }
