@@ -1,7 +1,7 @@
 /**
 
 Notify
-Copyright (C) 2022  BanDev
+Copyright (C) 2023 Russell Banks
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
