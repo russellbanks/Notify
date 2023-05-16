@@ -70,7 +70,7 @@ class VoiceStateExtension: Extension() {
             (event.old?.getChannelOrNull() == null) -> Action.JOIN
             (event.old?.getChannelOrNull() != event.state.getChannelOrNull() && event.state.getChannelOrNull() != null) -> Action.SWITCH
             (event.state.getChannelOrNull() == null) -> Action.LEAVE
-            (event.old?.isSelfSteaming == false && event.state.isSelfSteaming) -> Action.STREAM
+            (event.old?.isSelfStreaming == false && event.state.isSelfStreaming) -> Action.STREAM
             else -> Action.UNKNOWN
         }
     }

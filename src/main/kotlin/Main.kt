@@ -25,7 +25,7 @@ import dev.kord.common.entity.Snowflake
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
 import dev.kord.gateway.PrivilegedIntent
-import extensions.ConfigureHybridExtension
+import extensions.ConfigureExtension
 import extensions.joinleaveupdate.CreateChannelExtension
 import extensions.joinleaveupdate.DeleteChannelExtension
 import extensions.joinleaveupdate.LeaveGuildExtension
@@ -69,7 +69,7 @@ suspend fun main() {
         extensions {
             add(::NotifySlashExtension)
             add(::NotifyChatExtension)
-            add(::ConfigureHybridExtension)
+            add(::ConfigureExtension)
             add(::VoiceStateExtension)
             add(::NewGuildExtension)
             add(::LeaveGuildExtension)
