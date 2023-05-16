@@ -25,8 +25,6 @@ import com.kotlindiscord.kord.extensions.checks.hasPermission
 import com.kotlindiscord.kord.extensions.checks.isNotBot
 import com.kotlindiscord.kord.extensions.commands.Arguments
 import com.kotlindiscord.kord.extensions.commands.application.slash.ephemeralSubCommand
-import com.kotlindiscord.kord.extensions.commands.chat.ChatCommandRegistry
-import com.kotlindiscord.kord.extensions.commands.chat.ChatGroupCommand
 import com.kotlindiscord.kord.extensions.commands.converters.impl.channel
 import com.kotlindiscord.kord.extensions.components.ComponentContainer
 import com.kotlindiscord.kord.extensions.components.components
@@ -41,20 +39,14 @@ import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.ChannelType
 import dev.kord.common.entity.Permission
-import dev.kord.common.entity.Snowflake
 import dev.kord.core.behavior.GuildBehavior
-import dev.kord.core.behavior.channel.createMessage
-import dev.kord.rest.Image
 import dev.kord.rest.builder.message.create.embed
 import dev.kord.rest.builder.message.modify.embed
 import dev.kord.x.emoji.Emojis
 import extensions.voicestateupdate.Action
-import org.koin.core.component.inject
 
 class ConfigureExtension: Extension() {
     override val name = "configure"
-
-    private val messageCommandsRegistry: ChatCommandRegistry by inject()
 
     override suspend fun setup() {
         ephemeralSlashCommand {
@@ -62,49 +54,6 @@ class ConfigureExtension: Extension() {
             description = "Configure the server's current preferences"
 
             check { isNotBot() }
-
-            ephemeralSubCommand {
-                name = "view"
-                description = "View the server's current preferences"
-
-                action {
-                    respond {
-                        guild?.let { guild ->
-                            embed {
-                                color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                                title = guild.asGuild().name
-                                field("Notifications Channel") {
-                                    if (Database.get(guild).channelId != null) {
-                                        Database.get(guild).channelId?.let(::Snowflake)?.let { this@ConfigureExtension.kord.getChannel(it)?.mention } ?: "No channel set"
-                                    } else {
-                                        "No channel set"
-                                    }
-                                }
-                                for (actionItem in actionList) {
-                                    field(actionItem.name.lowercase().replaceFirstChar(Char::titlecase)) {
-                                        if (getActionToggle(actionItem, guild)) {
-                                            Emojis.whiteCheckMark.unicode
-                                        } else {
-                                            Emojis.x.unicode
-                                        }
-                                    }
-                                }
-                                field("Subcommands:") {
-                                    var subCommandsNames = ""
-                                    for (chatCommand in messageCommandsRegistry.commands) {
-                                        if (chatCommand is ChatGroupCommand && chatCommand.name == this@ConfigureExtension.name) {
-                                            for (command in chatCommand.commands) {
-                                                subCommandsNames += if (command != chatCommand.commands.last()) "`${command.name}`, " else "`${command.name}`"
-                                            }
-                                        }
-                                    }
-                                    subCommandsNames
-                                }
-                            }
-                        }
-                    }
-                }
-            }
 
             ephemeralSubCommand {
                 name = "notifications"
@@ -115,17 +64,24 @@ class ConfigureExtension: Extension() {
                 action {
                     guild?.let { guild ->
                         respond {
-                            content = "I have sent you the configuration options for this server via DM."
-                        }
-                        member?.getDmChannel()?.createMessage {
                             embed {
                                 author {
                                     name = "${guild.asGuild().name} configuration"
-                                    icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
+                                    icon = guild.asGuild().icon?.cdnUrl?.toUrl()
                                 }
                                 color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                                 for (action in actionList) {
-                                    field("${action.name.lowercase().replaceFirstChar(Char::titlecase)} ${if (getActionToggle(action, guild)) Emojis.whiteCheckMark.unicode else Emojis.x.unicode}")
+                                    field(
+                                        buildString {
+                                            append(action.name.lowercase().replaceFirstChar(Char::titlecase))
+                                            append(' ')
+                                            if (getActionToggle(action, guild)) {
+                                                append(Emojis.whiteCheckMark.unicode)
+                                            } else {
+                                                append(Emojis.x.unicode)
+                                            }
+                                        }
+                                    )
                                 }
                             }
                             components {
@@ -184,14 +140,15 @@ class ConfigureExtension: Extension() {
                 edit {
                     embed {
                         author {
-                            name = "${guild.asGuild().name} server configuration"
-                            icon = guild.asGuild().icon?.cdnUrl?.toUrl { format = Image.Format.PNG }
+                            name = "${guild.asGuild().name} configuration"
+                            icon = guild.asGuild().icon?.cdnUrl?.toUrl()
                         }
                         color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
                         for (actionItem in actionList) {
                             field(
                                 buildString {
                                     append(actionItem.name.lowercase().replaceFirstChar(Char::titlecase))
+                                    append(' ')
                                     if (getActionToggle(actionItem, guild)) {
                                         append(Emojis.whiteCheckMark.unicode)
                                     } else {

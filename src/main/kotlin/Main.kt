@@ -44,7 +44,6 @@ suspend fun main() {
             +Intent.Guilds
             +Intent.GuildVoiceStates
             +Intent.GuildMembers
-            +Intent.DirectMessages
         }
 
         applicationCommands {
