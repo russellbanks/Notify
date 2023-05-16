@@ -30,8 +30,7 @@ import extensions.joinleaveupdate.CreateChannelExtension
 import extensions.joinleaveupdate.DeleteChannelExtension
 import extensions.joinleaveupdate.LeaveGuildExtension
 import extensions.joinleaveupdate.NewGuildExtension
-import extensions.notify.NotifyChatExtension
-import extensions.notify.NotifySlashExtension
+import extensions.notify.NotifyExtension
 import extensions.voicestateupdate.VoiceStateExtension
 
 @OptIn(PrivilegedIntent::class)
@@ -40,12 +39,6 @@ suspend fun main() {
     Database.setupCache()
 
     ExtensibleBot(EnvironmentVariables.discordApiKey) {
-        chatCommands {
-            defaultPrefix = "/"
-            enabled = true
-            invokeOnMention = true
-        }
-
         intents {
             +Intents.nonPrivileged
             +Intent.Guilds
@@ -67,8 +60,7 @@ suspend fun main() {
         }
 
         extensions {
-            add(::NotifySlashExtension)
-            add(::NotifyChatExtension)
+            add(::NotifyExtension)
             add(::ConfigureExtension)
             add(::VoiceStateExtension)
             add(::NewGuildExtension)

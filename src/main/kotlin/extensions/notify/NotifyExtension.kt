@@ -34,7 +34,7 @@ import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondEphemeral
 import com.kotlindiscord.kord.extensions.modules.unsafe.types.respondPublic
 import dev.kord.common.entity.Permission
 
-class NotifySlashExtension: Extension() {
+class NotifyExtension: Extension() {
     override val name = "notify-ephemeral"
 
     @OptIn(UnsafeAPI::class)
