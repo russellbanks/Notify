@@ -23,9 +23,6 @@ dependencies {
     // KMongo Coroutine - https://github.com/Litote/kmongo
     implementation(libs.kmongo.coroutine)
 
-    // Hybrid commands - https://github.com/qbosst/kordex-hybrid-commands
-    implementation(libs.kordextensions.hybrid)
-
     // KordX.Emoji - https://github.com/kordlib/kordx.emoji
     implementation (libs.kordx.emoji)
 
