@@ -6,7 +6,7 @@ kotlinx-coroutines = "1.7.1"
 kotlinx-datetime = "0.4.0"
 shadow = "8.1.1"
 slf4j = "2.0.7"
-sqldelight = "2.0.0-rc01"
+sqldelight = "2.0.0-rc02"
 
 [libraries]
 kordextensions-kordextensions = { module = "com.kotlindiscord.kord.extensions:kord-extensions", version.ref = "kord-extensions" }
