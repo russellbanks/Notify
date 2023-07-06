@@ -48,7 +48,6 @@ import extensions.voicestateupdate.Action
 class ConfigureExtension: Extension() {
     override val name = "configure"
 
-    @OptIn(ExperimentalStdlibApi::class)
     override suspend fun setup() {
         ephemeralSlashCommand {
             name = "configure"
@@ -130,7 +129,6 @@ class ConfigureExtension: Extension() {
         }
     }
 
-    @OptIn(ExperimentalStdlibApi::class)
     private suspend fun ComponentContainer.publicActionButton(action: Action, guild: GuildBehavior) {
         publicButton {
             label = action.name.lowercase().replaceFirstChar(Char::titlecase)
