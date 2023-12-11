@@ -32,16 +32,14 @@ import com.kotlindiscord.kord.extensions.components.publicButton
 import com.kotlindiscord.kord.extensions.components.types.emoji
 import com.kotlindiscord.kord.extensions.extensions.Extension
 import com.kotlindiscord.kord.extensions.extensions.ephemeralSlashCommand
-import com.kotlindiscord.kord.extensions.types.edit
-import com.kotlindiscord.kord.extensions.types.respond
 import data.Dao
 import dev.kord.common.Color
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.common.entity.ChannelType
 import dev.kord.common.entity.Permission
 import dev.kord.core.behavior.GuildBehavior
-import dev.kord.rest.builder.message.create.embed
-import dev.kord.rest.builder.message.modify.embed
+import dev.kord.rest.builder.message.EmbedBuilder
+import dev.kord.rest.builder.message.embed
 import dev.kord.x.emoji.Emojis
 import extensions.voicestateupdate.Action
 
@@ -64,7 +62,7 @@ class ConfigureExtension: Extension() {
                 action {
                     guild?.let { guild ->
                         respond {
-                            embed {
+                            embed(fun EmbedBuilder.() {
                                 author {
                                     name = "${guild.asGuild().name} configuration"
                                     icon = guild.asGuild().icon?.cdnUrl?.toUrl()
@@ -83,7 +81,7 @@ class ConfigureExtension: Extension() {
                                         }
                                     )
                                 }
-                            }
+})
                             components {
                                 if (member != null) {
                                     for (action in Action.entries) {

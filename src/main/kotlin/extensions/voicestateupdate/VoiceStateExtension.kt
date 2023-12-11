@@ -53,10 +53,10 @@ class VoiceStateExtension: Extension() {
                     guildPrefs.channelId?.let(::Snowflake)?.let { snowflake ->
                         MessageChannelBehavior(snowflake, kord).createEmbed {
                             color = Color(EnvironmentVariables.accentColor()[0], EnvironmentVariables.accentColor()[1], EnvironmentVariables.accentColor()[2])
-                            title = "${member.displayName} ${action?.phrase} ${channel?.asChannel()?.name}"
+                            title = "${member.username} ${action?.phrase} ${channel?.asChannel()?.name}"
                             timestamp = Clock.System.now()
                             author {
-                                name = member.displayName
+                                name = member.username
                                 icon = member.avatar?.cdnUrl?.toUrl()
                             }
                             footer {
