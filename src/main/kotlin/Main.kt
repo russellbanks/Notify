@@ -23,6 +23,7 @@ import com.kotlindiscord.kord.extensions.checks.isNotBot
 import data.Dao
 import dev.kord.gateway.Intent
 import dev.kord.gateway.Intents
+import dev.kord.gateway.NON_PRIVILEGED
 import dev.kord.gateway.PrivilegedIntent
 import extensions.ConfigureExtension
 import extensions.joinleaveupdate.CreateChannelExtension
@@ -37,7 +38,7 @@ suspend fun main() {
     Dao.setupCache()
     ExtensibleBot(EnvironmentVariables.discordApiKey) {
         intents {
-            +Intents.nonPrivileged
+            +Intents.NON_PRIVILEGED
             +Intent.Guilds
             +Intent.GuildVoiceStates
             +Intent.GuildMembers
