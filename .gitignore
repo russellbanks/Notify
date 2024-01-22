@@ -1,6 +1,6 @@
-.gradle/
-.idea/
-build/
-
+/target
+entity/target
+migration/target
 .env
-
+.idea
+*.db
